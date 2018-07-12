@@ -21,10 +21,10 @@
 <link
 	href="<c:url value="/resource/jsp_component/announce-broad.css" />"
 	rel="stylesheet" />
+<link href="<c:url value="/resource/css/forum.css" />" rel="stylesheet" />
 <link
 	href="<c:url value="/resource/jsp_component/topic-list-item.css" />"
 	rel="stylesheet" />
-<link href="<c:url value="/resource/css/forum.css" />" rel="stylesheet" />
 <!-- HTML5 shim å Respond.js æ¯ä¸ºäºè®© IE8 æ¯æ HTML5 åç´ ååªä½æ¥è¯¢ï¼media queriesï¼åè½ -->
 <!-- è­¦åï¼éè¿ file:// åè®®ï¼å°±æ¯ç´æ¥å° html é¡µé¢ææ½å°æµè§å¨ä¸­ï¼è®¿é®é¡µé¢æ¶ Respond.js ä¸èµ·ä½ç¨ -->
 <!--[if lt IE 9]>

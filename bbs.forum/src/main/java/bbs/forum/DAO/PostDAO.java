@@ -23,6 +23,7 @@ public class PostDAO {
 		String content = pubPostForm.getContent();
 		
 		TPost tPost = new TPost(content, uid, replyId, topicId);
+		tPost.setHtmlContent(pubPostForm.getHtmlContent());
 		
 		tPostMapper.insertSelective(tPost);
 		

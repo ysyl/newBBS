@@ -3,38 +3,84 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
-<context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
-</context-param> 
+	<display-name>Archetype Created Web Application</display-name>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
 
+	<!-- 在上下文context-param中设置profile.default的默认值 -->
+	<context-param>
+		<param-name>spring.profiles.default</param-name>
+		<param-value>prod</param-value>
+	</context-param>
 
-   <filter>
-      <filter-name>springSecurityFilterChain</filter-name>
-     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-   </filter>
-   <filter-mapping>
-      <filter-name>springSecurityFilterChain</filter-name>
-      <url-pattern>/*</url-pattern>
-   </filter-mapping>
-<!-- 配置ContextLoaderListerner -->
-<listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-</listener> 
-    <servlet>
-        <servlet-name>springmvc</servlet-name>
-        <servlet-class>
-                 org.springframework.web.servlet.DispatcherServlet
-        </servlet-class>
+	<!-- 在上下文context-param中设置profile.active的默认值 -->
+	<!-- 设置active后default失效，web启动时会加载对应的环境信息 -->
+	<context-param>
+		<param-name>spring.profiles.active</param-name>
+		<param-value>prod</param-value>
+	</context-param>
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	
+	<!-- characterEncodingFilter字符编码过滤器 -->
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:dispatchServlet.xml</param-value>
+            <!--要使用的字符集，一般我们使用UTF-8(保险起见UTF-8最好)-->
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>springmvc</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+        <init-param>
+            <!--是否强制设置request的编码为encoding，默认false，不建议更改-->
+            <param-name>forceRequestEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <!--是否强制设置response的编码为encoding，建议设置为true，下面有关于这个参数的解释-->
+            <param-name>forceResponseEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <!--这里不能留空或者直接写 ' / ' ，否者不起作用-->
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	<!-- 配置ContextLoaderListerner -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>springmvc</servlet-name>
+		<servlet-class>
+			org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:dispatchServlet.xml</param-value>
+		</init-param>
+		<init-param>
+            <param-name>spring.profiles.default</param-name>
+            <param-value>prod</param-value>
+        </init-param>
+        <init-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>prod</param-value>
+    </init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
 </web-app>

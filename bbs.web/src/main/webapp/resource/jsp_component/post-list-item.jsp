@@ -27,6 +27,16 @@
 		</div>
 	</div>
 	<div class="col-md-9 user-post">
-		<p>${post.content }</p>
+	   <c:if test="${post.replyPost != null }" >
+	       <p><span>回复： </span><span>${post.replyPost.author.nickname }</span>${post.replyPost.content.substring(0, 20) }……</p>
+	   </c:if>
+	   <c:choose>
+	       <c:when test="${post.htmlContent.length() > 0}">
+	           ${post.htmlContent }
+	       </c:when>
+	       <c:otherwise>
+	          ${post.content } 
+	       </c:otherwise>
+	   </c:choose>
 	</div>
 </div>

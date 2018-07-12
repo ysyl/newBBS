@@ -27,6 +27,10 @@
 	rel="stylesheet" />
 <link href="<c:url value="/resource/jsp_component/topic-nav-bar.css" />"
 	rel="stylesheet" />
+<link rel="stylesheet"
+	href="<c:url value="/resource/editor.md-master/css/editormd.min.css" />" />
+<link rel="stylesheet"
+	href="<c:url value="/resource/jsp_component/bbs-editor.css" />" />
 <!-- HTML5 shim å Respond.js æ¯ä¸ºäºè®© IE8 æ¯æ HTML5 åç´ ååªä½æ¥è¯¢ï¼media queriesï¼åè½ -->
 <!-- è­¦åï¼éè¿ file:// åè®®ï¼å°±æ¯ç´æ¥å° html é¡µé¢ææ½å°æµè§å¨ä¸­ï¼è®¿é®é¡µé¢æ¶ Respond.js ä¸èµ·ä½ç¨ -->
 <!--[if lt IE 9]>
@@ -45,35 +49,58 @@
 				id="post-heading">
 				<div class="topic-top-bar-component col-md-3 topic-details">
 					查看: ${topic.views } | 回复: ${topic.replies }</div>
-				<div class="topic-top-bar-component col-md-9">${topic.title }<div>
-					</div>
-					<div class="panel-body topic-body container-fluent">
-						<c:forEach var="post" items="posts">
-							<%@ include file="/resource/jsp_comnent/post-list-item"%>
-						</c:forEach>
-					</div>
-
-					<div class="panel-footer topic-footer">
-						<ul class="pagination post-pagination">
-							<li><a href="#"> <span>&laquo;</span>
-							</a></li>
-							<c:forEach var="index" begin="1" end="${(topic.replies / 20) +1}">
-								<li><a href="#">${index }</a></li>
-							</c:forEach>
-							<li><a href="#" aria-label="Next"> <span
-									aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</div>
-				</div>
+				<div class="topic-top-bar-component col-md-9">${topic.title }</div>
+			</div>
+			<div class="panel-body topic-body container-fluent">
+				<c:forEach var="post" items="${posts }">
+					<%@ include file="/resource/jsp_component/post-list-item.jsp"%>
+				</c:forEach>
 			</div>
 
-			<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-			<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-			<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-			<script
-				src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-			<script src="<c:url value="/resource/js/forum.js" />"></script>
-			<script src="<c:url value="/resource/jsp_component/topbar.js" />"></script>
+			<div class="panel-footer topic-footer">
+				<ul class="pagination post-pagination">
+					<li><a href="#"> <span>&laquo;</span>
+					</a></li>
+					<c:forEach var="index" begin="1" end="${(topic.replies / 20) +1}">
+						<li><a href="#">${index }</a></li>
+					</c:forEach>
+					<li><a href="#" aria-label="Next"> <span
+							aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</div>
+			
+    <%@ include file="/resource/jsp_component/bbs-editor.jsp"%>
+		</div>
+	</div>
+
+	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+	<script
+		src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="<c:url value="/resource/js/forum.js" />"></script>
+	<script src="<c:url value="/resource/jsp_component/topbar.js" />"></script>
+	<script src="<c:url value="/resource/editor.md-master/editormd.min.js" />"></script>
+	<script type="text/javascript">
+    $(function() {
+        var editor = editormd("editormd", {
+            path : "<c:url value="/resource/editor.md-master/lib/" />",
+            width : "90%",
+            height: 500,
+            emoji: true,
+            markdown: "请在此处输入回复内容",
+            saveHTMLToTextarea: true,
+        });
+
+        /*
+        // or
+        var editor = editormd({
+            id   : "editormd",
+            path : "../lib/"
+        });
+        */
+    });
+</script>
 </body>
 </html>

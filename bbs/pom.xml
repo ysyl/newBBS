@@ -32,5 +32,15 @@
 			</plugins>
 		</pluginManagement>
 
+    <resources>
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+    </resources>
 	</build>
 </project>

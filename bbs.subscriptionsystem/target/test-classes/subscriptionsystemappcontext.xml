@@ -14,12 +14,13 @@
 
     <aop:aspectj-autoproxy />
     
-    <context:component-scan base-package="bbs.*" > 
+    <context:component-scan base-package="bbs.forum, bbs.usercenter, bbs.subscriptionsystem" > 
     </context:component-scan>
     
-    <import resource="classpath:spring-mybatis.xml" />
-    <import resource="classpath:spring-message.xml" />
-    <import resource="classpath*:security-core-mybatis.xml" />
+    <import resource="classpath*:bbs-forum-mybatis.xml " />  
+    <import resource="classpath*:bbs-usercenter-mybatis.xml" />
+    <import resource="classpath:bbs-subscriptionsystem-mybatis.xml" />
+    <import resource="classpath:bbs-subscriptionsystem-message.xml" />
     
     
 <!--     <websocket:handlers allowed-origins="*"> -->

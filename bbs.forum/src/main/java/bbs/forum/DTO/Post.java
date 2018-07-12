@@ -9,7 +9,9 @@ public class Post implements Serializable {
 
    
    private String content;
-
+   
+   private String htmlContent;
+   
    private User author;
 
    
@@ -28,7 +30,17 @@ public class Post implements Serializable {
    
 
    
-   public Long getId() {
+   public String getHtmlContent() {
+	return htmlContent;
+}
+
+
+public void setHtmlContent(String htmlContent) {
+	this.htmlContent = htmlContent;
+}
+
+
+public Long getId() {
        return id;
    }
 

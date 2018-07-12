@@ -4,7 +4,17 @@ public class PubPostForm extends AbstractForm {
 
 	private String content;
 	
+	private String htmlContent;
+	
 	private Long replyPostId;
+
+	public String getHtmlContent() {
+		return htmlContent;
+	}
+
+	public void setHtmlContent(String htmlContent) {
+		this.htmlContent = htmlContent;
+	}
 
 	public String getContent() {
 		return content;

@@ -29,6 +29,8 @@
 	rel="stylesheet" />
 <link rel="stylesheet"
 	href="<c:url value="/resource/editor.md-master/css/editormd.min.css" />" />
+<link rel="stylesheet"
+	href="<c:url value="/resource/jsp_component/bbs-editor.css" />" />
 <!-- HTML5 shim å Respond.js æ¯ä¸ºäºè®© IE8 æ¯æ HTML5 åç´ ååªä½æ¥è¯¢ï¼media queriesï¼åè½ -->
 <!-- è­¦åï¼éè¿ file:// åè®®ï¼å°±æ¯ç´æ¥å° html é¡µé¢ææ½å°æµè§å¨ä¸­ï¼è®¿é®é¡µé¢æ¶ Respond.js ä¸èµ·ä½ç¨ -->
 <!--[if lt IE 9]>
@@ -67,6 +69,8 @@
 					</a></li>
 				</ul>
 			</div>
+			
+    <%@ include file="/resource/jsp_component/bbs-editor.jsp"%>
 		</div>
 	</div>
 
@@ -81,7 +85,12 @@
 	<script type="text/javascript">
     $(function() {
         var editor = editormd("editormd", {
-            path : "<c:url value="/resource/editor.md-master/editormd.min.js" />" // Autoload modules mode, codemirror, marked... dependents libs path
+            path : "<c:url value="/resource/editor.md-master/lib/" />",
+            width : "90%",
+            height: 500,
+            emoji: true,
+            markdown: "请在此处输入回复内容",
+            saveHTMLToTextarea: true,
         });
 
         /*

@@ -8,7 +8,7 @@
 		<div class="thumbnail">
 			<img class="user_avatar" src="<c:url value="/resource/img/user_avatar.gif" />" alt="user_avatar" />
 			<div class="caption">
-				<a href="#"><h4>${post.author.nickname }</h4></a>
+				<a href="<c:url value="/user/${post.author.id }" />"><h4>${post.author.nickname }</h4></a>
 				<div class="user-info container-fluent clearfix">
 					<div class="user-info-component col-md-4">
 						<p>${post.author.topicAmount }</p>
@@ -27,6 +27,11 @@
 		</div>
 	</div>
 	<div class="col-md-9 user-post">
-		<p>${post.content }</p>
+	<c:if test="${post.htmlContent.size() > 0 }">
+	   <p>${post.htmlContent }</p>
+	</c:if>
+	<c:if test="${post.htmlContent.size() == 0 }">
+	   <p>${post.content }</p>   
+	</c:if>
 	</div>
 </div>

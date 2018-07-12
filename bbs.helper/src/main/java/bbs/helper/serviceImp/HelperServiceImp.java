@@ -1,5 +1,6 @@
 package bbs.helper.serviceImp;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,12 @@ import bbs.helper.service.HelperService;
 public class HelperServiceImp implements HelperService {
 	
 	private BBSService bbsService;
+
+	@Autowired
+	public HelperServiceImp(BBSService bbsService) {
+		super();
+		this.bbsService = bbsService;
+	}
 
 	@Override
 	public String getCurrentUsername() {

@@ -7,10 +7,9 @@
 	class="topic-list-item-header"
 	href="<c:url value="/topic/${topic.id }" />">${topic.title }</a>
 	<div class="topic-list-item-right post-last-replier">
-		<a href="<c:url value="/user/${topic.author.id }" />">${topic.lastReplier.nickname }</a>
+		<a href="<c:url value="/user/${topic.lastReplier.id }" />">${topic.lastReplier.nickname }</a>
 		<p>
-		  <fmt:formatDate value="${topic.lastReplyPost.pubTime }"
-		      type="both"/>
+			<fmt:formatDate value="${topic.lastReplyPost.pubTime }" type="both" />
 		</p>
 	</div>
 	<div class="topic-list-item-right topic-detailsnum">
@@ -18,9 +17,8 @@
 		<p>${topic.views }</p>
 	</div>
 	<div class="topic-list-item-right topic-author">
-		<a href="#">${topic.author.nickname }</a>
+		<a href="<c:url value="/user/${topic.author.id }" />">${topic.author.nickname }</a>
 		<p>
-		  <fmt:formatDate value="${topic.pubTime }"
-		      type="both"/>
+			<fmt:formatDate value="${topic.pubTime }" type="both" />
 		</p>
 	</div></li>

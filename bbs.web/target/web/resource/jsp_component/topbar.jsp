@@ -17,7 +17,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class=""><a href="#">论坛首页<span class="sr-only">(current)</span></a></li>
+            <li class=""><a href="<c:url value="/" />">论坛首页<span class="sr-only">(current)</span></a></li>
             <li><a href="#">积分商城</a></li>
             <li><a href="#">交易区</a></li>
             <li class="dropdown">
