@@ -1,0 +1,76 @@
+
+.forum-breadcrumb {
+  width: 990px!important;
+  margin: 0 auto;
+}
+.post-main-wrap {
+  padding: 0;
+}
+
+#post-heading {
+  font-size: 14px;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 40px;
+}
+
+#post-heading h1 {
+  float: left;
+  margin: 0;
+  font-size: 16px;
+}
+
+#topic-content-wrap {
+  width: 990px!important;
+  padding: 0;
+}
+
+#topic-content-wrap .container-fluent {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#topic-content-wrap .row {
+  margin: 0;
+}
+
+.topic-top-bar-component {
+  line-height: 40px;
+}
+.topic-details {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  border-right: 1px solid #bbb;
+}
+.topic-body {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.user-details {
+  border-right: 1px solid #bbb;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.user_avatar {
+}
+
+.user-info-component p:nth-of-type(1) {
+  margin-bottom: 2px;
+}
+.user-post {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.post-list-item {
+  border-bottom: 1px solid #eee;
+}
+.panel-footer .pagination {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.topic-footer {
+  text-align: center;
+}

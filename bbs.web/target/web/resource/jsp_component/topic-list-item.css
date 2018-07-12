@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.topic-list-item-header {
+  line-height: 34px;
+}
+
+.topic-list-item-right {
+  float: right;
+  font-size: 12px;
+  margin-left: 20px;
+}
+
+.topic-list-item-right p {
+  margin: 0;
+}
+
+.topic-item > .topic-item-avatar {
+  float: left;
+  padding-right: 15px;
+}
+
+.topic-item > .topic-item-avatar > img{
+  width: 50px;
+  height: 50px;
+}
+
+.topic-item-content {
+  float: left;
+}
+.topic-item-content h1 {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+.topic-item-content p {
+  color: #999;
+  font-size: 12px;
+}

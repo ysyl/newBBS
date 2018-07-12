@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+
+.user-details {
+  border-right: 1px solid #bbb;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.user_avatar {
+}
+
+.user-info-component p:nth-of-type(1) {
+  margin-bottom: 2px;
+}
+.user-post {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.post-list-item {
+  border-bottom: 1px solid #eee;
+}
+.panel-footer .pagination {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.topic-footer {
+  text-align: center;
+}

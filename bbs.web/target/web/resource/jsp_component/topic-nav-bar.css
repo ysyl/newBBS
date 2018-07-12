@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+.topic-nar-bar-container {
+  width: 990px!important;
+  position: relative;
+  padding: 0;
+}
+.topic-nar-bar-container nav {
+  position: absolute;
+  top: 1px;
+  left: 500px;
+}
+.topic-nar-bar-container nav ul {
+  margin: 0;
+}
+
+
+.topic-nav-bar {
+  width: inherit;
+}

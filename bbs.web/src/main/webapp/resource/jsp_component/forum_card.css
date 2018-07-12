@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+
+.forum-card {
+  padding: 10px!important;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+}
+
+.forum-avatar {
+  width: 80px;
+  float: left;
+  margin-right: 10px;
+}
+.forum-card-body {
+  float: left;
+}
+
+.forum-card-heading h1 {
+  font-size: 14px;
+}
