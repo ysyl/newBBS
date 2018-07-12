@@ -1,0 +1,9 @@
+2018-06-23-18-53 [main] [bbs.test.serviceImp.BBSServiceImpTest] [INFO] - test
+  2018-06-23-18-54 [main] [bbs.test.serviceImp.BBSServiceImpTest] [INFO] - test
+  2018-06-23-19-01 [main] [org.mybatis.spring.mapper.ClassPathMapperScanner] [WARN] - No MyBatis mapper was found in '[bbs.forum.mapper.*]' package. Please check your configuration.
+  2018-06-23-19-01 [main] [org.mybatis.spring.mapper.ClassPathMapperScanner] [WARN] - No MyBatis mapper was found in '[bbs.forum.mapper.*]' package. Please check your configuration.
+  2018-06-23-19-01 [main] [org.mybatis.spring.mapper.ClassPathMapperScanner] [WARN] - No MyBatis mapper was found in '[bbs.forum.mapper.*]' package. Please check your configuration.
+  2018-06-23-23-57 [main] [bbs.furom.serviceImp.BBSServiceImpTest] [INFO] - 
+  2018-06-23-23-57 [main] [bbs.furom.serviceImp.BBSServiceImpTest] [INFO] - 
+  2018-06-23-23-57 [main] [bbs.furom.serviceImp.BBSServiceImpTest] [INFO] - 
+  

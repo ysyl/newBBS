@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mydb" driverClass="com.mysql.jdbc.Driver" 
+    	password="123456" userId="root" />
+    <javaModelGenerator targetPackage="bbs.usercenter.mybatis.entity" targetProject="bbs.usercenter" />
+    <sqlMapGenerator targetPackage="bbs.usercenter.mybatis.mapper" targetProject="bbs.usercenter" />
+    <javaClientGenerator targetPackage="bbs.usercenter.mybatis.mapper" targetProject="bbs.usercenter" type="XMLMAPPER" />
+    <table schema="mydb" tableName="t_collection" domainObjectName="TCollection">
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+      <columnOverride column="collection_type" property="collectionType" javaType="bbs.usercenter.enuma.CollectionType"
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+      />
+    </table>
+  </context>
+</generatorConfiguration>

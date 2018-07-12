@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mydb" driverClass="com.mysql.jdbc.Driver" 
+    	password="123456" userId="root" />
+    <javaModelGenerator targetPackage="bbs.forum.entity" targetProject="bbs.forum" />
+    <sqlMapGenerator targetPackage="bbs.forum.mapper" targetProject="bbs.forum" />
+    <javaClientGenerator targetPackage="bbs.forum.mapper" targetProject="bbs.forum" type="XMLMAPPER" />
+    <table schema="mydb" tableName="t_topic" domainObjectName="TTopic">
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_post" domainObjectName="TPost">
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_forum" domainObjectName="TForum">
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_user_profile" domainObjectName="TUser">
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+      <columnOverride column="sex" property="sex" javaType="bbs.forum.enuma.Sex"
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+      />
+    </table>
+    <table schema="mydb" tableName="t_manager" domainObjectName="TManager">
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+      <columnOverride column="manager_group" property="managerGroup" javaType="bbs.forum.enuma.ManagerGroup"
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+      />
+    </table>
+    <table schema="mydb" tableName="t_announce" domainObjectName="TAnnounce">
+        <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+  </context>
+</generatorConfiguration>

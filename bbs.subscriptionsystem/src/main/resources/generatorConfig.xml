@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mydb" driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
+    <javaModelGenerator targetPackage="bbs.subscriptionsystem.entity" targetProject="bbs.subscriptionsystem" />
+    <sqlMapGenerator targetPackage="bbs.subscriptionsystem.mapper" targetProject="bbs.subscriptionsystem" />
+    <javaClientGenerator targetPackage="bbs.subscriptionsystem.mapper" targetProject="bbs.subscriptionsystem" type="XMLMAPPER" />
+    <table schema="mydb" tableName="t_subscription" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+      <columnOverride column="subscription_type" javaType="bbs.subscriptionsystem.enuma.SubscriptionType" 
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+      />
+    </table>
+    <table schema="mydb" tableName="t_subscription_config" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_topic_trend_action" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_post_trend_action" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_forum_trend_action" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_user_trend_action" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+      <columnOverride column="action_type" javaType="bbs.subscriptionsystem.enuma.UserTrendActionType"
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+      />
+      <columnOverride column="target_type" javaType="bbs.subscriptionsystem.enuma.UserTrendActionTargetType"
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+      />
+    </table>
+    <table schema="mydb" tableName="t_notice" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+  </context>
+</generatorConfiguration>
