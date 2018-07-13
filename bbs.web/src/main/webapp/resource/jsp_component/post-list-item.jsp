@@ -27,8 +27,11 @@
 		</div>
 	</div>
 	<div class="col-md-9 user-post">
+	   <a class="collect-btn" href="#"><span  data-post-id="${post.id }" class="glyphicon glyphicon-heart"></span></a>
+	   <a class="reply-btn"  href="#editormd" ><span data-post-id="${post.id }" data-post-author-name="${post.author.nickname }" class="glyphicon glyphicon-send"></span></a>
+	   <br>
 	   <c:if test="${post.replyPost != null }" >
-	       <p><span>回复： </span><span>${post.replyPost.author.nickname }</span>${post.replyPost.content.substring(0, 20) }……</p>
+	       <p><span>回复： </span><span>${post.replyPost.author.nickname }: </span>${post.replyPost.content  }……</p>
 	   </c:if>
 	   <c:choose>
 	       <c:when test="${post.htmlContent.length() > 0}">

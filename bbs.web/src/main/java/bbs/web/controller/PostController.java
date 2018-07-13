@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import bbs.forum.form.PubPostForm;
+import bbs.forum.form.PubTopicForm;
 import bbs.forum.service.BBSService;
 import bbs.helper.service.HelperService;
 
@@ -60,12 +61,29 @@ public class PostController {
 	@PostMapping("/post/{topicId}")
 	public String pubPostMd(@PathVariable("topicId") long topicId,
 		@RequestParam("editormd-markdown-doc") String mdContent,
-		@RequestParam("editormd-html-code") String htmlContent) {
+		@RequestParam("editormd-html-code") String htmlContent,
+		@RequestParam(value = "reply-post-id", required=false) Long postId) {
 		PubPostForm pubPostForm = new PubPostForm();
 		pubPostForm.setContent(mdContent);
 		pubPostForm.setHtmlContent(htmlContent);
+		pubPostForm.setReplyPostId(postId);
 		Long uid = helperService.getCurrentUserId();
 		bbsService.savePost(uid, topicId, pubPostForm);
 		return "redirect:/topic/"+topicId;
+	}
+	
+	@PostMapping("/topic/{forumId}")
+	public String pubTopicMd(@PathVariable("forumId") int forumId,
+			@RequestParam("editormd-markdown-doc") String mdContent,
+			@RequestParam("editormd-html-code") String htmlContent,
+			@RequestParam("title") String title) {
+		PubTopicForm pubTopicForm = new PubTopicForm();
+		pubTopicForm.setContent(mdContent);
+		pubTopicForm.setHtmlContent(htmlContent);
+		pubTopicForm.setTitle(title);
+		pubTopicForm.setForumId(forumId);
+		bbsService.saveTopic(helperService.getCurrentUserId(), pubTopicForm);
+		
+		return "redirect:/forum/" + forumId;
 	}
 }

@@ -30,7 +30,7 @@
 <link rel="stylesheet"
 	href="<c:url value="/resource/editor.md-master/css/editormd.min.css" />" />
 <link rel="stylesheet"
-	href="<c:url value="/resource/jsp_component/bbs-editor.css" />" />
+	href="<c:url value="/resource/jsp_component/bbs-post-editor.css" />" />
 <!-- HTML5 shim å Respond.js æ¯ä¸ºäºè®© IE8 æ¯æ HTML5 åç´ ååªä½æ¥è¯¢ï¼media queriesï¼åè½ -->
 <!-- è­¦åï¼éè¿ file:// åè®®ï¼å°±æ¯ç´æ¥å° html é¡µé¢ææ½å°æµè§å¨ä¸­ï¼è®¿é®é¡µé¢æ¶ Respond.js ä¸èµ·ä½ç¨ -->
 <!--[if lt IE 9]>
@@ -70,7 +70,7 @@
 				</ul>
 			</div>
 			
-    <%@ include file="/resource/jsp_component/bbs-editor.jsp"%>
+    <%@ include file="/resource/jsp_component/bbs-post-editor.jsp"%>
 		</div>
 	</div>
 
@@ -83,7 +83,7 @@
 	<script src="<c:url value="/resource/jsp_component/topbar.js" />"></script>
 	<script src="<c:url value="/resource/editor.md-master/editormd.min.js" />"></script>
 	<script type="text/javascript">
-    $(function() {
+    $(document).ready(function() {
         var editor = editormd("editormd", {
             path : "<c:url value="/resource/editor.md-master/lib/" />",
             width : "90%",
@@ -101,6 +101,8 @@
         });
         */
     });
+    let collectPostUrl = "<c:url value="/collect/post/" />";
 </script>
+<script type="text/javascript" src="<c:url value="/resource/js/topic.js" />"></script>
 </body>
 </html>

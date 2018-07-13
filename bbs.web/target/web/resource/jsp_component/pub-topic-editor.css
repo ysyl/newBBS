@@ -1,0 +1,11 @@
+@charset "UTF-8";
+#submitTopic {
+	float: right;
+}
+.pub-topic-form-heading .pub-topic-form-header {
+    float:left;	
+}
+
+#pub-topic-form .panel-body {
+	padding: 0!important;
+}

@@ -17,6 +17,12 @@
   padding-top: 10px;
   padding-bottom: 10px;
 }
+.collect-btn {
+	color: black!important;
+}
+.user-post .collect-btn.collected {
+	color: red!important;
+}
 .post-list-item {
   border-bottom: 1px solid #eee;
 }
