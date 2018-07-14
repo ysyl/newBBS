@@ -1,6 +1,7 @@
 package bbs.web.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -23,6 +24,7 @@ import bbs.helper.service.HelperService;
 import bbs.subscriptionsystem.action.entity.BaseAction;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.service.UserCenterService;
+import bbs.usercenter.util.CollectMatcher;
 
 @Controller
 public class LoginHandlerController {
@@ -34,6 +36,8 @@ public class LoginHandlerController {
 	private HelperService helperService;
 	
 	private UserCenterService userCenterService;
+	
+	private CollectMatcher collectMatcher;
 //	
 //	@PostConstruct
 //	public void init() {
@@ -48,14 +52,16 @@ public class LoginHandlerController {
 //
 //	}
 //	
+
 	@Autowired
 	public LoginHandlerController(BBSService bbsService, SubscribedActionService subService,
-			HelperService helperService, UserCenterService userCenterService) {
+			HelperService helperService, UserCenterService userCenterService, CollectMatcher collectMatcher) {
 		super();
 		this.bbsService = bbsService;
 		this.subService = subService;
 		this.helperService = helperService;
 		this.userCenterService = userCenterService;
+		this.collectMatcher = collectMatcher;
 	}
 
 
@@ -70,6 +76,7 @@ public class LoginHandlerController {
 		return "index";
 	}
 	
+
 	@GetMapping("/forum/{forumId}")
 	public String forum(@PathVariable("forumId") int forumId, 
 			@RequestParam(value="pageNo", defaultValue="0") int pageNo, Model model) {
@@ -86,11 +93,18 @@ public class LoginHandlerController {
 	@GetMapping("/topic/{topicId}")
 	public String topic(@PathVariable("topicId") long topicId,
 			@RequestParam(value="pageNo", defaultValue="0") int pageNo, Model model) {
+		long uid = helperService.getCurrentUserId();
 		PageParam pageParam = new PageParam(pageNo, 20);
 		Topic topic = bbsService.getTopic(topicId);
 		List<Post> posts = bbsService.getPostList(topicId, pageParam);
+		Map<Post, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(posts, uid);
+		Boolean isTopicCollected = collectMatcher.checkTopicIsCollected(topicId);
+		System.out.println("\n\n"+ postCollectStatus.entrySet().size());
 		model.addAttribute("topic", topic);
 		model.addAttribute("posts", posts);
+		model.addAttribute("postMap", postCollectStatus);
+		model.addAttribute("collectMatcher", collectMatcher);
+		model.addAttribute("isTopicCollected", isTopicCollected);
 		return "topic";
 	}
 	

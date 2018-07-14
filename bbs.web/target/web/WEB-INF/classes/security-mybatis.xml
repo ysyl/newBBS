@@ -20,7 +20,6 @@
     ">  
 
     <!-- 加载classpath下的db.properties文件，里面配了数据库连接的一些信息 -->
-    <context:property-placeholder location="classpath:db.properties" ignore-unresolvable="true"/>
 
     <!-- 配置数据源 -->
     <bean id="dataSource" class="${jdbc.datasource.class}" >

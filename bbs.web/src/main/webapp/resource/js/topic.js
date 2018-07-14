@@ -37,11 +37,28 @@
 		
 		collect(e) {
 			let postId = $(e.target).data("post-id");
+			let isCollected = $(this.collectBtn).hasClass("collected");
+			let method = "";
+			if (!isCollected) {
+				method = "post";
+			}
+			else {
+				method="delete";
+			}
 			let self = this;
 			$.ajax({
+				type: method,
 				url: collectPostUrl + postId, 
 				success() {
-					self.activeCollect();
+					switch(method){
+					case "post":
+						self.activeCollect();
+						break;
+					case "delete":
+						self.unactiveCollect();
+						break;
+					default:break;
+					}
 				}
 			});
 		}
@@ -56,8 +73,53 @@
 		
 	}
 	
+	class CollectTopicBtn {
+		constructor(btnElement) {
+			this.btn = btnElement;
+			this.bindCollectToBtn(this.btn);
+		}
+		
+		bindCollectToBtn(btn) {
+			btn.click(this.toggleCollect.bind(this));
+		}
+		
+		toggleCollect(e) {
+			let topicId = $(e.target).data("topic-id");
+			let isCollected = $(e.target).hasClass("collected");
+			let method = "";
+			if (isCollected) {
+				method = "delete";
+			}
+			else {
+				method = "post";
+			}
+			let self = this;
+			
+			$.ajax({
+				type: method,
+				url: collectTopicUrl + topicId,
+				success: function() {
+					if(!isCollected) {
+						self.activeCollect();
+					}
+					else {
+						self.unactiveCollect();
+					}
+				}
+			})
+		}
+	
+		activeCollect(){
+			this.btn.addClass("collected");
+		}
+		unactiveCollect(){
+			this.btn.removeClass("collected");
+		}
+	}
+	
 	let bbsEditor = new BbsPostForm("pub-post-form");
 	let postList = new Array();
 	$(".post-list-item").each( (i, item) => {
 		postList.push(new PostListItem($(item), bbsEditor));
 	});
+	let collectTopicBtn = new CollectTopicBtn($("#collect-topic-btn"));

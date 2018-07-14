@@ -14,8 +14,6 @@
 
 
 
-	<context:property-placeholder
-		location="classpath:security.properties" ignore-unresolvable="true" />
 	<http pattern="${resourceUrl}" security="none"  /> 
 	<http pattern="${cssUrl}" security="none" />
 	<http pattern="${jsUrl}" security="none" />

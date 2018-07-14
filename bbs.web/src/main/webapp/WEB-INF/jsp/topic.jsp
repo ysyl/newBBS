@@ -49,7 +49,12 @@
 				id="post-heading">
 				<div class="topic-top-bar-component col-md-3 topic-details">
 					查看: ${topic.views } | 回复: ${topic.replies }</div>
-				<div class="topic-top-bar-component col-md-9">${topic.title }</div>
+				<div class="topic-top-bar-component col-md-9">
+				    <span>${topic.title }</span>
+				    <a href="#"><span id="collect-topic-btn" data-topic-id="${topic.id }" class="glyphicon glyphicon-heart
+				        <c:if test="${isTopicCollected }">collected</c:if>
+				     "></span></a>
+				</div>
 			</div>
 			<div class="panel-body topic-body container-fluent">
 				<c:forEach var="post" items="${posts }">
@@ -81,7 +86,7 @@
 		src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="<c:url value="/resource/js/forum.js" />"></script>
 	<script src="<c:url value="/resource/jsp_component/topbar.js" />"></script>
-	<script src="<c:url value="/resource/editor.md-master/editormd.min.js" />"></script>
+	<script charset="utf-8" src="<c:url value="/resource/editor.md-master/editormd.min.js" />"></script>
 	<script type="text/javascript">
     $(document).ready(function() {
         var editor = editormd("editormd", {
@@ -102,6 +107,7 @@
         */
     });
     let collectPostUrl = "<c:url value="/collect/post/" />";
+    let collectTopicUrl = "<c:url value="/collect/topic/" />";
 </script>
 <script type="text/javascript" src="<c:url value="/resource/js/topic.js" />"></script>
 </body>

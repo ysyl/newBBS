@@ -22,6 +22,8 @@
     <mvc:default-servlet-handler />
     <aop:aspectj-autoproxy />
     <mvc:annotation-driven/>
+
+    <context:property-placeholder location="classpath:db.properties, classpath:log4j.properties, classpath:security.properties" />
     
     <context:component-scan base-package="security.core.*, bbs.*" />
     <import resource="classpath:total-mybatis.xml"/>

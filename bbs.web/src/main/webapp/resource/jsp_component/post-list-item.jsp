@@ -4,6 +4,7 @@
 <%@ page isELIgnored="false"%>
 
 <div class="row post-list-item">
+    <c:set var="isChecked" value="${postMap.get(post) }"/>
 	<div class="col-md-3 user-details">
 		<div class="thumbnail">
 			<img class="user_avatar" src="<c:url value="/resource/img/user_avatar.gif" />" alt="user_avatar" />
@@ -27,7 +28,9 @@
 		</div>
 	</div>
 	<div class="col-md-9 user-post">
-	   <a class="collect-btn" href="#"><span  data-post-id="${post.id }" class="glyphicon glyphicon-heart"></span></a>
+	   <a class="collect-btn
+	       <c:if test="${isChecked }">collected</c:if>
+	    " href="#"><span  data-post-id="${post.id }" class="glyphicon glyphicon-heart"></span></a>
 	   <a class="reply-btn"  href="#editormd" ><span data-post-id="${post.id }" data-post-author-name="${post.author.nickname }" class="glyphicon glyphicon-send"></span></a>
 	   <br>
 	   <c:if test="${post.replyPost != null }" >
