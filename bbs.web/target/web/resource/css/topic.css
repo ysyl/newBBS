@@ -66,3 +66,9 @@
   padding-top: 0;
   padding-bottom: 0;
 }
+#collect-topic-btn {
+	color:black;
+}
+#collect-topic-btn.collected {
+    color: red!important;	
+}

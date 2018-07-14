@@ -99,8 +99,8 @@
 				type: method,
 				url: collectTopicUrl + topicId,
 				success: function() {
-					if(isCollected) {
-						self.aciveCollect();
+					if(!isCollected) {
+						self.activeCollect();
 					}
 					else {
 						self.unactiveCollect();

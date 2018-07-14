@@ -1,5 +1,6 @@
 package bbs.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,9 @@ import bbs.forum.service.BBSService;
 import bbs.helper.PageParam;
 import bbs.helper.service.HelperService;
 import bbs.subscriptionsystem.action.entity.BaseAction;
+import bbs.subscriptionsystem.notice.entity.BaseNotice;
+import bbs.subscriptionsystem.notice.service.NoticeService;
+import bbs.subscriptionsystem.notice.utils.NoticeBuilder;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.service.UserCenterService;
 import bbs.usercenter.util.CollectMatcher;
@@ -38,6 +42,8 @@ public class LoginHandlerController {
 	private UserCenterService userCenterService;
 	
 	private CollectMatcher collectMatcher;
+	
+	private NoticeService noticeService;
 //	
 //	@PostConstruct
 //	public void init() {
@@ -55,13 +61,15 @@ public class LoginHandlerController {
 
 	@Autowired
 	public LoginHandlerController(BBSService bbsService, SubscribedActionService subService,
-			HelperService helperService, UserCenterService userCenterService, CollectMatcher collectMatcher) {
+			HelperService helperService, UserCenterService userCenterService, CollectMatcher collectMatcher,
+			NoticeService noticeService) {
 		super();
 		this.bbsService = bbsService;
 		this.subService = subService;
 		this.helperService = helperService;
 		this.userCenterService = userCenterService;
 		this.collectMatcher = collectMatcher;
+		this.noticeService = noticeService;
 	}
 
 
@@ -99,12 +107,17 @@ public class LoginHandlerController {
 		List<Post> posts = bbsService.getPostList(topicId, pageParam);
 		Map<Post, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(posts, uid);
 		Boolean isTopicCollected = collectMatcher.checkTopicIsCollected(topicId);
-		System.out.println("\n\n"+ postCollectStatus.entrySet().size());
+		//获取通知
+		List<BaseNotice> notices = noticeService.getAllNoticeByUid(uid);
+		Map<String, List<BaseNotice>> noticeMap = new HashMap<>();
+		noticeMap.put("trend", notices);
+		
 		model.addAttribute("topic", topic);
 		model.addAttribute("posts", posts);
 		model.addAttribute("postMap", postCollectStatus);
 		model.addAttribute("collectMatcher", collectMatcher);
 		model.addAttribute("isTopicCollected", isTopicCollected);
+		model.addAttribute("noticeMap", noticeMap);
 		return "topic";
 	}
 	
