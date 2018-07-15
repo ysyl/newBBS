@@ -47,7 +47,7 @@
 							</c:forEach>
 							</div>
 							<div class="tab-panel" id="friend"></div>
-							<div class="tab-panel" id="focus"></div>
+							<div class="tab-panel" id="focus"></div>   
 						</div>
 					</ul> </a></li>
 			</ul>
