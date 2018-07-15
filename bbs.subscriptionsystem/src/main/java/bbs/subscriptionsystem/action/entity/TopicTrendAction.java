@@ -43,8 +43,7 @@ public class TopicTrendAction extends BaseAction implements Serializable {
 	public void setTopic(Topic topic) {
 		this.topic = topic;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
+	
 
 }

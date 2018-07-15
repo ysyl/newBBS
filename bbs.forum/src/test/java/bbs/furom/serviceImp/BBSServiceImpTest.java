@@ -169,7 +169,7 @@ public class BBSServiceImpTest extends BaseTest {
 		assertEquals(newTopicMainPost.getContent(), "新帖子内容");
 		
 		
-		logger.info("发布回复");
+logger.info("发布回复");
 		PubPostForm pubPostForm = new PubPostForm();
 		pubPostForm.setContent("新回复内容");
 		pubPostForm.setReplyPostId(null);
@@ -209,5 +209,28 @@ public class BBSServiceImpTest extends BaseTest {
 		assertEquals(pubAnnounceForm.getForumId(), firstAnnounce.getForum().getId());
 		assertEquals(pubAnnounceForm.getTitle(), firstAnnounce.getTitle());
 		assertEquals(manager.getId(), firstAnnounce.getPublisher().getId());
+	}
+	//测试监视器
+	@Test
+	public void testAspectMonitor() {
+		logger.info("测试监视器");
+		logger.info("发布回复");
+		long verricktId = 1L;
+		long luckyTopicId = 1L;
+		Topic luckyTopic = bbsService.getTopic(luckyTopicId);
+		PubPostForm pubPostForm = new PubPostForm();
+		pubPostForm.setContent("测试监视器");
+		pubPostForm.setReplyPostId(null);
+		int oldViews = luckyTopic.getViews();
+		int oldReplies = luckyTopic.getReplies();
+		
+		bbsService.savePost(verricktId, luckyTopicId, pubPostForm);
+		//这里也view了一次topic
+		Topic afterTopic = bbsService.getTopic(luckyTopicId);
+		int newViews = afterTopic.getViews();
+		int newReplies = afterTopic.getReplies();
+		
+		assertEquals(1, newViews - oldViews);
+		assertEquals(1, newReplies - oldReplies);
 	}
 }

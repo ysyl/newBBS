@@ -32,17 +32,13 @@ import bbs.forum.DTO.User;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.service.BBSService;
 import bbs.subscriptionsystem.service.SubscribedActionService;
+import bbs.usercenter.exception.RepetitiveCollectException;
 import bbs.usercenter.service.UserCenterService;
 
 import org.junit.Before;
 import org.junit.Test;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( locations= {"classpath:subscriptionsystemappcontext.xml"})
-@Transactional
-@Rollback
-@ActiveProfiles("dev")
-public class ActionPusherTest {
+public class ActionPusherTest extends BaseTest {
 	
 	private static final Logger logger = Logger.getLogger(ActionPusherTest.class.getName());
 	
@@ -181,7 +177,7 @@ public class ActionPusherTest {
 
 	}
 	
-	public void preSubscribe() {
+	public void preSubscribe() throws RepetitiveCollectException {
 		logger.info("\n\n\ntestGetAction\n\n\n");
 		//首先用户verrickt先订阅一个主题，然后选取另一个用户zhou对这个主题发布回复，然后stomp获取回复。	
 		logger.info("首先用户verrickt订阅一个主题");

@@ -14,6 +14,8 @@ $(document).ready(function () {
       })
     }
   };
+  
+  
 
   let searchSelect = new SearchSelector("#search-selector");
 })

@@ -3,7 +3,12 @@ package bbs.usercenter.serviceImp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import bbs.helper.PageParam;
 import bbs.usercenter.collection.DAO.CollectionDAO;
@@ -11,6 +16,7 @@ import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
 import bbs.usercenter.collection.DAO.entity.TopicCollection;
+import bbs.usercenter.exception.RepetitiveCollectException;
 import bbs.usercenter.form.UpdateUserProfileForm;
 import bbs.usercenter.mybatis.entity.TCollection;
 import bbs.usercenter.mybatis.mapper.TCollectionMapper;
@@ -38,9 +44,15 @@ public class UserCenterServiceImp implements UserCenterService {
 	}
 
 	@Override
-	public void collectPost(long uid, long postId) {
+	public void collectPost(long uid, long postId) throws RepetitiveCollectException {
 		// TODO Auto-generated method stub
-		collectionDAO.savePostCollection(uid, postId);
+		try {
+			collectionDAO.savePostCollection(uid, postId);
+		} catch (DuplicateKeyException  e) {
+			// TODO Auto-generated catch block
+			
+				throw new RepetitiveCollectException("重复收藏一个post");
+		}
 	}
 
 	@Override
@@ -100,6 +112,58 @@ public class UserCenterServiceImp implements UserCenterService {
 	public UserProfile getUserProfile(long uid) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<TopicCollection> getAllTopicCollectionByUserId(long uid) {
+		// TODO Auto-generated method stub
+		PageParam infinityPageParam = new PageParam(0, Integer.MAX_VALUE);
+		return getAllTopicCollectionByUserId(uid, infinityPageParam);
+	}
+
+	@Override
+	public List<ForumCollection> getAllForumCollectionByUserId(long uid) {
+		// TODO Auto-generated method stub
+		PageParam infinityPageParam = new PageParam(0, Integer.MAX_VALUE);
+		return getAllForumCollectionByUserId(uid, infinityPageParam);
+	}
+
+	@Override
+	public List<FollowingCollection> getAllFollowingCollectionByUserId(long uid) {
+		// TODO Auto-generated method stub
+		PageParam infinityPageParam = new PageParam(0, Integer.MAX_VALUE);
+		return getAllFollowingCollectionByUserId(uid, infinityPageParam);
+	}
+
+	@Override
+	public List<PostCollection> getAllPostCollectionByUserId(long uid) {
+		// TODO Auto-generated method stub
+		PageParam infinityPageParam = new PageParam(0, Integer.MAX_VALUE);
+		return getAllPostCollectionByUserId(uid, infinityPageParam);
+	}
+
+	@Override
+	public void uncollectPost(Long uid, long postId) {
+		// TODO Auto-generated method stub
+		collectionDAO.removePostCollection(uid, postId);
+	}
+
+	@Override
+	public void uncollectTopic(long uid, long topicId) {
+		// TODO Auto-generated method stub
+		collectionDAO.removeTopicCollection(uid, topicId);
+	}
+
+	@Override
+	public void uncollectForum(long uid, int forumId) {
+		// TODO Auto-generated method stub
+		collectionDAO.removeForumCollection(uid, forumId);
+	}
+
+	@Override
+	public void unfollow(long uid, long followingId) {
+		// TODO Auto-generated method stub
+		collectionDAO.removeFollowingCollection(uid, followingId);
 	}
 
 }

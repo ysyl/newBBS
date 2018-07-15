@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import bbs.forum.DTO.Topic;
 import bbs.forum.entity.TPost;
@@ -15,6 +16,7 @@ import bbs.forum.mapper.TTopicMapper;
 import bbs.helper.PageParam;
 
 @Component
+@Transactional
 public class TopicDAO {
 	
 	public TTopicMapper gettTopicMapper() {
@@ -41,6 +43,7 @@ public class TopicDAO {
 	
 	public Long save(long uid, PubTopicForm topicForm) {
 		String content = topicForm.getContent();
+		String htmlContent = topicForm.getHtmlContent();
 		int forumId = topicForm.getForumId();
 		String title = topicForm.getTitle();
 		Date now = new Date();
@@ -56,6 +59,7 @@ public class TopicDAO {
 		TPost tPost = new TPost();
 		tPost.setAuthorId(uid);
 		tPost.setContent(content);
+		tPost.setHtmlContent(htmlContent);
 		tPost.setPubTime(now);
 		tPost.setTopicId(tTopic.getId());
 

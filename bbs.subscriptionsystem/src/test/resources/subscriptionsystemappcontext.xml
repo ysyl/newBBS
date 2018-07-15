@@ -14,7 +14,7 @@
 
     <aop:aspectj-autoproxy />
     
-    <context:component-scan base-package="bbs.forum, bbs.usercenter, bbs.subscriptionsystem" > 
+    <context:component-scan base-package="bbs.*" > 
     </context:component-scan>
     
     <import resource="classpath*:bbs-forum-mybatis.xml " />  

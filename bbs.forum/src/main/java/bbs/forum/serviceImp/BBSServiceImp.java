@@ -38,48 +38,15 @@ public class BBSServiceImp implements BBSService {
 	private UserDAO userDAO;
 	
 	private AnnounceDAO announceDAO;
-
-	public ForumDAO getForumDAO() {
-		return forumDAO;
-	}
-
+	
 	@Autowired
-	public void setForumDAO(ForumDAO forumDAO) {
+	public BBSServiceImp(ForumDAO forumDAO, TopicDAO topicDAO, PostDAO postDAO, UserDAO userDAO,
+			AnnounceDAO announceDAO) {
+		super();
 		this.forumDAO = forumDAO;
-	}
-
-	public TopicDAO getTopicDAO() {
-		return topicDAO;
-	}
-
-	@Autowired
-	public void setTopicDAO(TopicDAO topicDAO) {
 		this.topicDAO = topicDAO;
-	}
-
-	public PostDAO getPostDAO() {
-		return postDAO;
-	}
-
-	@Autowired
-	public void setPostDAO(PostDAO postDAO) {
 		this.postDAO = postDAO;
-	}
-
-	public UserDAO getUserDAO() {
-		return userDAO;
-	}
-
-	@Autowired
-	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
-	}
-	public AnnounceDAO getAnnounceDAO() {
-		return announceDAO;
-	}
-
-	@Autowired
-	public void setAnnounceDAO(AnnounceDAO announceDAO) {
 		this.announceDAO = announceDAO;
 	}
 

@@ -6,7 +6,17 @@ public class PubTopicForm extends AbstractForm {
 	
 	private String content;
 	
+	private String htmlContent;
+	
 	private Integer forumId;
+
+	public String getHtmlContent() {
+		return htmlContent;
+	}
+
+	public void setHtmlContent(String htmlContent) {
+		this.htmlContent = htmlContent;
+	}
 
 	public String getTitle() {
 		return title;

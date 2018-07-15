@@ -448,13 +448,13 @@
   	where t.id = #{topicId}
   </select>
   <update id="likesPlusOne">
-    update t_topic set likes = likes + 1
+    update t_topic set likes = likes + 1 where id = #{topicId} 
   </update> 
-  <update id="viewPlusOne">
-    update t_topic set views = views + 1
+  <update id="viewsPlusOne">
+    update t_topic set views = views + 1 where id = #{topicId} 
   </update>
   <update id="repliesPlusOne">
-    update t_topic set replies = replies + 1
+    update t_topic set replies = replies + 1 where id = #{topicId} 
   </update>
 
 </mapper>

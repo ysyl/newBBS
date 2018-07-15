@@ -25,10 +25,11 @@ public class PostTrendActionDAO {
 
 	private TPostTrendActionMapper tPostTrendActionMapper;
 
-	public Long savePostTrendAction(long uid, Long postId, Long replyPostId)  {
+	public Long savePostTrendAction(long uid, Long topicId, Long postId, Long replyPostId)  {
 		TPostTrendAction entity = new TPostTrendAction();
 		entity.setReplyPostId(postId);
 		entity.setTargetPostId(replyPostId);
+		entity.setTopicId(topicId);
 		entity.setReplierId(uid);
 		tPostTrendActionMapper.insertSelective(entity);
 		return entity.getId();

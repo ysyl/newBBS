@@ -3,6 +3,8 @@ package bbs.usercenter.collection.DAO;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 import bbs.helper.PageParam;
@@ -34,7 +36,7 @@ public class CollectionDAO {
 		tCollection.setFollowingId(followingId);
 		tCollection.setUserId(uid);
 		
-		tCollectionMapper.insert(tCollection);
+		tCollectionMapper.insertSelective(tCollection);
 	}
 	
 	public void saveForumCollection(long uid, int forumId) {
@@ -43,7 +45,7 @@ public class CollectionDAO {
 		tCollection.setForumId(forumId);
 		tCollection.setUserId(uid);
 		
-		tCollectionMapper.insert(tCollection);
+		tCollectionMapper.insertSelective(tCollection);
 	}
 	
 	public void saveTopicCollection(long uid, long topicId) {
@@ -52,16 +54,16 @@ public class CollectionDAO {
 		tCollection.setTopicId(topicId);
 		tCollection.setUserId(uid);
 		
-		tCollectionMapper.insert(tCollection);
+		tCollectionMapper.insertSelective(tCollection);
 	}
 	
-	public void savePostCollection(long uid, long postId) {
+	public void savePostCollection(long uid, long postId) throws DataIntegrityViolationException {
 		TCollection tCollection = new TCollection();
 		tCollection.setCollectionType(CollectionType.POST);
 		tCollection.setPostId(postId);
 		tCollection.setUserId(uid);
 		
-		tCollectionMapper.insert(tCollection);
+		tCollectionMapper.insertSelective(tCollection);
 	}
 	
 	public List<FollowingCollection> getAllFollowingCollection(long uid) {
@@ -88,5 +90,25 @@ public class CollectionDAO {
 	public List<FollowingCollection> getAllFollowingCollectionByUserId(long uid, PageParam pageParam) {
 		List<FollowingCollection> foCs = (List<FollowingCollection>) tCollectionMapper.selectAllCollectionByUidAndType(uid, CollectionType.FOLLOWING, pageParam);
 		return foCs;
+	}
+
+	public void removePostCollection(Long uid, long postId) {
+		// TODO Auto-generated method stub
+		tCollectionMapper.deleteByUidAndTargetId(uid, postId);
+	}
+
+	public void removeTopicCollection(long uid, long topicId) {
+		// TODO Auto-generated method stub
+		tCollectionMapper.deleteByUidAndTargetId(uid, topicId);
+	}
+
+	public void removeForumCollection(long uid, int forumId) {
+		// TODO Auto-generated method stub
+		tCollectionMapper.deleteByUidAndTargetId(uid, forumId);
+	}
+
+	public void removeFollowingCollection(long uid, long followingId) {
+		// TODO Auto-generated method stub
+		tCollectionMapper.deleteByUidAndTargetId(uid, followingId);
 	}
 }

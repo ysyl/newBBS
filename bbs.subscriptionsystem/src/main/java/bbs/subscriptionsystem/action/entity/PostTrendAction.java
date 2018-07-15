@@ -1,6 +1,7 @@
 package bbs.subscriptionsystem.action.entity;
 
 import bbs.forum.DTO.Post;
+import bbs.forum.DTO.Topic;
 import bbs.forum.DTO.User;
 
 public class PostTrendAction extends BaseAction {
@@ -10,6 +11,8 @@ public class PostTrendAction extends BaseAction {
 	private Post targetPost;
 	
 	private Post replyPost;
+	
+	private Topic topic;
 
 	public User getReplier() {
 		return replier;
@@ -33,5 +36,13 @@ public class PostTrendAction extends BaseAction {
 
 	public void setReplyPost(Post replyPost) {
 		this.replyPost = replyPost;
+	}
+
+	public Topic getTopic() {
+		return topic;
+	}
+
+	public void setTopic(Topic topic) {
+		this.topic = topic;
 	}
 }

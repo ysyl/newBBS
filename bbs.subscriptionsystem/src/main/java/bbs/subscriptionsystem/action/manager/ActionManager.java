@@ -55,7 +55,7 @@ public class ActionManager {
 
 	public Long addPostTrendAction(long uid, long topicId, Long replyPostId, long postId) {
 		// TODO Auto-generated method stub
-		return postTrendActionDAO.savePostTrendAction(uid, postId, replyPostId);
+		return postTrendActionDAO.savePostTrendAction(uid, topicId,  postId, replyPostId);
 	}
 	
 	public Long addForumTrendAction(long managerId, int forumId, int announceId) {

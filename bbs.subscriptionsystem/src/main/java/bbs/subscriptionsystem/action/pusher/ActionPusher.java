@@ -43,7 +43,6 @@ public class ActionPusher {
 	}
 
 	private void matchAndSendToUser(BaseAction action) {
-		System.out.println("matchAndSendToUser  matcherHolder.size: " +  subscriptionMatcherHolder.size());
 		for (Entry<String, SubscriptionMatcher> matcherEntry : subscriptionMatcherHolder.entrySet()) {
 			String username = matcherEntry.getKey();
 			SubscriptionMatcher matcher = matcherEntry.getValue();

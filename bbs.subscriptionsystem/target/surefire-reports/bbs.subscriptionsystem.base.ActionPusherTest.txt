@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: bbs.subscriptionsystem.base.ActionPusherTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.294 sec
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.95 sec
