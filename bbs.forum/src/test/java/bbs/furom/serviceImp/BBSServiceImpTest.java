@@ -23,7 +23,7 @@ import bbs.forum.form.ModifyPostForm;
 import bbs.forum.form.PubAnnounceForm;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
-import bbs.forum.form.UserProfileForm;
+import bbs.forum.form.UpdateUserProfileForm;
 import bbs.forum.service.BBSService;
 import bbs.helper.PageParam;
 

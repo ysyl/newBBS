@@ -2,7 +2,9 @@ package bbs.forum.form;
 
 import bbs.forum.enuma.Sex;
 
-public class UserProfileForm {
+public class UpdateUserProfileForm {
+	
+	private String avatar;
 
 	private String nickname;
 	
@@ -22,6 +24,14 @@ public class UserProfileForm {
 
 	public void setSex(Sex sex) {
 		this.sex = sex;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	
 	

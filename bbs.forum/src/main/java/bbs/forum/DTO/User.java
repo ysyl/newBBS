@@ -17,6 +17,8 @@ public class User implements Serializable {
 	private Long topicAmount;
 	
 	private Long followingAmount;
+	
+	private String avatar;
 
 	public Long getTopicAmount() {
 		return topicAmount;
@@ -72,5 +74,13 @@ public class User implements Serializable {
 
 	public void setFollowingAmount(Long followingAmount) {
 		this.followingAmount = followingAmount;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 }

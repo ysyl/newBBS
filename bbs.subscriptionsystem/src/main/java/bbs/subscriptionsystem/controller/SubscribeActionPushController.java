@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -24,6 +25,7 @@ import bbs.subscriptionsystem.action.pusher.SubscriptionMatcherHolder;
 import bbs.subscriptionsystem.action.pusher.SubscriptionMatcher;
 
 @Controller
+@Profile("dev")
 public class SubscribeActionPushController {
 
 	private SubscriptionMatcherHolder subscriptionMatcherHolder;

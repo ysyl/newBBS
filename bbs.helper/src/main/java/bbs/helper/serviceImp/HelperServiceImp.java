@@ -3,21 +3,23 @@ package bbs.helper.serviceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import bbs.forum.service.BBSService;
 import bbs.helper.service.HelperService;
+import security.core.serviceImp.UserDetailsServiceImp;
 
 @Service
 @Profile("prod")
 public class HelperServiceImp implements HelperService {
 	
-	private BBSService bbsService;
+	private UserDetailsServiceImp userDetailsService;
 
 	@Autowired
-	public HelperServiceImp(BBSService bbsService) {
+	public HelperServiceImp(UserDetailsServiceImp userDetailsService) {
 		super();
-		this.bbsService = bbsService;
+		this.userDetailsService = userDetailsService;
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public class HelperServiceImp implements HelperService {
 	@Override
 	public Long getCurrentUserId() {
 		// TODO Auto-generated method stub
-		Long uid = bbsService.getUser(getCurrentUsername()).getId();
+		Long uid = userDetailsService.getUserPrincipalByUsername(getCurrentUsername()).getId();
 		return uid;
 	}
 

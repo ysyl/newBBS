@@ -26,12 +26,12 @@
         //this line.
         function connect() {
             var userid = document.getElementById('name').value;
-            var socket = new SockJS("<c:url value="/app" />");
+            var socket = new SockJS("http://192.168.3.149:8080/springmvc/hello");
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('<c:url value="/testSubscribe" />', function(greeting){
+                stompClient.subscribe('/topic/greetings', function(greeting){
                     showGreeting(JSON.parse(greeting.body).content);
                 });
  

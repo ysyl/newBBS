@@ -14,7 +14,7 @@ import bbs.forum.form.ModifyPostForm;
 import bbs.forum.form.PubAnnounceForm;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
-import bbs.forum.form.UserProfileForm;
+import bbs.forum.form.UpdateUserProfileForm;
 import bbs.helper.PageParam;
 
 public
@@ -41,6 +41,8 @@ interface BBSService {
 	void updateForum(ForumForm forumForm);
 	
 	void updatePost(long uid, long postId, ModifyPostForm modifyPostForm);
+	
+	void updateUserProfile(Long uid, UpdateUserProfileForm updateUserProfileForm);
 	
 	Forum getForum(int forumId);
 	

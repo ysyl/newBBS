@@ -21,7 +21,7 @@ import bbs.forum.form.ModifyPostForm;
 import bbs.forum.form.PubAnnounceForm;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
-import bbs.forum.form.UserProfileForm;
+import bbs.forum.form.UpdateUserProfileForm;
 import bbs.forum.service.BBSService;
 import bbs.helper.PageParam;
 
@@ -209,5 +209,11 @@ public class BBSServiceImp implements BBSService {
 	public List<Topic> getTopicListByUid(Long uid, PageParam pageParam) {
 		// TODO Auto-generated method stub
 		return topicDAO.getAllByUid(uid, pageParam);
+	}
+
+	@Override
+	public void updateUserProfile(Long uid, UpdateUserProfileForm updateUserProfileForm) {
+		// TODO Auto-generated method stub
+		userDAO.update(uid, updateUserProfileForm);
 	}
 }

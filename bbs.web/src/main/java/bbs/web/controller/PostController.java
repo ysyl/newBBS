@@ -19,8 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
+import bbs.forum.form.UpdateUserProfileForm;
 import bbs.forum.service.BBSService;
 import bbs.helper.service.HelperService;
+import bbs.web.utils.AvatarGeneratorResult;
+import bbs.web.utils.ImgTransformUtils;
 
 @Controller
 @RequestMapping("/upload")
@@ -29,33 +32,56 @@ public class PostController {
 	private BBSService bbsService;
 	
 	private HelperService helperService;
+	
+	private ImgTransformUtils imgUtils;
 
+
+//	public void pubPost(HttpServletRequest req, HttpServletResponse res, @RequestParam("imgFile") MultipartFile imgFile) throws UnsupportedEncodingException {
+//		req.setCharacterEncoding("utf-8");
+//		String rootPath = req.getSession().getServletContext().getRealPath("/resource/upload");
+//		
+//		File filePath = new File(rootPath);
+//		if (!filePath.exists()) {
+//			filePath.mkdirs();
+//		}
+//		
+//		String realFilePath = rootPath + File.pathSeparator + imgFile.getOriginalFilename();
+//		File realFile = new File(realFilePath);
+//		try {
+//			FileUtils.copyInputStreamToFile(imgFile.getInputStream(), realFile);
+//			res.getWriter().write( "{\"success\": 1, \"message\":\"上传成功\",\"url\":\"/resources/upload/" + imgFile.getOriginalFilename() + "\"}" );
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		};
+//	}
+	
 	@Autowired
-	public PostController(BBSService bbsService, HelperService helperService) {
+	public PostController(BBSService bbsService, HelperService helperService, ImgTransformUtils imgUtils) {
 		super();
 		this.bbsService = bbsService;
 		this.helperService = helperService;
+		this.imgUtils = imgUtils;
 	}
 
-	@PostMapping("/postWithFile")
-	public void pubPost(HttpServletRequest req, HttpServletResponse res, @RequestParam("imgFile") MultipartFile imgFile) throws UnsupportedEncodingException {
-		req.setCharacterEncoding("utf-8");
-		String rootPath = req.getSession().getServletContext().getRealPath("/resource/upload");
-		
-		File filePath = new File(rootPath);
-		if (!filePath.exists()) {
-			filePath.mkdirs();
-		}
-		
-		String realFilePath = rootPath + File.pathSeparator + imgFile.getOriginalFilename();
-		File realFile = new File(realFilePath);
-		try {
-			FileUtils.copyInputStreamToFile(imgFile.getInputStream(), realFile);
-			res.getWriter().write( "{\"success\": 1, \"message\":\"上传成功\",\"url\":\"/resources/upload/" + imgFile.getOriginalFilename() + "\"}" );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
+	@PostMapping("/userprofile")
+	public String updateUserProfile(
+			HttpServletRequest req,
+			@RequestParam("nickname") String nickname,
+			@RequestParam MultipartFile avatar) throws IllegalStateException, IOException {
+		Long uid = helperService.getCurrentUserId();
+		UpdateUserProfileForm updateUserProfileForm = new UpdateUserProfileForm();
+
+		AvatarGeneratorResult avatarGeneratorResult = imgUtils.getRealFile(req, avatar);
+		String avatarName = avatarGeneratorResult.getAvatarName();
+		File realFile = avatarGeneratorResult.getFile();
+		avatar.transferTo(realFile);
+
+		updateUserProfileForm.setNickname(nickname);
+		updateUserProfileForm.setAvatar(avatarName);
+		bbsService.updateUserProfile(uid, updateUserProfileForm);
+
+		return "redirect:/user/" + uid;
 	}
 	
 	@PostMapping("/post/{topicId}")
