@@ -106,6 +106,6 @@
     let collectPostUrl = "<c:url value="/collect/post/" />";
     let collectTopicUrl = "<c:url value="/collect/topic/" />";
 </script>
-
+    <script type="text/javascript" src="<c:url value="/resource/jsp_component/notice-stomp.js" />"></script>
 </body>
 </html>

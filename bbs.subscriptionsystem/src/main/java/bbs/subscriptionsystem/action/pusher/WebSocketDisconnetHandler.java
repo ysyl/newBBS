@@ -22,6 +22,7 @@ public class WebSocketDisconnetHandler implements ApplicationListener<SessionDis
 	public void onApplicationEvent(SessionDisconnectEvent e) {
 		// TODO Auto-generated method stub
 		String username = e.getUser().getName();
+		System.out.println("\n\n\n断开连接\n\n\n");
 		subscriptionMatcherHolder.remove(username);
 	}
 

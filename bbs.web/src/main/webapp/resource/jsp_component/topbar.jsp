@@ -33,7 +33,7 @@
 				<li><a href="#">积分商城</a></li>
 				<li><a href="#">交易区</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">通知<span class="caret"></span></a>
+					data-toggle="dropdown" id="">通知<span id="new-notice-remind"></span><span class="caret"></span></a>
 					<ul class="dropdown-menu notice-menu" id="notice-menu">
 						<ul class="nav nav-pills">
 							<li><a href="#trend" data-toggle="pill">动态</a></li>
@@ -80,3 +80,7 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
+<script>
+let subscribeTrendNoticeUrl = "/user/" + "<sec:authentication property="name" />" + "/topic/notice";
+let connectUrl = "<c:url value="/stomp" />";
+</script>

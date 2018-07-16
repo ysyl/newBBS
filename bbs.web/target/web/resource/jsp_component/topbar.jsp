@@ -72,9 +72,15 @@
 					</div>
 				</div>
 			</form>
+			<div id="nav-user-info" class="navbar-right" >
+			 头像
+			</div>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid -->
 </nav>
-<%@ include file="/resource/jsp_component/testStomp.jsp" %>
+<script>
+let subscribeTrendNoticeUrl = "/user/" + "<sec:authentication property="name" />" + "/topic/notice";
+let connectUrl = "<c:url value="/stomp" />";
+</script>

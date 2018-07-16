@@ -1,7 +1,8 @@
 $(document).ready(function () {
   class NoticePanel {
-	  constructor(noticePanel) {
+	  constructor(noticePanel, newNoticeRemindElement) {
 		 this.noticePanel = noticePanel; 
+		 this.newNoticeRemindElement = newNoticeRemindElement;
 		 this.ws = null;
 		 this.client = null;
 		 this.connect(connectUrl);
@@ -15,18 +16,26 @@ $(document).ready(function () {
 	  }
 	  
 	  connectSuccessCallback() {
+		  this.subscribeTrendNotice.bind(this)();
 	  }
 	  
 	  connectFailureCallback() {
 		 console.log("failure"); 
 	  }
 	  
+	  subscribeTrendNotice() {
+		 this.client.subscribe(subscribeTrendNoticeUrl, this.handleTrendNotice.bind(this)); 
+	  }
+	  
 	  handleTrendNotice(message) {
 		  console.log(message.body);
+		  this.newNoticeRemindElement.html("[new]");
 	  }
 	  
 	  DisplayTrendCountNotice(message) {
 		  
 	  }
   }
+  
+  let noticePanel = new NoticePanel($("#notice-menu-content"), $("#new-notice-remind"));
 })

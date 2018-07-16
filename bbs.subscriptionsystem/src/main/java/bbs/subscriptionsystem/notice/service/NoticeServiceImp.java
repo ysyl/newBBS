@@ -12,21 +12,18 @@ import bbs.subscriptionsystem.service.SubscribedActionService;
 @Service
 public class NoticeServiceImp implements NoticeService {
 	
-	private NoticeBuilder noticeBuilder;
-	
 	private SubscribedActionService subService;
 
 	@Autowired
-	public NoticeServiceImp(NoticeBuilder noticeBuilder, SubscribedActionService subService) {
+	public NoticeServiceImp(SubscribedActionService subService) {
 		super();
-		this.noticeBuilder = noticeBuilder;
 		this.subService = subService;
 	}
 
 	@Override
 	public List<BaseNotice> getAllNoticeByUid(long uid) {
 		// TODO Auto-generated method stub
-		return noticeBuilder.transActionListToNotice(subService.getAllActionByUid(uid));
+		return NoticeBuilder.transActionListToNotice(subService.getAllActionByUid(uid));
 	}
 
 }

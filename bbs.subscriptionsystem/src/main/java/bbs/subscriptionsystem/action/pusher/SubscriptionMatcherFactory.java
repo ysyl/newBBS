@@ -24,6 +24,7 @@ public class SubscriptionMatcherFactory {
 	private BBSService bbsService;
 
 	public SubscriptionMatcher createSubscriptionMatcher(String username) {
+		System.out.println("为用户： " + username + " 创建matcher");
 		Long uid = bbsService.getUser(username).getId();
 		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
 		return new SubscriptionMatcher(username, subscriptions);

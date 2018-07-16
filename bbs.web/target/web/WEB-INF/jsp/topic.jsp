@@ -83,6 +83,7 @@
 	<script src="<c:url value="/resource/js/forum.js" />"></script>
 	<script src="<c:url value="/resource/jsp_component/topbar.js" />"></script>
 	<script charset="utf-8" src="<c:url value="/resource/editor.md-master/editormd.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resource/js/topic.js" />"></script>
 	<script type="text/javascript">
     $(document).ready(function() {
         var editor = editormd("editormd", {
@@ -105,6 +106,6 @@
     let collectPostUrl = "<c:url value="/collect/post/" />";
     let collectTopicUrl = "<c:url value="/collect/topic/" />";
 </script>
-<script type="text/javascript" src="<c:url value="/resource/js/topic.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resource/jsp_component/notice-stomp.js" />"></script>
 </body>
 </html>

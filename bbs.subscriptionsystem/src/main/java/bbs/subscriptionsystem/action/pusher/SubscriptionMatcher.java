@@ -34,6 +34,10 @@ public class SubscriptionMatcher {
 	public SubscriptionMatcher(String username, List<BaseSubscription<?>> subscriptions) {
 		super();
 		this.username = username;
+		this.freshSubscriptions(subscriptions);
+	}
+	
+	public void freshSubscriptions(List<BaseSubscription<?>> subscriptions) {
 		this.subscriptions = subscriptions;
 		for (BaseSubscription<?> subscription : subscriptions) {
 			if (subscription instanceof ForumSubscription) {
