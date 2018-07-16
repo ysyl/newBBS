@@ -72,6 +72,9 @@
 					</div>
 				</div>
 			</form>
+			<div id="nav-user-info" class="navbar-right" >
+			 头像
+			</div>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>

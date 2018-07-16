@@ -42,7 +42,3 @@
 		</p>
 	</div>
 </div>
-<script type="text/javascript">
-let connectUrl = <c:url value="/app" />;
-let subscribeNoticeUrl = <c:url value="/user/${<sec:authentication property="principal.username" />}" />
-</script>

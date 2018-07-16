@@ -9,6 +9,7 @@
 	value="<%=bbs.subscriptionsystem.notice.entity.PostTrendNotice.class%>" />
 <c:set var="UserTrendNotice"
 	value="<%=bbs.subscriptionsystem.notice.entity.UserTrendNotice.class%>" />
+<%@ include file="/resource/jsp_component/script-sockjs-stomp.jsp" %>
 <nav class="navbar navbar-default">
 	<div class="container-fluid bbs-navbar-container">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -46,7 +47,7 @@
 							</c:forEach>
 							</div>
 							<div class="tab-panel" id="friend"></div>
-							<div class="tab-panel" id="focus"></div>
+							<div class="tab-panel" id="focus"></div>   
 						</div>
 					</ul> </a></li>
 			</ul>
@@ -76,3 +77,4 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
+<%@ include file="/resource/jsp_component/testStomp.jsp" %>
