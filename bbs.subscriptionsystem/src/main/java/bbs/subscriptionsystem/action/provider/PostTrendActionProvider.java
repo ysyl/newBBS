@@ -40,4 +40,13 @@ public class PostTrendActionProvider implements ActionProvider {
 		return PostSubscription.class.isAssignableFrom(subscriptionClass);
 	}
 
+	@Override
+	public Integer getActionCountBySubscription(BaseSubscription<?> subscription) {
+		// TODO Auto-generated method stub
+		if (!support((Class<? extends BaseSubscription<?>>) subscription.getClass())) throw new IllegalArgumentException();
+
+		Integer count = postTrendActionDAO.countByPostSubscription((PostSubscription) subscription);
+		return count;
+	}
+
 }

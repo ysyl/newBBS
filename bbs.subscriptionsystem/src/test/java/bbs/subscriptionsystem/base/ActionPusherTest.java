@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import bbs.forum.DTO.User;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.service.BBSService;
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.exception.RepetitiveCollectException;
 import bbs.usercenter.service.UserCenterService;
@@ -38,6 +39,8 @@ import bbs.usercenter.service.UserCenterService;
 import org.junit.Before;
 import org.junit.Test;
 
+@Transactional
+@Rollback
 public class ActionPusherTest extends BaseTest {
 	
 	private static final Logger logger = Logger.getLogger(ActionPusherTest.class.getName());
@@ -102,7 +105,7 @@ public class ActionPusherTest extends BaseTest {
 		return message;
 	}
 	
-	@Test
+	//@Test
 	public void pureStompTest() throws InterruptedException, JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SUBSCRIBE);
@@ -139,7 +142,7 @@ public class ActionPusherTest extends BaseTest {
 		Message<?> message233 = this.createMessage(StompCommand.MESSAGE, "4", "6", "veickt", "/app/testUserTopic");
 		this.cliendInBoundChannel.send(message233);
 		Message<?> reply3 = this.brokerChannelIntercepter.awaitMessage(5);
-		System.out.println(reply3);
+		MyLogger.info(reply3);
 		assertNotNull(reply3);
 		String replyContent = new String((byte[]) reply3.getPayload(), Charset.forName("UTF-8"));
 		assertEquals("testSendToUser", replyContent);
@@ -168,7 +171,7 @@ public class ActionPusherTest extends BaseTest {
 		this.cliendOutBoundChannelIntercepter.setIncludeDestinationPatterns("/app/testJson");
 		this.cliendInBoundChannel.send(message);
 		Message<?> reply2 = this.cliendOutBoundChannelIntercepter.awaitMessage(2);
-		System.out.println(reply2);
+		MyLogger.info(reply2);
 		assertNotNull(reply2);
 		
 		String json = new String((byte[]) reply2.getPayload(), Charset.forName("UTF-8"));
@@ -221,7 +224,7 @@ public class ActionPusherTest extends BaseTest {
 		bbsService.savePost(zhouId, 1L, pubPostForm);
 		
 		Message<?> reply = this.cliendOutBoundChannelIntercepter.awaitMessage(5);
-//		System.out.println(new String((byte[]) reply.getPayload(), Charset.forName("utf-8")));
+//		MyLogger.info(new String((byte[]) reply.getPayload(), Charset.forName("utf-8")));
 		assertNotNull(reply);
 //		
 //		StompHeaderAccessor replyHeaders = StompHeaderAccessor.wrap(reply);

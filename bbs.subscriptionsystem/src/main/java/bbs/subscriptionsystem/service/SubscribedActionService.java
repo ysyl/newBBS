@@ -14,7 +14,11 @@ public interface SubscribedActionService {
 	List<TopicTrendAction> getAllTopicTrendActionByIdAfterTime(Long id, Date pubTime, PageParam pageParam);
 
 	List<UserTrendAction<?>> getAllUserTrendActionByUidAfterTime(Long id, Date pubTime, PageParam pageParam);
+	
+	Integer countActionsByUid(long uid);
 
 	
 	List<BaseAction> getAllActionByUid(long uid);
+
+	boolean freshLastReadTime(long uid);
 }

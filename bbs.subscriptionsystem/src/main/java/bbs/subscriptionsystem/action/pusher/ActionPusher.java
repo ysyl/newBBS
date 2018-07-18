@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.DAO.ForumTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.PostTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
@@ -48,14 +49,21 @@ public class ActionPusher {
 			String username = matcherEntry.getKey();
 			SubscriptionMatcher matcher = matcherEntry.getValue();
 		
-			System.out.println("获取到动作，准备匹配matcher，并发送给用户");
-			
-			if (matcher.match(action)) {
-				System.out.println("\n\n\n匹配动作成功， 向用户" + username + "发布通知\n\n\n");
+			MyLogger.info("获取到动作，在发送给用户"
+					+ username
+					+ "之前匹配matcher:");
+		boolean isMatch = matcher.match(action);	
+			MyLogger.info("动作为 : "
+					+ action.getClass().getSimpleName()
+					+ "  是否匹配成功: "
+					+ isMatch);
+			if (isMatch) {
+				MyLogger.info("\n\n\n\n\n匹配动作成功， 向用户" + username + "发布通知\n\n\n");
 				BaseNotice notice = NoticeBuilder.transActionToNotice(action);
-				System.out.println("通知内容为: " + notice);
+				MyLogger.info("通知内容为: " + notice);
 				this.template.convertAndSendToUser(username, PusherConstant.SEND_NOTICE_TO_USER_URL,
 						notice);
+				break;
 			}
 		}
 	}

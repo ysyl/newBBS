@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.pusher.SubscriptionMatcherFactory;
 import bbs.subscriptionsystem.action.pusher.SubscriptionMatcherHolder;
 //测试类
@@ -33,7 +34,7 @@ public class TestStompController {
 
 	@MessageMapping("/testBroad")
 	public String test(Principal principal) {
-		System.out.println(principal.getName() + "\n\n\n\n\n");
+		MyLogger.info(principal.getName() + "\n\n\n\n\n");
 		this.template.convertAndSend("/topic/testBroad", "testBroad");
 		return "testBroad";
 	}
@@ -41,13 +42,13 @@ public class TestStompController {
 	@MessageMapping("testSendToUser")
 	@SendToUser("/topic/testSendToUser")
 	public String testSendToUser() {
-		System.out.println("testSendToUser\n\n\n");
+		MyLogger.info("testSendToUser\n\n\n");
 		return "testSendToUser";
 	}
 	
 	@MessageMapping("/testTemplateSendToUser")
 	public void testTemplateSendToUser(Principal principal) {
-		System.out.println("testTemplateSendToUser\n\n\n");
+		MyLogger.info("testTemplateSendToUser\n\n\n");
 		this.template.convertAndSendToUser(principal.getName(), "/topic/testTemplateSendToUser", "testTemplateSendToUser");
 	}
 	

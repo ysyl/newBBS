@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import bbs.forum.form.PubPostForm;
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.DAO.ForumTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.PostTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
@@ -70,6 +71,18 @@ public class ActionManager {
 			}
 		}
 		return actions;
+	}
+	
+	public Integer countActionBySubscription(BaseSubscription<?> subscription) {
+		Integer count = 0;
+		for (ActionProvider provider : actionProviders) {
+			MyLogger.info("进入provider foreach" + provider.getClass().getName() +"\n" + subscription.getClass().getName());
+			if (provider.support((Class<? extends BaseSubscription<?>>) subscription.getClass())) {
+				MyLogger.info("\n\n\n进入" + subscription.getClass().getName());
+				count += provider.getActionCountBySubscription(subscription);
+			}
+		}
+		return count;
 	}
 
 	

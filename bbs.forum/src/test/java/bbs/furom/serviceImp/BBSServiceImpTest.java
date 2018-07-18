@@ -25,6 +25,7 @@ import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.form.UpdateUserProfileForm;
 import bbs.forum.service.BBSService;
+
 import bbs.helper.PageParam;
 
 @Transactional
@@ -78,7 +79,7 @@ public class BBSServiceImpTest extends BaseTest {
 		
 		logger.info("获取某个帖子的主回复");
 		Topic topic1L = bbsService.getTopic(1L);
-		Post topic1LMainPost = bbsService.getMainPost(1L);System.out.println("\n\n\n:"+ topic1LMainPost.getId());
+		Post topic1LMainPost = bbsService.getMainPost(1L);
 		assertEquals(topic1LMainPost.getId(), topic1L.getMainPost().getId());
 
 		

@@ -26,4 +26,16 @@ public class NoticeServiceImp implements NoticeService {
 		return NoticeBuilder.transActionListToNotice(subService.getAllActionByUid(uid));
 	}
 
+	@Override
+	public Integer getNoticeCountByUid(long uid) {
+		// TODO Auto-generated method stub
+		return subService.countActionsByUid(uid);
+	}
+
+	@Override
+	public boolean freshLastReadTime(long uid) {
+		// TODO Auto-generated method stub
+		return subService.freshLastReadTime(uid);
+	}  
+
 }

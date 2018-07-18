@@ -8,10 +8,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import bbs.forum.DAO.TopicDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration()
 @ContextConfiguration( locations = {"classpath:applicationContext.xml"})
 @ActiveProfiles("dev")
 public class BaseTest {

@@ -33,6 +33,7 @@ public class UserTrendNotice extends BaseNotice  {
 		this.nickname = action.getUser().getNickname();
 		this.userId = action.getUser().getId();
 		this.setPubTime(action.getPubTime());
+		this.setTrendNoticeType(TrendNoticeType.UserTrendNotice);
 
 		if (action instanceof AbstractCollectAction) {
 			this.actionType = "收藏了";

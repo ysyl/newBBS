@@ -43,4 +43,15 @@ public class UserTrendActionProvider implements ActionProvider {
 		return FollowingSubscription.class.isAssignableFrom(subscriptionClass);
 	}
 
+	@Override
+	public Integer getActionCountBySubscription(BaseSubscription<?> subscription) {
+		// TODO Auto-generated method stub
+		if (!support((Class<BaseSubscription<?>>) subscription.getClass())) throw new IllegalArgumentException();
+		
+		Long uid = subscription.getUser().getId();
+		Date lastReadTime = subscription.getLastReadTime();
+		Integer count = userTrendActionDAO.countByUidAfterLastReadTime(uid, lastReadTime);
+		return count;
+	}
+
 }

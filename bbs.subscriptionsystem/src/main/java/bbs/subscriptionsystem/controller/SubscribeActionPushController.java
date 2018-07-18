@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import bbs.forum.DAO.TopicDAO;
 import bbs.forum.form.PubTopicForm;
 import bbs.helper.service.HelperService;
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.pusher.ActionGeneratedMonitor;
 import bbs.subscriptionsystem.action.pusher.SubscriptionMatcherFactory;
 import bbs.subscriptionsystem.action.pusher.SubscriptionMatcherHolder;
@@ -51,7 +52,7 @@ public class SubscribeActionPushController {
 	public void handleSubscribeAction(Principal principal) {
 		String username = principal.getName(); 
 		subscriptionMatcherHolder.put(username, subscriptionMatcherFactory.createSubscriptionMatcher(username));
-		System.out.println(subscriptionMatcherHolder.size());
+		MyLogger.info(subscriptionMatcherHolder.size());
 	}
 	
 	@SubscribeMapping("/testaction")
@@ -69,21 +70,21 @@ public class SubscribeActionPushController {
 	
 	@SubscribeMapping("/test")
 	public String testSub() {
-		System.out.println("testSub");
+		MyLogger.info("testSub");
 		return "testSub";
 	}
 	
 	@MessageMapping("/testUserTopic")
 	@SendToUser("/topic/test")
 	public String testUserTopic(Principal p) {
-		System.out.println("enter testUserTopic");
-		System.out.println("p.getUsername: " + p.getName());
+		MyLogger.info("enter testUserTopic");
+		MyLogger.info("p.getUsername: " + p.getName());
 		return "testSendToUser";
 	}
 	
 	@MessageMapping("/testTemplate")
 	public void testTemplate() {
-		System.out.println("enter /testTemplate");
+		MyLogger.info("enter /testTemplate");
 		this.template.convertAndSendToUser("verrickt", "/topic/test", "testTemplate");
 	}
 	

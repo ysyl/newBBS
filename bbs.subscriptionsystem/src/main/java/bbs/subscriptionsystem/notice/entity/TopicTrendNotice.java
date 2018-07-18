@@ -25,6 +25,7 @@ public class TopicTrendNotice extends BaseNotice  {
 		this.topicId = action.getTopic().getId();
 		this.pubTime = action.getPubTime();
 		this.repostId = action.getNewReply().getId();
+		this.setTrendNoticeType(TrendNoticeType.TopicTrendNotice);
 	}
 
 	public Long getRepostId() {

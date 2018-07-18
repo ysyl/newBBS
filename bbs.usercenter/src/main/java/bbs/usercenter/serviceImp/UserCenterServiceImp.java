@@ -103,12 +103,6 @@ public class UserCenterServiceImp implements UserCenterService {
 	}
 
 	@Override
-	public void removeCollection(long collectionId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public UserProfile getUserProfile(long uid) {
 		// TODO Auto-generated method stub
 		return null;

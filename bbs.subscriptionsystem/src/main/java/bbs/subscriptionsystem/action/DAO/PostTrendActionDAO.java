@@ -44,6 +44,14 @@ public class PostTrendActionDAO {
 
 	public PostTrendAction selectById(long actionId) {
 		// TODO Auto-generated method stub
-		return null;
+		return tPostTrendActionMapper.selectPostTrendActionById(actionId);
+	}
+
+	public Integer countByPostSubscription(PostSubscription subscription) {
+		// TODO Auto-generated method stub
+		Date lastReadTime = subscription.getLastReadTime();
+		Long postId = subscription.getTarget().getId();
+		Integer count = tPostTrendActionMapper.countByPostIdAfterLastReadTime(postId, lastReadTime);
+		return count;
 	}
 }

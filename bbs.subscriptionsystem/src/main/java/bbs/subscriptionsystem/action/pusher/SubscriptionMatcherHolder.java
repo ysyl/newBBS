@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import bbs.helper.service.HelperService;
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
 import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 
@@ -48,7 +49,7 @@ public class SubscriptionMatcherHolder extends AbstractMap<String, SubscriptionM
 	@Override
 	public SubscriptionMatcher put(String key, SubscriptionMatcher value) {
 		// TODO Auto-generated method stub
-		System.out.println("将用户: " + key + " 的matcher放入holder");
+		MyLogger.info("将用户: " + key + " 的matcher放入holder");
 		return matcherMap.put(key, value);
 	}
 	
@@ -58,6 +59,7 @@ public class SubscriptionMatcherHolder extends AbstractMap<String, SubscriptionM
 		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
 		SubscriptionMatcher matcher = this.matcherMap.get(username);
 		if (matcher != null) {
+			MyLogger.info("\n\n\nholer.freshMatcher : " + subscriptions.size());
 			matcher.freshSubscriptions(subscriptions);
 		}
 	}

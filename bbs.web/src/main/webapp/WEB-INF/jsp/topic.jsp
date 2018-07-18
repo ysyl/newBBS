@@ -35,6 +35,7 @@
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
 </head>
 <body>
 	<%@ include file="/resource/jsp_component/topbar.jsp"%>
@@ -75,15 +76,12 @@
 			
     <%@ include file="/resource/jsp_component/bbs-post-editor.jsp"%>
 
+    <%@ include file="/resource/jsp_component/common-script.jsp" %>
 	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-	<script
-		src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="<c:url value="/resource/js/forum.js" />"></script>
-	<script src="<c:url value="/resource/jsp_component/topbar.js" />"></script>
-	<script charset="utf-8" src="<c:url value="/resource/editor.md-master/editormd.min.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resource/js/topic.js" />"></script>
+	
+    <script type="text/javascript"
+	   src="<c:url value="/resource/js/topic.js" />"></script>
+	
 	<script type="text/javascript">
     $(document).ready(function() {
         var editor = editormd("editormd", {
@@ -92,6 +90,7 @@
             height: 500,
             emoji: true,
             markdown: "请在此处输入回复内容",
+            autoFocus: false,
             saveHTMLToTextarea: true,
         });
 
@@ -105,7 +104,7 @@
     });
     let collectPostUrl = "<c:url value="/collect/post/" />";
     let collectTopicUrl = "<c:url value="/collect/topic/" />";
+    let followUserUrl = "<c:url value="/collect/user/" />"
 </script>
-    <script type="text/javascript" src="<c:url value="/resource/jsp_component/notice-stomp.js" />"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import bbs.helper.PageParam;
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.UserTrendActionDAO;
 import bbs.subscriptionsystem.action.entity.BaseAction;
@@ -26,7 +27,7 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	
 	private SubscriptionManager subscriptionManager;
 	
-	private ActionManager actionManger;
+	private ActionManager actionManager;
 
 	public TopicTrendActionDAO getTopicTrendActionDAO() {
 		return topicTrendActionDAO;
@@ -56,12 +57,12 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	}
 
 	public ActionManager getActionManger() {
-		return actionManger;
+		return actionManager;
 	}
 
 	@Autowired
 	public void setActionManger(ActionManager actionManger) {
-		this.actionManger = actionManger;
+		this.actionManager = actionManger;
 	}
 
 	@Override
@@ -81,6 +82,7 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	}
 	
 	private void freshLastReadTime(BaseSubscription<?> subscription) {
+		MyLogger.info("\n\n\n刷新订阅时间\n\n\n");
 		subscriptionManager.updateLastReadTime(subscription);
 	}
 
@@ -90,10 +92,31 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
 		List<BaseAction> actions = new ArrayList<>();
 		for (BaseSubscription<?> subscription : subscriptions ) {
-			actions.addAll(actionManger.getAllActionBySubscription(subscription));
+			actions.addAll(actionManager.getAllActionBySubscription(subscription));
 			freshLastReadTime(subscription);
 		}
 		return actions;
+	}
+
+	@Override
+	public Integer countActionsByUid(long uid) {
+		// TODO Auto-generated method stub
+		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
+		Integer count = 0;
+		for (BaseSubscription<?> subscription : subscriptions ) {
+			count += actionManager.countActionBySubscription(subscription);
+		}
+		return count;
+	}
+
+	@Override
+	public boolean freshLastReadTime(long uid) {
+		// TODO Auto-generated method stub
+		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
+		for(BaseSubscription<?> subscription : subscriptions) {
+			freshLastReadTime(subscription);
+		}
+		return true;
 	}
 
 }

@@ -61,5 +61,6 @@ public class PostTrendNotice extends BaseNotice {
 		this.postId = action.getTargetPost().getId();
 		this.pubTime = action.getPubTime();
 		this.topicId = action.getTopic().getId();
+		this.setTrendNoticeType(TrendNoticeType.PostTrendNotice);
 	}
 }

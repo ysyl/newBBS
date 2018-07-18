@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.subscription.DAO.SubscriptionDAO;
 import bbs.subscriptionsystem.subscription.entity.ForumSubscription;
 import bbs.subscriptionsystem.subscription.entity.PostSubscription;
@@ -16,9 +17,9 @@ import bbs.subscriptionsystem.subscription.provider.SubscriptionProvider;
 
 @Component("mySubscriptionManager")
 public class SubscriptionManager {
-	
+
 	private SubscriptionDAO subscriptionDAO;
-	
+
 	private List<? extends SubscriptionProvider<?>> providers;
 
 	public SubscriptionDAO getSubscriptionDAO() {
@@ -40,30 +41,53 @@ public class SubscriptionManager {
 	}
 
 	public void subscribeTopic(long uid, long topicId) {
-		subscriptionDAO.saveTopicSubscription(uid, topicId);
+		if (!subscriptionDAO.hasTopicSubscription(uid, topicId))
+			subscriptionDAO.saveTopicSubscription(uid, topicId);
 	}
-	
+
 	public void subscribePost(long uid, long postId) {
-		subscriptionDAO.savePostSubscription(uid, postId);
+		if (!subscriptionDAO.hasPostSubscription(uid, postId))
+			subscriptionDAO.savePostSubscription(uid, postId);
 	}
-	
+
 	public void subscribeUserTrend(long uid, long followingId) {
-		subscriptionDAO.saveUserSubscription(uid, followingId);
+		if (!subscriptionDAO.hasFollowingSubscription(uid, followingId))
+			subscriptionDAO.saveUserSubscription(uid, followingId);
 	}
 
 	public void subscribeForum(long uid, int forumId) {
-		subscriptionDAO.saveForumSubscription(uid, forumId);
+		if (!subscriptionDAO.hasForumSubscription(uid, forumId))
+			subscriptionDAO.saveForumSubscription(uid, forumId);
 	}
-	
+
+	public void unsubscribeForum(long uid, int forumId) {
+		subscriptionDAO.removeForumSubscription(uid, forumId);
+	}
+
+	public void unsubscribePost(long uid, long postId) {
+		subscriptionDAO.removePostSubscription(uid, postId);
+	}
+
+	public void unsubscribeTopic(long uid, long topicId) {
+		subscriptionDAO.removeTopicSubscription(uid, topicId);
+	}
+
+	public void unsubscribeUser(long uid, long followingId) {
+		subscriptionDAO.removeUserSubscription(uid, followingId);
+	}
+
 	public List<? extends BaseSubscription<?>> getSubscriptions(long uid) {
 		List<? extends BaseSubscription<?>> subscriptions = subscriptionDAO.getAllSubscription(uid);
 		return subscriptions;
 	}
-	
+
 	public List<BaseSubscription<?>> getAllSubscriptions(long uid) {
 		List<BaseSubscription<?>> subscriptions = new ArrayList<>();
+		MyLogger.info("\n\n\n providers size " + providers.size());
 		for (SubscriptionProvider<?> provider : providers) {
-			List<? extends BaseSubscription<?>> tempSubscriptions = (List<BaseSubscription<?>>) provider.getSubscriptionByUid(uid);
+			MyLogger.info("provider class name " + provider.getClass().getSimpleName());
+			List<? extends BaseSubscription<?>> tempSubscriptions = (List<BaseSubscription<?>>) provider
+					.getSubscriptionByUid(uid);
 			subscriptions.addAll(tempSubscriptions);
 		}
 		return subscriptions;

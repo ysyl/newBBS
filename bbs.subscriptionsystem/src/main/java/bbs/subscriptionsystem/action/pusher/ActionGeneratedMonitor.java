@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.enuma.UserTrendActionTargetType;
 import bbs.subscriptionsystem.enuma.UserTrendActionType;
 
@@ -37,8 +38,8 @@ public class ActionGeneratedMonitor {
 	private void topicTrendActionGenerated(long uid, long topicId, long replyId) {}
 	
 	@Pointcut("execution(* bbs.subscriptionsystem.action.manager.ActionManager.addPostTrendAction(..))"
-			+ "&& args(uid, postId, replyPostId)")
-	private void postTrendActionGenerated(long uid, long postId, long replyPostId) {}
+			+ "&& args(uid, topicId, postId, replyPostId)")
+	private void postTrendActionGenerated(long uid, long topicId, long postId, long replyPostId) {}
 	
 	@Pointcut("execution(* bbs.subscriptionsystem.action.manager.ActionManager.addForumTrendAction(..))"
 			+ "&& args(managerId, forumId, announceId)")
@@ -53,16 +54,19 @@ public class ActionGeneratedMonitor {
 	
 	@AfterReturning( pointcut="topicTrendActionGenerated(uid, topicId, replyId)", returning="topicTrendActionId")
 	public void pushTopicTrendAction(long uid, long topicId, long replyId, long topicTrendActionId) {
+		MyLogger.info("监控到topic trend发布");
 		actionPusher.pushTopicTrendAction(topicTrendActionId);
 	}
 	
-	@AfterReturning( pointcut="postTrendActionGenerated(uid, postId, replyPostId)", returning="postTrendActionId")
-	public void pushPostTrendAction(long uid, long postId, long replyPostId, long postTrendActionId) {
+	@AfterReturning( pointcut="postTrendActionGenerated(uid, topicId, postId, replyPostId)", returning="postTrendActionId")
+	public void pushPostTrendAction(long uid, long topicId ,long postId, long replyPostId, long postTrendActionId) {
+		MyLogger.info("监控到post trend发布");
 		actionPusher.pushPostTrendAction(postTrendActionId);
 	}
 	
 	@AfterReturning( pointcut="forumTrendActionGenerated(managerId, forumId, announceId)", returning="forumTrendActionId")
 	public void pushForumTrendAction(long managerId, long forumId, long announceId, long forumTrendActionId) {
+		MyLogger.info("监控到forum trend发布");
 		actionPusher.pushForumTrendAction(forumTrendActionId);
 	}
 	

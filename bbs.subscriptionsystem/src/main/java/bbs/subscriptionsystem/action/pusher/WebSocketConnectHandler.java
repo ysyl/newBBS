@@ -7,6 +7,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import bbs.helper.service.HelperService;
+import bbs.helper.utils.MyLogger;
 
 @Component
 public class WebSocketConnectHandler implements ApplicationListener<SessionConnectedEvent> {
@@ -27,7 +28,7 @@ public class WebSocketConnectHandler implements ApplicationListener<SessionConne
 	public void onApplicationEvent(SessionConnectedEvent event) {
 		// TODO Auto-generated method stub
 		String username = event.getUser().getName();
-		System.out.println("\n\n\n建立连接, 创建相应的subscriptionMatcher\n\n");
+		MyLogger.info("\n\n\n建立连接, 创建相应的subscriptionMatcher\n\n");
 		subscriptionMatcherHolder.put(username, matcherFactory.createSubscriptionMatcher(username));
 	}
 

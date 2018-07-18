@@ -31,6 +31,8 @@ import bbs.forum.service.BBSService;
 import bbs.forum.serviceImp.BBSServiceImp;
 import bbs.helper.PageParam;
 import bbs.subscriptionsystem.service.SubscribedActionService;
+import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
+import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 import bbs.usercenter.exception.RepetitiveCollectException;
 import bbs.usercenter.service.UserCenterService;
 import bbs.subscriptionsystem.action.entity.BaseAction;
@@ -54,6 +56,8 @@ import bbs.subscriptionsystem.enuma.UserTrendActionType;
 //	}
 //}
 
+@Transactional
+@Rollback
 public class SubscriptionSystemTest extends BaseTest{  
 	
 	@Autowired
@@ -64,6 +68,9 @@ public class SubscriptionSystemTest extends BaseTest{
 	
 	@Autowired
 	SubscribedActionService subService;
+	
+	@Autowired
+	SubscriptionManager subManager;
 	
 	
 	private static final Logger logger = Logger.getLogger(SubscriptionSystemTest.class.getName());
@@ -91,7 +98,7 @@ public class SubscriptionSystemTest extends BaseTest{
 		}
 		return forms;
 	}
-	@Test
+	//@Test
 	public void testActionGenerator() {
 		//测试动作产生与存储是否正常
 		//选取要发布回复的帖子和发表回复的用户
@@ -178,7 +185,7 @@ public class SubscriptionSystemTest extends BaseTest{
 	private List<Long> pubRandomPost(long uid, long topicId, int amount) {
 		return this.pubRandomPost(uid, topicId, null, amount);
 	}
-	@Test
+	//@Test
 	public void testTopicSubscriptionGenerate() throws InterruptedException, RepetitiveCollectException {
 	
 		logger.info("\n\n测试订阅的产生和使用\n\n");
@@ -198,7 +205,6 @@ public class SubscriptionSystemTest extends BaseTest{
 		logger.info("订阅主题");
 		userCenterService.collectTopic(user.getId(), luckTopic.getId());
 		logger.info("订阅主题后再次发布回复");
-		Thread.sleep(500);
 		pubRandomPost(afterMan.getId(), luckTopic.getId(), 10);
 		
 		//每次获取action，都应该刷新对应订阅的lastReadTime
@@ -227,6 +233,14 @@ public class SubscriptionSystemTest extends BaseTest{
 		assertEquals(1, newActions.size());
 		assertEquals(afterMan.getId(), ((TopicTrendAction)newAction).getReplier().getId());
 		
+		logger.info("取消订阅");
+		userCenterService.uncollectTopic(user.getId(), luckTopic.getId());
+		logger.info("取消订阅主题后再次发布回复");
+		pubRandomPost(afterMan.getId(), luckTopic.getId(), 10);
+		logger.info("获取所有动作");
+		List<BaseAction> subscribedAction2 =  subService.getAllActionByUid(user.getId());
+		assertEquals(0, subscribedAction2.size());
+		
 		logger.info("测试结束");
 
 	}
@@ -237,13 +251,22 @@ public class SubscriptionSystemTest extends BaseTest{
 		//选取某个用户，发布post，通过aop订阅这个post
 		logger.info("测试postTrendAction订阅开始");
 		User user = bbsService.getUser(1L);
+		//确定这个用户没用订阅topic
+		List<BaseSubscription<?>> subs = subManager.getAllSubscriptions(user.getId());
+		assertEquals(0, subs.size());
 		Topic luckTopic = bbsService.getTopic(2L);
+		logger.info("\n\n\nfinal test\n\n");
 		List<Long> postIdList = pubRandomPost(user.getId(), luckTopic.getId(), 1);
+		subs = subManager.getAllSubscriptions(user.getId());
+		for (BaseSubscription<?> sub : subs) {
+			logger.info("subscriptionId: "+sub.getId());
+		}
+		assertEquals(1, subs.size());
 		
-		System.out.println("发完第一个帖子");
+		logger.info("发完第一个帖子");
 		//选择某个用户，对user发送的第一个回复进行三次回复
 		User replier = bbsService.getUser(2L);
-		int replyAmount = (int) Math.random() * 10;
+		int replyAmount = 3;
 		this.pubRandomPost(replier.getId(), luckTopic.getId(), postIdList.get(0), replyAmount);
 		
 		//获取所有replier产生的回复通知
@@ -262,11 +285,15 @@ public class SubscriptionSystemTest extends BaseTest{
 		logger.info("2L用户发送5个回复");
 		List<Long> postIds = this.pubRandomPost(replier.getId(), luckTopic.getId(), 5);
 		List<Long> repostIds = new ArrayList<>();
+		//1L对这五个回复分别回复一次
 		for (Long postId : postIds) {
 			repostIds.addAll(this.pubRandomPost(user.getId(), luckTopic.getId(), postId, 1));
 		}
 		logger.info("获取通知");
 		List<BaseAction> totalPostTrendActions = subService.getAllActionByUid(replier.getId());
+		for (BaseAction action : totalPostTrendActions ) {
+			logger.info(action.getId().toString());
+		}
 		assertEquals(5, totalPostTrendActions.size());
 		for (int i = 0; i < postIds.size(); i++) {
 			logger.info("对比action中的targetid");
@@ -281,8 +308,21 @@ public class SubscriptionSystemTest extends BaseTest{
 		
 		logger.info("测试订阅的刷新最近阅读时间功能，3L用户再次对5个回复中的第一个进行回复，获取通知，数量应该为1");
 		this.pubRandomPost(3L, luckTopic.getId(), repostIds.get(0), 1);
+		this.pubRandomPost(3L, luckTopic.getId(), repostIds.get(0), 1);
 		List<BaseAction> newAction = subService.getAllActionByUid(user.getId());
-		assertEquals(1, newAction.size());
+		assertEquals(2, newAction.size());
+	}
+	
+	//@Test
+	public void testCount() throws RepetitiveCollectException {
+		logger.info("测试count： 选取用户和帖子，随机发帖1个");
+		User verrickt = bbsService.getUser(1L);
+		Topic topic = bbsService.getTopic(1L);
+		userCenterService.collectTopic(verrickt.getId(), topic.getId());
+		logger.info("随机插入以测试count");
+		this.pubRandomPost(verrickt.getId(), topic.getId(), 1);
+		Integer count = subService.countActionsByUid(verrickt.getId());
+		logger.info("测试count结束");
 	}
 	
 	private List<PubAnnounceForm> randomGeneratedAnnounceForm(long managerId, int forumId, int amount) {
@@ -317,7 +357,7 @@ public class SubscriptionSystemTest extends BaseTest{
 	}
 	
 	//测试订阅论坛之后，获取论坛公告通知功能
-	@Test
+	//@Test
 	public void testAnnounce() {
 		logger.info("测试订阅论坛之后，获取论坛公告通知功能");
 		User manager = bbsService.getUser(1L);
@@ -341,6 +381,7 @@ public class SubscriptionSystemTest extends BaseTest{
 				assertEquals(manager.getId(), forumTrendAction.getPublisher().getId());
 			}
 		}
+		logger.info("测试公告结束");
 	}
 	
 	//非法参数输入测试

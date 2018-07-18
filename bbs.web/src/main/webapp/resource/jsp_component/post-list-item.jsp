@@ -10,6 +10,7 @@
 			<img class="user_avatar" src="<c:url value="/resource/upload/img/${post.author.avatar }" />" alt="user_avatar" />
 			<div class="caption">
 				<a href="<c:url value="/user/${post.author.id }" />"><h4>${post.author.nickname }</h4></a>
+				<a href="#"><span data-user-id="${post.author.id }" class="glyphicon glyphicon-heart  follow-btn" ></span></a>
 				<div class="user-info container-fluent clearfix">
 					<div class="user-info-component col-md-4">
 						<p>${post.author.topicAmount }</p>

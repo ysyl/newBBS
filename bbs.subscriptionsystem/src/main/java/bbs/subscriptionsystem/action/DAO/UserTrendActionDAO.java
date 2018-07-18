@@ -91,13 +91,18 @@ public class UserTrendActionDAO {
 
 	public List<UserTrendAction<?>> selectAllByUidAfterLasterReadTime(Long uid, Date lastReadTime) {
 		// TODO Auto-generated method stub
-		List<UserTrendAction<?>> actions = mapper.selectAllUidAndTypeAfterLastReadTime(uid, lastReadTime, null, null);
+		List<UserTrendAction<?>> actions = mapper.selectAllUidAfterLastReadTime(uid, lastReadTime, null, null);
 		return actions;
 	}
 
 	public UserTrendAction<?> selectById(long actionId) {
 		// TODO Auto-generated method stub
 		return mapper.selectUserTrendActionById(actionId);
+	}
+
+	public Integer countByUidAfterLastReadTime(Long uid, Date lastReadTime) {
+		// TODO Auto-generated method stub
+		return mapper.countUidAfterLastReadTime(uid, lastReadTime);
 	}
 
 }

@@ -16,17 +16,46 @@
 			this.bbsPostForm = bbsPostForm;
 			this.collectBtn = this.postListItem.find(".collect-btn");
 			this.replyBtn = this.postListItem.find(".reply-btn");
+			this.followBtn = this.postListItem.find(".follow-btn");
 			
-			this.bindCollectEventToBtn(this.collectBtn);
-			this.bindReplyEventToBtn(this.replyBtn);
+			this.bindCollectEventToBtn();
+			this.bindReplyEventToBtn();
+			this.bindFollowEventToBtn();
+			
+			this.isCollected = false;
+			this.isFollowed = false;
 		}
 		
-		bindCollectEventToBtn(collectBtn) {
-			collectBtn.click(this.collect.bind(this));
+		setCollected(isCollected) {
+			this.isCollected = isCollected;
+			if (isCollected){
+				$(this.collectBtn).addClass("collected");
+			}
+			else {
+				$(this.collectBtn).removeClass("collected");
+			}
 		}
 		
-		bindReplyEventToBtn(replyBtn) {
-			replyBtn.click(this.reply.bind(this));
+		setFollowed(isFollowed) {
+			this.isFollowed = isFollowed;
+			if (isFollowed) {
+				$(this.followBtn).addClass("followed");
+			}
+			else {
+				$(this.followBtn).removeClass("followed");
+			}
+		}
+		
+		bindCollectEventToBtn() {
+			this.collectBtn.click(this.collect.bind(this));
+		}
+		
+		bindReplyEventToBtn() {
+			this.replyBtn.click(this.reply.bind(this));
+		}
+		
+		bindFollowEventToBtn() {
+			this.followBtn.click(this.follow.bind(this));
 		}
 		
 		reply(e) {
@@ -37,9 +66,8 @@
 		
 		collect(e) {
 			let postId = $(e.target).data("post-id");
-			let isCollected = $(this.collectBtn).hasClass("collected");
 			let method = "";
-			if (!isCollected) {
+			if (!this.isCollected) {
 				method = "post";
 			}
 			else {
@@ -52,10 +80,10 @@
 				success() {
 					switch(method){
 					case "post":
-						self.activeCollect();
+						self.setCollected(true);
 						break;
 					case "delete":
-						self.unactiveCollect();
+						self.setCollected(false);
 						break;
 					default:break;
 					}
@@ -63,12 +91,31 @@
 			});
 		}
 		
-		activeCollect() {
-			this.collectBtn.addClass("collected");
-		}
-		
-		unactiveCollect() {
-			this.collectBtn.removeClass("collected");
+		follow(e) {
+			let followingId = $(e.target).data("user-id");
+			let method = "";
+			if (!this.isFollowed) {
+				method = "post";
+			}
+			else {
+				method = "delete";
+			}
+			let self = this;
+			$.ajax({
+				type: method,
+				url : followUserUrl + followingId,
+				success() {
+					switch(method) {
+					case "post":
+						self.setFollowed(true);
+						break;
+					case "delete":
+						self.setFollowed(false);
+						break;
+					default:break;
+					}
+				}
+			})
 		}
 		
 	}

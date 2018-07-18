@@ -66,6 +66,22 @@ public class SubscriptionDAO {
 		entity.setUserId(uid);
 		mapper.insertSelective(entity);
 	}
+	public boolean hasTopicSubscription(long uid, long topicId) {
+		boolean hasSubscription = mapper.countSubscriptionByUidAndTargetIdAndType(uid, topicId, SubscriptionType.TOPIC) != 0;
+		return hasSubscription;
+	}
+	public boolean hasForumSubscription(long uid, int forumId) {
+		boolean hasSubscription = mapper.countSubscriptionByUidAndTargetIdAndType(uid, forumId, SubscriptionType.FORUM) != 0;
+		return hasSubscription;
+	}
+	public boolean hasFollowingSubscription(long uid, long followingId) {
+		boolean hasSubscription = mapper.countSubscriptionByUidAndTargetIdAndType(uid, followingId, SubscriptionType.FOLLOW) != 0;
+		return hasSubscription;
+	}
+	public boolean hasPostSubscription(long uid, long postId) {
+		boolean hasSubscription = mapper.countSubscriptionByUidAndTargetIdAndType(uid, postId, SubscriptionType.POST) != 0;
+		return hasSubscription;
+	}
 
 	public List<? extends BaseSubscription<?>> getAllSubscription(long uid) {
 		// TODO Auto-generated method stub
@@ -94,6 +110,23 @@ public class SubscriptionDAO {
 		entity.setId(id);
 		entity.setLastReadTime(new Date());
 		mapper.updateByPrimaryKeySelective(entity);
+	}
+
+	public void removeForumSubscription(long uid, long targetId) {
+		// TODO Auto-generated method stub
+		mapper.deleteByUidAndTargetId(uid, targetId, SubscriptionType.FORUM);
+	}
+	public void removeTopicSubscription(long uid, long targetId) {
+		// TODO Auto-generated method stub
+		mapper.deleteByUidAndTargetId(uid, targetId, SubscriptionType.TOPIC);
+	}
+	public void removePostSubscription(long uid, long targetId) {
+		// TODO Auto-generated method stub
+		mapper.deleteByUidAndTargetId(uid, targetId, SubscriptionType.POST);
+	}
+	public void removeUserSubscription(long uid, long targetId) {
+		// TODO Auto-generated method stub
+		mapper.deleteByUidAndTargetId(uid, targetId, SubscriptionType.USER);
 	}
 	
 }

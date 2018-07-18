@@ -15,6 +15,8 @@ import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
+import bbs.helper.utils.MyLogger;
+
 public class TestChannelIntercepter extends ChannelInterceptorAdapter {
 	
 	private final BlockingQueue<Message<?>> messages = new ArrayBlockingQueue<>(100);
@@ -35,7 +37,7 @@ public class TestChannelIntercepter extends ChannelInterceptorAdapter {
 	public Message<?> preSend(Message<?> message, MessageChannel channel) {
 		// TODO Auto-generated method stub
 		String mes = new String((byte[]) message.getPayload(), Charset.forName("utf-8"));
-		System.out.println("\nintercepter presend :" + mes);
+		MyLogger.info("\nintercepter presend :" + mes);
 		if (this.destinationPatterns.isEmpty()) {
 			this.messages.add(message);
 		}

@@ -43,4 +43,13 @@ public class ForumTrendActionProvider implements ActionProvider {
 		return subscriptionClass.isAssignableFrom(ForumSubscription.class);
 	}
 
+	@Override
+	public Integer getActionCountBySubscription(BaseSubscription<?> subscription) {
+		// TODO Auto-generated method stub
+		if (!support((Class<? extends BaseSubscription<?>>) subscription.getClass())) throw new IllegalArgumentException();
+		ForumSubscription forumSubscription = (ForumSubscription) subscription;
+		Integer count = forumTrendActionDAO.countByForumSubscription(forumSubscription);
+		return count;
+	}
+
 }

@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( locations= {"classpath:subscriptionsystemappcontext.xml"})
-@Transactional
-@Rollback
 @ActiveProfiles("dev")
 public class BaseTest {
 

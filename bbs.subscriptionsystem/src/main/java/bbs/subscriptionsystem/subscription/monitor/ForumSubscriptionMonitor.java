@@ -7,28 +7,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import bbs.subscriptionsystem.subscription.DAO.SubscriptionDAO;
+import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 
 @Component
 @Aspect
 public class ForumSubscriptionMonitor {
 	
-	private SubscriptionDAO subscriptionDAO;
-	
-	public SubscriptionDAO getSubscriptionDAO() {
-		return subscriptionDAO;
-	}
+	private SubscriptionManager subManager;
 
 	@Autowired
-	public void setSubscriptionDAO(SubscriptionDAO subscriptionDAO) {
-		this.subscriptionDAO = subscriptionDAO;
+	public ForumSubscriptionMonitor(SubscriptionManager subManager) {
+		super();
+		this.subManager = subManager;
 	}
 
 	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.collectForum(..))"
 			+ " && args(uid, forumId)")
 	private void collectForum(long uid, int forumId) {}
+	
+	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.uncollectForum(..))"
+			+ " && args(uid, forumId)")
+	private void uncollectForum(long uid, int forumId) {}
 
 	@AfterReturning("collectForum(uid, forumId)")
 	public void monitorCollectForum(long uid, int forumId) {
-		subscriptionDAO.saveForumSubscription(uid, forumId);
+		subManager.subscribeForum(uid, forumId);
+	}
+	
+	@AfterReturning("uncollectForum(uid, forumId)")
+	public void monitorUncollectForum(long uid, int forumId) {
+		subManager.unsubscribeForum(uid, forumId);
 	}
 }

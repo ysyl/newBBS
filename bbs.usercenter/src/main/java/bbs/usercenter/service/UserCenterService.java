@@ -40,8 +40,6 @@ public interface UserCenterService {
 	List<PostCollection> getAllPostCollectionByUserId(long uid);
 	
 	List<PostCollection> getAllPostCollectionByUserId(long uid, PageParam pageParam);
-	
-	void removeCollection(long collectionId);
 
 	UserProfile getUserProfile(long uid);
 

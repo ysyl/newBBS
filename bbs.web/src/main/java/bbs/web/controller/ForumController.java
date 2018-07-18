@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import bbs.forum.form.PubPostForm;
 import bbs.forum.service.BBSService;
 import bbs.helper.PageParam;
 import bbs.helper.service.HelperService;
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.entity.BaseAction;
 import bbs.subscriptionsystem.notice.entity.BaseNotice;
 import bbs.subscriptionsystem.notice.service.NoticeService;
@@ -29,9 +31,10 @@ import bbs.subscriptionsystem.notice.utils.NoticeBuilder;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.service.UserCenterService;
 import bbs.usercenter.util.CollectMatcher;
+import bbs.web.listener.NoticeInitializer;
 
 @Controller
-public class LoginHandlerController {
+public class ForumController {
 	
 	private BBSService bbsService;
 	
@@ -60,7 +63,7 @@ public class LoginHandlerController {
 //	
 
 	@Autowired
-	public LoginHandlerController(BBSService bbsService, SubscribedActionService subService,
+	public ForumController(BBSService bbsService, SubscribedActionService subService,
 			HelperService helperService, UserCenterService userCenterService, CollectMatcher collectMatcher,
 			NoticeService noticeService) {
 		super();
@@ -74,13 +77,10 @@ public class LoginHandlerController {
 
 
 	@GetMapping("/")
-	public String index(Model model) {
+	public String index(HttpSession session, Model model) {
 		Long uid = helperService.getCurrentUserId();
 		List<Forum> forums = bbsService.getAllForums(); 
-		List<BaseAction> actions = subService.getAllActionByUid(uid);
 		model.addAttribute("forums", forums);
-		model.addAttribute("actions", actions);
-		System.out.println("\n\n\n: " + actions.size());
 		return "index";
 	}
 	
@@ -107,17 +107,12 @@ public class LoginHandlerController {
 		List<Post> posts = bbsService.getPostList(topicId, pageParam);
 		Map<Post, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(posts, uid);
 		Boolean isTopicCollected = collectMatcher.checkTopicIsCollected(topicId);
-		//获取通知
-		List<BaseNotice> notices = noticeService.getAllNoticeByUid(uid);
-		Map<String, List<BaseNotice>> noticeMap = new HashMap<>();
-		noticeMap.put("trend", notices);
 		
 		model.addAttribute("topic", topic);
 		model.addAttribute("posts", posts);
 		model.addAttribute("postMap", postCollectStatus);
 		model.addAttribute("collectMatcher", collectMatcher);
 		model.addAttribute("isTopicCollected", isTopicCollected);
-		model.addAttribute("noticeMap", noticeMap);
 		return "topic";
 	}
 	
@@ -137,7 +132,7 @@ public class LoginHandlerController {
 		//temp
 		PageParam pageParam = new PageParam(0, 20);
 		List<Topic> topics = bbsService.getTopicListByUid(userId, pageParam);
-		System.out.println(topics.size() + " \n\n\n");
+		MyLogger.info(topics.size() + " \n\n\n");
 		model.addAttribute("user", user);
 		model.addAttribute("topics", topics);
 		return "usercenter";

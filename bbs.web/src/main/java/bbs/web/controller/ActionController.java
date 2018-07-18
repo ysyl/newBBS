@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bbs.subscriptionsystem.service.SubscribedActionService;
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.entity.BaseAction;
 
 @Controller
@@ -27,7 +28,7 @@ public class ActionController {
 	@GetMapping("/test")
 	@ResponseBody
 	public List<BaseAction> getAllAction(@RequestParam("userId") long uid) {
-		System.out.println("\n\n测试action控制器123124");
+		MyLogger.info("\n\n测试action控制器123124");
 		return subService.getAllActionByUid(uid);   
 	}
 }

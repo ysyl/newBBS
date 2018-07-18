@@ -36,6 +36,7 @@
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<%@ include file="/resource/jsp_component/common-script.jsp" %>
 </head>
 <body>
 	<%@ include file="/resource/jsp_component/topbar.jsp"%>
@@ -89,13 +90,6 @@
 	</div>
 
 
-	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-	<script
-		src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="<c:url value="/resource/js/forum.js" />"></script>
-	<script src="<c:url value="/resource/jsp_component/topbar.js" />"></script>
 	   <script type="text/javascript">
     $(document).ready(function() {
         var editor = editormd("editormd", {
@@ -103,8 +97,9 @@
             width : "100%",
             height: 500,
             emoji: true,
-            markdown: "请在此处输入内容",
+            placeholder: "请在此处输入内容",
             saveHTMLToTextarea: true,
+            autoFocus: false,
         });
 
         /*
@@ -117,6 +112,5 @@
     });
     let collectPostUrl = "<c:url value="/collect/post/" />";
 </script>
-	<script src="<c:url value="/resource/editor.md-master/editormd.min.js" />"></script>
 </body>
 </html>

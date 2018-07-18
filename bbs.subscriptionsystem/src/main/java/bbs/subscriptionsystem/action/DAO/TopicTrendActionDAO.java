@@ -57,5 +57,14 @@ public class TopicTrendActionDAO {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public Integer CountBySubscription(TopicSubscription subscription) {
+		// TODO Auto-generated method stub
+		long topicId = subscription.getTarget().getId();
+		Date lastReadTime = subscription.getLastReadTime();
+		Integer count = topicTrendActionMapper.countByTopicIdAfterLastReadTime(topicId, lastReadTime);
+
+		return count;
+	}
 	
 }

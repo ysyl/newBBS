@@ -66,9 +66,6 @@ public class CollectionDAO {
 		tCollectionMapper.insertSelective(tCollection);
 	}
 	
-	public List<FollowingCollection> getAllFollowingCollection(long uid) {
-		return null;
-	}
 
 	public List<ForumCollection> getAllForumCollectionsByUserId(long uid, PageParam pageParam) {
 		// TODO Auto-generated method stub
@@ -94,21 +91,21 @@ public class CollectionDAO {
 
 	public void removePostCollection(Long uid, long postId) {
 		// TODO Auto-generated method stub
-		tCollectionMapper.deleteByUidAndTargetId(uid, postId);
+		tCollectionMapper.deleteByUidAndTargetId(uid, postId, CollectionType.POST);
 	}
 
 	public void removeTopicCollection(long uid, long topicId) {
 		// TODO Auto-generated method stub
-		tCollectionMapper.deleteByUidAndTargetId(uid, topicId);
+		tCollectionMapper.deleteByUidAndTargetId(uid, topicId, CollectionType.TOPIC);
 	}
 
 	public void removeForumCollection(long uid, int forumId) {
 		// TODO Auto-generated method stub
-		tCollectionMapper.deleteByUidAndTargetId(uid, forumId);
+		tCollectionMapper.deleteByUidAndTargetId(uid, forumId, CollectionType.FORUM);
 	}
 
 	public void removeFollowingCollection(long uid, long followingId) {
 		// TODO Auto-generated method stub
-		tCollectionMapper.deleteByUidAndTargetId(uid, followingId);
+		tCollectionMapper.deleteByUidAndTargetId(uid, followingId, CollectionType.FOLLOWING);
 	}
 }

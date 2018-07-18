@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:set var="TopicTrendNotice"
 	value="<%=bbs.subscriptionsystem.notice.entity.TopicTrendNotice.class%>" />
@@ -33,7 +34,7 @@
 				<li><a href="#">积分商城</a></li>
 				<li><a href="#">交易区</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" id="">通知<span id="new-notice-remind"></span><span class="caret"></span></a>
+					data-toggle="dropdown" id="notice-panel-toggle">通知<span class="badge" id="new-notice-remind"></span><span class="caret"></span></a>
 					<ul class="dropdown-menu notice-menu" id="notice-menu">
 						<ul class="nav nav-pills">
 							<li><a href="#trend" data-toggle="pill">动态</a></li>
@@ -42,9 +43,9 @@
 						</ul>
 						<div class="tab-content" id="notice-menu-content">
 							<div class="tab-panel active" id="trend">
-							<c:forEach var = "trendNotice" items="${noticeMap.get('trend') }">
-						      <%@ include file="/resource/jsp_component/notice-list-item.jsp" %>	
-							</c:forEach>
+<%-- 							<c:forEach var = "trendNotice" items="${noticeMap.get('trend') }"> --%>
+<%-- 						      <%@ include file="/resource/jsp_component/notice-list-item.jsp" %>	 --%>
+<%-- 							</c:forEach> --%>
 							</div>
 							<div class="tab-panel" id="friend"></div>
 							<div class="tab-panel" id="focus"></div>   
@@ -80,7 +81,3 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
-<script>
-let subscribeTrendNoticeUrl = "/user/" + "<sec:authentication property="name" />" + "/topic/notice";
-let connectUrl = "<c:url value="/stomp" />";
-</script>

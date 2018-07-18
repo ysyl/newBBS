@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import bbs.helper.utils.MyLogger;
 import bbs.web.constant.Constant;
 
 @Component
@@ -32,7 +33,7 @@ public class ImgTransformUtils {
 		String extName = originalName.substring(originalName.lastIndexOf('.'));
 		String newFileName = newFileUUID + extName;
 		String realFilePath = this.getAbsoluteUrl(req, newFileName);
-		System.out.println("realFilePath: \n\n\n" + realFilePath);
+		MyLogger.info("realFilePath: \n\n\n" + realFilePath);
 		File realFile = new File(realFilePath);
 		AvatarGeneratorResult result = new AvatarGeneratorResult(newFileName, realFile);
 		return result;

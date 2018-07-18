@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import bbs.subscriptionsystem.action.entity.ForumTrendAction;
 import bbs.subscriptionsystem.entity.TForumTrendAction;
 import bbs.subscriptionsystem.mapper.TForumTrendActionMapper;
+import bbs.subscriptionsystem.subscription.entity.ForumSubscription;
 
 @Repository
 public class ForumTrendActionDAO {
@@ -44,6 +45,13 @@ public class ForumTrendActionDAO {
 	public ForumTrendAction selectById(long actionId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Integer countByForumSubscription(ForumSubscription forumSubscription) {
+		// TODO Auto-generated method stub
+		Integer forumId = forumSubscription.getTarget().getId();
+		Date lastReadTime = forumSubscription.getLastReadTime();
+		return tForumTrendActionMapper.countByForumIdAfterLastReadTime(forumId, lastReadTime);
 	}
 
 }

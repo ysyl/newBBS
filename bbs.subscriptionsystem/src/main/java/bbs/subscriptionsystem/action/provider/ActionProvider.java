@@ -8,6 +8,8 @@ import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
 public interface ActionProvider {
 
 	List<? extends BaseAction> getAllActionBySubscription(BaseSubscription<?> subscription);
+	
+	Integer getActionCountBySubscription(BaseSubscription<?> subscription);
 
 	boolean support(Class<? extends BaseSubscription<?>> subscriptionClass);
 }

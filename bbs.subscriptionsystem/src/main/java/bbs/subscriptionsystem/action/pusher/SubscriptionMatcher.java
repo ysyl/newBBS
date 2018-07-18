@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.entity.BaseAction;
 import bbs.subscriptionsystem.action.entity.ForumTrendAction;
 import bbs.subscriptionsystem.action.entity.PostTrendAction;
@@ -38,7 +39,13 @@ public class SubscriptionMatcher {
 	}
 	
 	public void freshSubscriptions(List<BaseSubscription<?>> subscriptions) {
+		MyLogger.info("\n\n\n刷新之前的topic订阅情况 ： "+this.topicSubscriptions.size());
+		MyLogger.info("\n\n\n刷新之前的post订阅情况 ： "+this.postSubscriptions.size());
 		this.subscriptions = subscriptions;
+		this.topicSubscriptions.clear();
+		this.forumSubscriptions.clear();
+		this.postSubscriptions.clear();
+		this.followingSubscriptions.clear();
 		for (BaseSubscription<?> subscription : subscriptions) {
 			if (subscription instanceof ForumSubscription) {
 				forumSubscriptions.add((ForumSubscription) subscription);
@@ -53,6 +60,10 @@ public class SubscriptionMatcher {
 				followingSubscriptions.add((FollowingSubscription) subscription);
 			}
 		}
+				MyLogger.info("\n\n\n刷新后的forum订阅情况 ： "+this.forumSubscriptions.size());
+				MyLogger.info("\n\n\n刷新后的topic订阅情况 ： "+this.topicSubscriptions.size());
+				MyLogger.info("\n\n\n刷新后的post订阅情况 ： "+this.postSubscriptions.size());
+				MyLogger.info("\n\n\n刷新后的following订阅情况 ： "+this.followingSubscriptions.size());
 	}
 
 	boolean match(BaseAction action) {
@@ -69,7 +80,7 @@ public class SubscriptionMatcher {
 		else if (action instanceof UserTrendAction) {
 			isMatch = matchUserTrendAction((UserTrendAction<?>)action);
 		}
-		System.out.println(isMatch);
+		MyLogger.info(isMatch);
 		return isMatch;
 	}
 	
@@ -84,25 +95,31 @@ public class SubscriptionMatcher {
 	}
 
 	private boolean matchForumTrendAction(ForumTrendAction action) {
+		boolean isMatch = false;
 		for (ForumSubscription subscription : forumSubscriptions) {
-			return subscription.getTarget().getId().equals(action.getForum().getId());
+			isMatch = subscription.getTarget().getId().equals(action.getForum().getId());
+			if (isMatch) break;
 		}
-		return false;
+		return isMatch;
 	}
 	
 	private boolean matchTopicTrendAction(TopicTrendAction action) {
+		boolean isMatch = false;
 		for (TopicSubscription subscription : topicSubscriptions) {
-			System.out.println(subscription.getTarget().getTitle() + " action : " + action.getTopic().getTitle());
-			return subscription.getTarget().getId().equals(action.getTopic().getId());
+			MyLogger.info(subscription.getTarget().getTitle() + " action : " + action.getTopic().getTitle());
+			isMatch = subscription.getTarget().getId().equals(action.getTopic().getId());
+			if (isMatch) break;
 		}
-		return false;
+		return isMatch;
 	}
 	
 	private boolean matchPostTrendAction(PostTrendAction action) {
+		boolean isMatch = false;
 		for (PostSubscription subscription : postSubscriptions) {
-			return subscription.getTarget().getId().equals(action.getTargetPost().getId());
+			isMatch = subscription.getTarget().getId().equals(action.getTargetPost().getId());
+			if (isMatch) break;
 		}
-		return false;
+		return isMatch;
 		
 	}
 }
