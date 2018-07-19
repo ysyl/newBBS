@@ -1,4 +1,4 @@
-package bbs.helper;
+package bbs.form.utils;
 
 public class PageParam {
 

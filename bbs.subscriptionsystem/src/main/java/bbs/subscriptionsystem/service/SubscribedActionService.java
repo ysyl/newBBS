@@ -3,8 +3,8 @@ package bbs.subscriptionsystem.service;
 import java.util.Date;
 import java.util.List;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.form.PubPostForm;
-import bbs.helper.PageParam;
 import bbs.subscriptionsystem.action.entity.BaseAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;

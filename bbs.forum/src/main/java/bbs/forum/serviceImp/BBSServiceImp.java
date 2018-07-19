@@ -1,11 +1,15 @@
 package bbs.forum.serviceImp;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DAO.AnnounceDAO;
 import bbs.forum.DAO.ForumDAO;
 import bbs.forum.DAO.PostDAO;
@@ -22,8 +26,8 @@ import bbs.forum.form.PubAnnounceForm;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.form.UpdateUserProfileForm;
+import bbs.forum.mapper.TUserPrincipalForumMapper;
 import bbs.forum.service.BBSService;
-import bbs.helper.PageParam;
 
 @Service
 @Transactional
@@ -39,15 +43,18 @@ public class BBSServiceImp implements BBSService {
 	
 	private AnnounceDAO announceDAO;
 	
+	private TUserPrincipalForumMapper upMapper;
+
 	@Autowired
 	public BBSServiceImp(ForumDAO forumDAO, TopicDAO topicDAO, PostDAO postDAO, UserDAO userDAO,
-			AnnounceDAO announceDAO) {
+			AnnounceDAO announceDAO, TUserPrincipalForumMapper upMapper) {
 		super();
 		this.forumDAO = forumDAO;
 		this.topicDAO = topicDAO;
 		this.postDAO = postDAO;
 		this.userDAO = userDAO;
 		this.announceDAO = announceDAO;
+		this.upMapper = upMapper;
 	}
 
 	@Override
@@ -215,5 +222,31 @@ public class BBSServiceImp implements BBSService {
 	public void updateUserProfile(Long uid, UpdateUserProfileForm updateUserProfileForm) {
 		// TODO Auto-generated method stub
 		userDAO.update(uid, updateUserProfileForm);
+	}
+
+	@Override
+	public String getUsername(long uid) {
+		// TODO Auto-generated method stub
+		return upMapper.selectByPrimaryKey(uid).getUsername();
+	}
+
+	@Override
+	public boolean isMyTopic(Long uid, long topicId) {
+		// TODO Auto-generated method stub
+		return topicDAO.isMyTopic(uid, topicId);
+	}
+
+	@Override
+	public boolean isMyPost(Long uid, long postId) {
+		// TODO Auto-generated method stub
+		return postDAO.isMyPost(uid, postId);
+	}
+
+	@Override
+	public Map<Integer, Post> getLastPostInForum() {
+		// TODO Auto-generated method stub
+		Map<Integer, Post> lastPostForumMap = new HashMap<>();
+		lastPostForumMap = postDAO.getLastPostInForum();
+		return lastPostForumMap;
 	}
 }

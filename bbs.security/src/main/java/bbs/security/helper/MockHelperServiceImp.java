@@ -1,14 +1,13 @@
-package bbs.helper.serviceImp;
+package bbs.security.helper;
 
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-
-import bbs.helper.service.HelperService;
 
 @Service
 @Profile("dev")
-public class MockHelperServiceImp implements HelperService {
+public class MockHelperServiceImp implements SecurityHelper {
 
 	@Override
 	public String getCurrentUsername() {
@@ -26,5 +25,6 @@ public class MockHelperServiceImp implements HelperService {
 	private String getMockUsername() {
 		return "verrickt";
 	}
+
 
 }

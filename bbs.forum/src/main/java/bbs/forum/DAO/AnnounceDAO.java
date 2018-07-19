@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Announce;
 import bbs.forum.entity.TAnnounce;
 import bbs.forum.form.PubAnnounceForm;
 import bbs.forum.mapper.TAnnounceMapper;
-import bbs.helper.PageParam;
 
 @Repository
 public class AnnounceDAO {

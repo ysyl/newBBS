@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Post;
 import bbs.forum.DTO.Topic;
 import bbs.forum.form.PubPostForm;
-import bbs.helper.PageParam;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 import bbs.subscriptionsystem.entity.TUserTrendAction;
 import bbs.subscriptionsystem.enuma.UserTrendActionTargetType;

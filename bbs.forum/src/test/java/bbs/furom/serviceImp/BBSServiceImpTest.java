@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Announce;
 import bbs.forum.DTO.Forum;
 import bbs.forum.DTO.Post;
@@ -25,8 +26,6 @@ import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.form.UpdateUserProfileForm;
 import bbs.forum.service.BBSService;
-
-import bbs.helper.PageParam;
 
 @Transactional
 @Rollback

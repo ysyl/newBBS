@@ -1,9 +1,11 @@
 package bbs.forum.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Announce;
 import bbs.forum.DTO.Forum;
 import bbs.forum.DTO.Post;
@@ -15,7 +17,6 @@ import bbs.forum.form.PubAnnounceForm;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.form.UpdateUserProfileForm;
-import bbs.helper.PageParam;
 
 public
 interface BBSService {
@@ -73,5 +74,13 @@ interface BBSService {
 	List<Topic> getTopicListByUid(Long uid, PageParam pageParam);
 
 	List<Announce> getAllAnnounceByForumId(Integer forumId, PageParam pageParam);
+	
+	String getUsername(long uid);
+
+	boolean isMyTopic(Long uid, long topicId);
+
+	boolean isMyPost(Long uid, long postId);
+
+	Map<Integer, Post> getLastPostInForum();
 	
 }

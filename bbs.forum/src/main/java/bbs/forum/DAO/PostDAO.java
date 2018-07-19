@@ -1,17 +1,21 @@
 package bbs.forum.DAO;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Post;
 import bbs.forum.entity.TPost;
 import bbs.forum.form.ModifyPostForm;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.mapper.TPostMapper;
-import bbs.helper.PageParam;
+import bbs.forum.resultentity.LastPostInForumResult;
 
 @Component
 public class PostDAO {
@@ -19,6 +23,18 @@ public class PostDAO {
 	private TPostMapper tPostMapper;
 	
 	public long save(long uid, long topicId, PubPostForm pubPostForm) {
+		Long replyId = pubPostForm.getReplyPostId();
+		String content = pubPostForm.getContent();
+		
+		TPost tPost = new TPost(content, uid, replyId, topicId);
+		tPost.setHtmlContent(pubPostForm.getHtmlContent());
+		
+		tPostMapper.insertSelective(tPost);
+		
+		return tPost.getId();
+	}
+	//切点方法
+	public long save1L(long uid, long topicId, PubPostForm pubPostForm) {
 		Long replyId = pubPostForm.getReplyPostId();
 		String content = pubPostForm.getContent();
 		
@@ -101,5 +117,19 @@ public class PostDAO {
 		tPost.setLastModifiedTime(new Date());
 		tPostMapper.updateByPrimaryKeySelective(tPost);
 		return tPost.getId(); 
+	}
+
+	public boolean isMyPost(Long uid, long postId) {
+		// TODO Auto-generated method stub
+		return tPostMapper.countByUidAndPostId(uid, postId) > 0;
+	}
+	public Map<Integer, Post> getLastPostInForum() {
+		// TODO Auto-generated method stub
+		List<LastPostInForumResult> lastPostInForumList = tPostMapper.selectLastPostByForumId();
+		Map<Integer, Post> resultMap = new HashMap<>();
+		for (LastPostInForumResult result : lastPostInForumList) {
+			resultMap.put(result.getForumId(), result.getPost());
+		}
+		return resultMap;
 	}
 }

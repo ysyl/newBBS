@@ -21,7 +21,7 @@ import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.form.UpdateUserProfileForm;
 import bbs.forum.service.BBSService;
-import bbs.helper.service.HelperService;
+import bbs.security.helper.SecurityHelper;
 import bbs.web.utils.AvatarGeneratorResult;
 import bbs.web.utils.ImgTransformUtils;
 
@@ -31,7 +31,7 @@ public class PostController {
 	
 	private BBSService bbsService;
 	
-	private HelperService helperService;
+	private SecurityHelper helperService;
 	
 	private ImgTransformUtils imgUtils;
 
@@ -57,7 +57,7 @@ public class PostController {
 //	}
 	
 	@Autowired
-	public PostController(BBSService bbsService, HelperService helperService, ImgTransformUtils imgUtils) {
+	public PostController(BBSService bbsService, SecurityHelper helperService, ImgTransformUtils imgUtils) {
 		super();
 		this.bbsService = bbsService;
 		this.helperService = helperService;

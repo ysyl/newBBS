@@ -30,6 +30,10 @@ public class PostSubscriptionMonitor {
 			+ " && args(uid, postId)")
 	public void uncollect(long uid, long postId) {}
 
+	@Pointcut("execution(* bbs.forum.DAO.PostDAO.save1L(..))"
+			+ " && args(uid, topicId, postForm)")
+	public void pub1L(long uid, long topicId, PubPostForm postForm) {}
+
 	@AfterReturning(value = "execution(* bbs.usercenter.service.UserCenterService.collectPost(..))"
 			+ " && args(uid, postId)")
 	public void monitor(long uid, long postId) {
@@ -39,6 +43,11 @@ public class PostSubscriptionMonitor {
 	@AfterReturning( value = "execution(* bbs.forum.service.BBSService.savePost(..))"
 			+ " && args(uid, topicId, postForm)", returning = "pubPostId")
 	public void monitor(long uid, long topicId, PubPostForm postForm, long pubPostId) {
+		subscriptionManager.subscribePost(uid, pubPostId);
+	}
+
+	@AfterReturning( pointcut = "pub1L(uid, topicId, postForm)", returning = "pubPostId")
+	public void monitorPub1L(long uid, long topicId, PubPostForm postForm, long pubPostId) {
 		subscriptionManager.subscribePost(uid, pubPostId);
 	}
 	
@@ -52,5 +61,6 @@ public class PostSubscriptionMonitor {
 	public void monitorUncollect(long uid, long postId) {
 		subscriptionManager.unsubscribePost(uid, postId);
 	}
+	
 
 }

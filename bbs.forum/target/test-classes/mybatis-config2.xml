@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<setting name="lazyLoadingEnabled" value="false"/>
 		<setting name="aggressiveLazyLoading" value="true"/>
 		<setting name="logImpl" value="STDOUT_LOGGING" />
+		<setting name="autoMappingBehavior" value="FULL"/>
 	</settings>
 
     

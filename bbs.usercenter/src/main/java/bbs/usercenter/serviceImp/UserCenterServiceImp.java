@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
-import bbs.helper.PageParam;
+import bbs.form.utils.PageParam;
+import bbs.helper.utils.MyLogger;
 import bbs.usercenter.collection.DAO.CollectionDAO;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
@@ -53,10 +54,11 @@ public class UserCenterServiceImp implements UserCenterService {
 			
 				throw new RepetitiveCollectException("重复收藏一个post");
 		}
+		MyLogger.info("收藏Post id：" + postId);
 	}
 
 	@Override
-	public void follow(long uid, long followingId) {
+	public void collectUser(long uid, long followingId) {
 		// TODO Auto-generated method stub
 		collectionDAO.saveFollowingCollection(uid, followingId);
 	}
@@ -155,7 +157,7 @@ public class UserCenterServiceImp implements UserCenterService {
 	}
 
 	@Override
-	public void unfollow(long uid, long followingId) {
+	public void uncollectUser(long uid, long followingId) {
 		// TODO Auto-generated method stub
 		collectionDAO.removeFollowingCollection(uid, followingId);
 	}

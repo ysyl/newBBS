@@ -1,23 +1,22 @@
-package bbs.helper.serviceImp;
+package bbs.security.helper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import bbs.forum.service.BBSService;
-import bbs.helper.service.HelperService;
 import security.core.serviceImp.UserDetailsServiceImp;
 
 @Service
 @Profile("prod")
-public class HelperServiceImp implements HelperService {
+public class SecurityHelperImp implements SecurityHelper {
 	
 	private UserDetailsServiceImp userDetailsService;
 
 	@Autowired
-	public HelperServiceImp(UserDetailsServiceImp userDetailsService) {
+	public SecurityHelperImp(UserDetailsServiceImp userDetailsService) {
 		super();
 		this.userDetailsService = userDetailsService;
 	}
@@ -34,5 +33,6 @@ public class HelperServiceImp implements HelperService {
 		Long uid = userDetailsService.getUserPrincipalByUsername(getCurrentUsername()).getId();
 		return uid;
 	}
+
 
 }

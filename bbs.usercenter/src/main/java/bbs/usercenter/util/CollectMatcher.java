@@ -15,6 +15,7 @@ import bbs.usercenter.collection.DAO.entity.PostCollection;
 import bbs.usercenter.collection.DAO.entity.TopicCollection;
 import bbs.usercenter.service.UserCenterService;
 
+//应该在登录时初始化
 @Component
 public class CollectMatcher {
 	private UserCenterService userCenterService;
@@ -33,11 +34,11 @@ public class CollectMatcher {
 		this.userCenterService = userCenterService;
 	}
 
-	public Map<Post, Boolean> checkPostCollectStatus(List<Post> postList, long uid) {
-		Map<Post, Boolean> postCollectStatusMap = new HashMap<>();
+	public Map<Long, Boolean> checkPostCollectStatus(List<Post> postList, long uid) {
+		Map<Long, Boolean> postCollectStatusMap = new HashMap<>();
 		for(Post post : postList ) {
 			Boolean isCollected = this.checkPostIsCollected(post);
-			postCollectStatusMap.put(post, isCollected);
+			postCollectStatusMap.put(post.getId(), isCollected);
 		}
 		return postCollectStatusMap;
 	}
@@ -54,6 +55,7 @@ public class CollectMatcher {
 		for( PostCollection postCollection : this.postCollections) {
 			 if(postCollection.getPost().getId().equals(post.getId())) {
 				 result = true;
+				 break;
 			 }
 		}
 		return result;
@@ -64,6 +66,29 @@ public class CollectMatcher {
 		for(TopicCollection topicCollection : this.topicCollections) {
 			if(topicCollection.getTopic().getId().equals(topicId)) {
 				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	public boolean checkUserIsFollowed(long followingId) {
+		boolean result = false;
+		for(FollowingCollection followingCollection : this.followingCollections ) {
+			if (followingCollection.getFollowing().getId().equals(followingId)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	public boolean checkForumIsCollected(int forumId) {
+		boolean result = false;
+		for (ForumCollection forumCollection : this.forumCollections) {
+			if (forumCollection.getForum().getId().equals(forumId)) {
+				result = true;
+				break;
 			}
 		}
 		return result;

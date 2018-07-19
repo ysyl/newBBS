@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bbs.helper.service.HelperService;
+import bbs.security.helper.SecurityHelper;
 import bbs.subscriptionsystem.notice.entity.BaseNotice;
 import bbs.subscriptionsystem.notice.service.NoticeService;
 
@@ -20,10 +20,10 @@ public class NoticeController {
 	
 	private NoticeService noticeService;
 	
-	private HelperService helperService;
+	private SecurityHelper helperService;
 
 	@Autowired
-	public NoticeController(NoticeService noticeService, HelperService helperService) {
+	public NoticeController(NoticeService noticeService, SecurityHelper helperService) {
 		super();
 		this.noticeService = noticeService;
 		this.helperService = helperService;

@@ -46,8 +46,10 @@ public class SubscriptionManager {
 	}
 
 	public void subscribePost(long uid, long postId) {
-		if (!subscriptionDAO.hasPostSubscription(uid, postId))
+		MyLogger.info("订阅Post: " + postId);
+		if (!subscriptionDAO.hasPostSubscription(uid, postId)) {
 			subscriptionDAO.savePostSubscription(uid, postId);
+		}
 	}
 
 	public void subscribeUserTrend(long uid, long followingId) {

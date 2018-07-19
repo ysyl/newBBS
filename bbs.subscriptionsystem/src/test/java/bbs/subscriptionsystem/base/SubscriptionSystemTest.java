@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mysql.jdbc.util.Base64Decoder;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Post;
 import bbs.forum.DTO.Topic;
 import bbs.forum.DTO.User;
@@ -29,7 +30,6 @@ import bbs.forum.form.PubAnnounceForm;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.service.BBSService;
 import bbs.forum.serviceImp.BBSServiceImp;
-import bbs.helper.PageParam;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
 import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;

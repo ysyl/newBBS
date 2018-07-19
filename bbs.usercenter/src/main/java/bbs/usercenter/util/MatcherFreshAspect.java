@@ -6,7 +6,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import bbs.helper.service.HelperService;
 
 @Aspect
 @Component
@@ -14,65 +13,65 @@ public class MatcherFreshAspect {
 	
 	private CollectMatcher collectMatcher;
 	
-	private HelperService helperService;
-	
 	@Autowired
-	public MatcherFreshAspect(CollectMatcher collectMatcher, HelperService helperService) {
+	public MatcherFreshAspect(CollectMatcher collectMatcher) {
 		super();
 		this.collectMatcher = collectMatcher;
-		this.helperService = helperService;
 	}
 
-	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.collect*(..))")
-	public void collect() {}
-	
-	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.collect*(..))")
-	public void uncollect() {}
-	
-	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.follow(..))")
-	public void follow() {}
-	
-	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.unfollow(..))")
-	public void unfollow() {}
-	
-	@Pointcut("execution(* bbs.forum.service.BBSService.getPostList(..))")
-	public void getPostList() {}
-	
-	@Pointcut("execution(* bbs.forum.service.BBSService.getTopicList(..))")
-	public void getTopicList() {}
+	//这里可能会匹配到int的forum
+	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.collect*(..))"
+			+ " && args(uid, targetId)")
+	public void collect(long uid, long targetId) {}
 
-	@Pointcut("execution(* bbs.forum.service.BBSService.getTopic(..))")
-	public void getTopic() {}
+	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.collectForum(..))"
+			+ " && args(uid, forumId)")
+	public void collectForum(long uid, int forumId) {}
 	
-	@After("collect()")
-	public void freshCollectionAfterCollect() {
-		Long uid = helperService.getCurrentUserId();
+	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.uncollect*(..))"
+			+ " && args(uid, targetId)")
+	public void uncollect(long uid, long targetId) {}
+
+	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.uncollectForum(..))"
+			+ " && args(uid, forumId)")
+	public void uncollectForum(long uid, int forumId) {}
+	
+//	@Pointcut("execution(* bbs.forum.service.BBSService.getPostList(..))")
+//	public void getPostList() {}
+//	
+//	@Pointcut("execution(* bbs.forum.service.BBSService.getTopicList(..))")
+//	public void getTopicList() {}
+//
+//	@Pointcut("execution(* bbs.forum.service.BBSService.getTopic(..))")
+//	public void getTopic() {}
+	
+	@After("collect(uid, targetId)")
+	public void freshCollectionAfterCollect(long uid, long targetId) {
 		collectMatcher.freshCollections(uid);
 	}
 
-	@After("follow()")
-	public void freshCollectionAfterFollow() {
-		Long uid = helperService.getCurrentUserId();
+	@After("collectForum(uid, forumId)")
+	public void freshCollectionAfterCollectForum(long uid, int forumId) {
 		collectMatcher.freshCollections(uid);
 	}
 	
-	@After("uncollect()")
-	public void freshAfterUncollect() {
-		collectMatcher.freshCollections(helperService.getCurrentUserId());
-	}
-	
-	@After("unfollow()")
-	public void freshAfterUnfollow() {
-		collectMatcher.freshCollections(helperService.getCurrentUserId());
-	}
-	
-	@After("getPostList()")
-	public void freshAfterViewTopic() {
-		collectMatcher.freshCollections(helperService.getCurrentUserId());
+	@After("uncollect(uid, targetId)")
+	public void freshAfterUncollect(long uid, long targetId) {
+		collectMatcher.freshCollections(uid);
 	}
 
-	@After("getTopicList()")
-	public void freshAfterViewForum() {
-		collectMatcher.freshCollections(helperService.getCurrentUserId());
+	@After("uncollectForum(uid, forumId)")
+	public void freshAfterUncollect(long uid, int forumId) {
+		collectMatcher.freshCollections(uid);
 	}
+	
+//	@After("getPostList()")
+//	public void freshAfterViewTopic() {
+//		collectMatcher.freshCollections(helperService.getCurrentUserId());
+//	}
+//
+//	@After("getTopicList()")
+//	public void freshAfterViewForum() {
+//		collectMatcher.freshCollections(helperService.getCurrentUserId());
+//	}
 }

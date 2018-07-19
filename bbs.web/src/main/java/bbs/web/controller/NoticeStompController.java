@@ -5,8 +5,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import bbs.helper.service.HelperService;
 import bbs.helper.utils.MyLogger;
+import bbs.security.helper.SecurityHelper;
 import bbs.subscriptionsystem.notice.service.NoticeService;
 
 @Controller
@@ -14,10 +14,10 @@ public class NoticeStompController {
 	
 	private NoticeService noticeService;
 	
-	private HelperService helperService;
+	private SecurityHelper helperService;
 
 	@Autowired
-	public NoticeStompController(NoticeService noticeService, HelperService helperService) {
+	public NoticeStompController(NoticeService noticeService, SecurityHelper helperService) {
 		super();
 		this.noticeService = noticeService;
 		this.helperService = helperService;

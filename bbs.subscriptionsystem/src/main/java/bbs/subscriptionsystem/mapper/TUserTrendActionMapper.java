@@ -1,6 +1,6 @@
 package bbs.subscriptionsystem.mapper;
 
-import bbs.helper.PageParam;
+import bbs.form.utils.PageParam;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 import bbs.subscriptionsystem.entity.TUserTrendAction;
 import bbs.subscriptionsystem.entity.TUserTrendActionExample;

@@ -20,21 +20,43 @@ public class SubscriptionMatcherFreshMonitor {
 		this.matcherHolder = matcherHolder;
 	}
 
-	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.subscribe*(..))")
-	public void subscribed() {}
-
-	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.unsubscribe*(..))")
-	public void unsubscribed() {}
+	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.subscribe*(..))"
+			+ " && args(uid, targetId)")
+	public void subscribed(long uid, long targetId) {}
 	
-	@AfterReturning(pointcut = "subscribed()")
-	public void freshSubscriptionMatcherAfterSubscribe() {
+	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.subscribeForum(..))"
+			+ " && args(uid, forumId)")
+	public void subscribeForum(long uid, int forumId) {}
+
+	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.unsubscribe*(..))"
+			+ " && args(uid, targetId)")
+	public void unsubscribed(long uid, long targetId) {}
+	
+	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.unsubscribeForum(..))"
+			+ " && args(uid, forumId)")
+	public void unsubscribeForum(long uid, int forumId) {}
+
+	@AfterReturning(pointcut = "subscribed(uid, targetId)")
+	public void freshSubscriptionMatcherAfterSubscribe(long uid, long targetId) {
 		MyLogger.info("订阅刷新");
-		matcherHolder.freshMatcher();
+		matcherHolder.freshMatcher(uid);
 	}
 
-	@AfterReturning(pointcut = "unsubscribed()")
-	public void freshSubscriptionMatcherAfterUnSubscribe() {
+	@AfterReturning(pointcut = "unsubscribed(uid, targetId)")
+	public void freshSubscriptionMatcherAfterUnSubscribe(long uid, long targetId ) {
 		MyLogger.info("退订刷新");
-		matcherHolder.freshMatcher();
+		matcherHolder.freshMatcher(uid);
+	}
+
+	@AfterReturning(pointcut = "subscribeForum(uid, forumId)")
+	public void freshSubscriptionMatcherAfterSubscribeForum(long uid, int forumId) {
+		MyLogger.info("订阅刷新");
+		matcherHolder.freshMatcher(uid);
+	}
+
+	@AfterReturning(pointcut = "unsubscribeForum(uid, forumId)")
+	public void freshSubscriptionMatcherAfterUnSubscribeForum(long uid, int forumId ) {
+		MyLogger.info("退订刷新");
+		matcherHolder.freshMatcher(uid);
 	}
 }

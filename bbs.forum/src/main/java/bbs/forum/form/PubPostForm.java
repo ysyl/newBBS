@@ -1,13 +1,20 @@
 package bbs.forum.form;
 
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.validation.annotation.Validated;
+
 public class PubPostForm extends AbstractForm {
 
+	@NotBlank
 	private String content;
 	
+	@NotBlank
 	private String htmlContent;
 	
 	private Long replyPostId;
 
+	@NotBlank
 	public String getHtmlContent() {
 		return htmlContent;
 	}

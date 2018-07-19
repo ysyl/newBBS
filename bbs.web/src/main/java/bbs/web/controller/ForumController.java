@@ -1,5 +1,6 @@
 package bbs.web.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Announce;
 import bbs.forum.DTO.Forum;
 import bbs.forum.DTO.Post;
@@ -21,9 +23,8 @@ import bbs.forum.DTO.Topic;
 import bbs.forum.DTO.User;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.service.BBSService;
-import bbs.helper.PageParam;
-import bbs.helper.service.HelperService;
 import bbs.helper.utils.MyLogger;
+import bbs.security.helper.SecurityHelper;
 import bbs.subscriptionsystem.action.entity.BaseAction;
 import bbs.subscriptionsystem.notice.entity.BaseNotice;
 import bbs.subscriptionsystem.notice.service.NoticeService;
@@ -32,6 +33,8 @@ import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.service.UserCenterService;
 import bbs.usercenter.util.CollectMatcher;
 import bbs.web.listener.NoticeInitializer;
+import bbs.web.utils.OwnChecker;
+import security.core.DTO.UserDetailsImp;
 
 @Controller
 public class ForumController {
@@ -40,13 +43,15 @@ public class ForumController {
 	
 	private SubscribedActionService subService;
 	
-	private HelperService helperService;
+	private SecurityHelper helperService;
 	
 	private UserCenterService userCenterService;
 	
 	private CollectMatcher collectMatcher;
 	
 	private NoticeService noticeService;
+	
+	private OwnChecker ownChecker;
 //	
 //	@PostConstruct
 //	public void init() {
@@ -61,11 +66,10 @@ public class ForumController {
 //
 //	}
 //	
-
 	@Autowired
-	public ForumController(BBSService bbsService, SubscribedActionService subService,
-			HelperService helperService, UserCenterService userCenterService, CollectMatcher collectMatcher,
-			NoticeService noticeService) {
+	public ForumController(BBSService bbsService, SubscribedActionService subService, SecurityHelper helperService,
+			UserCenterService userCenterService, CollectMatcher collectMatcher, NoticeService noticeService,
+			OwnChecker ownChecker) {
 		super();
 		this.bbsService = bbsService;
 		this.subService = subService;
@@ -73,17 +77,18 @@ public class ForumController {
 		this.userCenterService = userCenterService;
 		this.collectMatcher = collectMatcher;
 		this.noticeService = noticeService;
+		this.ownChecker = ownChecker;
 	}
-
 
 	@GetMapping("/")
-	public String index(HttpSession session, Model model) {
+	public String index(HttpSession session, Model model, Principal principal) {
 		Long uid = helperService.getCurrentUserId();
 		List<Forum> forums = bbsService.getAllForums(); 
+		Map<Integer, Post> lastPostMap = bbsService.getLastPostInForum();
 		model.addAttribute("forums", forums);
+		model.addAttribute("lastPostMap", lastPostMap);
 		return "index";
 	}
-	
 
 	@GetMapping("/forum/{forumId}")
 	public String forum(@PathVariable("forumId") int forumId, 
@@ -105,12 +110,16 @@ public class ForumController {
 		PageParam pageParam = new PageParam(pageNo, 20);
 		Topic topic = bbsService.getTopic(topicId);
 		List<Post> posts = bbsService.getPostList(topicId, pageParam);
-		Map<Post, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(posts, uid);
+		Map<Long, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(posts, uid);
+		Map<Long, Boolean> postOwnStatus = ownChecker.checkPostListOwnStatus(posts);
 		Boolean isTopicCollected = collectMatcher.checkTopicIsCollected(topicId);
+		Boolean isMyTopic = ownChecker.isMyTopic(topicId);
 		
 		model.addAttribute("topic", topic);
 		model.addAttribute("posts", posts);
-		model.addAttribute("postMap", postCollectStatus);
+		model.addAttribute("postCollectionStatus", postCollectStatus);
+		model.addAttribute("postOwnStatus", postOwnStatus);
+		model.addAttribute("isMyTopic", isMyTopic);
 		model.addAttribute("collectMatcher", collectMatcher);
 		model.addAttribute("isTopicCollected", isTopicCollected);
 		return "topic";

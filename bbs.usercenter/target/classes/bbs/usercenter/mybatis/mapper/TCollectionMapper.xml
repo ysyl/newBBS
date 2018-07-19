@@ -357,7 +357,7 @@
   <!-- customize -->
   <resultMap id="CollectionResultMap" type="bbs.usercenter.collection.DAO.entity.BaseCollection">
     <id column="id" property="id" />
-    <association property="user">
+    <association property="user" javaType="bbs.forum.DTO.User">
         <id column="user_id" property="id" />
         <result column="user_nickname" property="nickname"/>
     </association>
@@ -391,53 +391,88 @@
   <sql id="limit">
     limit #{pageParam.pageNo}, #{pageParam.pageSize}
   </sql>
-  <sql id="selectForumCollectionSql">
-    select 
-    c.id as id, c.collection_type as collection_type, 
-    c.forum_id as forum_id, f.forum_name as forum_name 
-    from t_collection c inner join t_forum f
-        on c.forum_id = f.id and c.collection_type = 0
-    where c.user_id = #{userId}
-    <include refid="limit" />
+  <sql id="dto-column-list">
+    c.id as id, c.collection_type as collection_type,
+    c.user_id as user_id, u.nickname as user_nickname,
+    c.forum_id as forum_id, f.forum_name as forum_name,
+    c.post_id as post_id, p.content as post_content,
+    c.topic_id as topic_id, t.title as topic_title,
+    c.following_id as following_id, fo.nickname as following_nickname 
   </sql>
-  <sql id="selectFollowingCollectionSql">
-    select c.id as id, c.collection_type as collection_type, c.following_id as following_id, u.nickname as following_nickname
-    from t_collection c inner join t_user_profile u 
-        on c.user_id = u.id and c.collection_type = 3
-    where c.user_id = #{userId}
-    <include refid="limit" />
+  <sql id="selectBaseCollectionSql">
+    select <include refid="dto-column-list" />
+    from t_collection c 
+        inner join t_user_profile u
+            on c.user_id = u.id
+        left join t_forum f
+            on c.forum_id = f.id
+        left join t_post p
+            on c.post_id = p.id
+        left join t_topic t
+            on c.topic_id = t.id
+        left join t_user_profile fo 
+            on c.following_id = fo.id
   </sql>
-  <sql id="selectTopicCollectionSql">
-    select c.id as id, c.collection_type as collection_type, c.topic_id as topic_id, t.title as topic_title
-    from t_collection c inner join t_topic t
-        on c.topic_id = t.id and c.collection_type = 1
-    where c.user_id = #{userId}
-    <include refid="limit" />
-  </sql>
-  <sql id="selectPostCollectionSql">
-    select c.id as id, c.collection_type as collection_type, c.post_id as post_id, p.content as post_content
-    from t_collection c inner join t_post p
-        on c.post_id = p.id and c.collection_type = 2
-    where c.user_id = #{userId}
-    <include refid="limit" />
-  </sql>
-  
-  <select id="selectAllCollectionByUidAndType" resultMap="CollectionResultMap">
-    <choose><!-- 此处的collection_type是枚举，0 = forum, 1 = topic, 2 = post, 3 = following -->
-        <when test="collectionType == @bbs.usercenter.enuma.CollectionType@FORUM">
-            <include refid="selectForumCollectionSql" /> 
-        </when>
-        <when test="collectionType == @bbs.usercenter.enuma.CollectionType@TOPIC">
-            <include refid="selectTopicCollectionSql" /> 
-        </when>
-        <when test="collectionType == @bbs.usercenter.enuma.CollectionType@POST">
-            <include refid="selectPostCollectionSql" /> 
-        </when>
-        <when test="collectionType == @bbs.usercenter.enuma.CollectionType@FOLLOWING">
-            <include refid="selectFollowingCollectionSql" /> 
-        </when>
-    </choose>
+  <select id="selectCollectionByUidAndTargetIdAndType" resultMap="CollectionResultMap">
+    <include refid="selectBaseCollectionSql"/> 
+    where c.user_id = #{userId} and (
+        (c.forum_id = #{targetId} and collection_type = #{collectionType,javaType=bbs.usercenter.enuma.CollectionType, jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler})
+        or (c.post_id = #{targetId} and collection_type = #{collectionType,javaType=bbs.usercenter.enuma.CollectionType, jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler})
+        or (c.topic_id = #{targetId} and collection_type = #{collectionType,javaType=bbs.usercenter.enuma.CollectionType, jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler})
+        or (c.following_id = #{targetId} and collection_type = #{collectionType,javaType=bbs.usercenter.enuma.CollectionType, jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler})
+    )
   </select>
+  <select id="selectAllCollectionByUidAndType" resultMap="CollectionResultMap">
+    <include refid="selectBaseCollectionSql"/> 
+     where c.user_id = #{userId} and collection_type = #{collectionType,javaType=bbs.usercenter.enuma.CollectionType, jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+  </select>
+<!--   <sql id="selectForumCollectionSql"> -->
+<!--     select  -->
+<!--     c.id as id, c.collection_type as collection_type,  -->
+<!--     c.forum_id as forum_id, f.forum_name as forum_name  -->
+<!--     from t_collection c inner join t_forum f -->
+<!--         on c.forum_id = f.id and c.collection_type = 0 -->
+<!--     where c.user_id = #{userId} -->
+<!--     <include refid="limit" /> -->
+<!--   </sql> -->
+<!--   <sql id="selectFollowingCollectionSql"> -->
+<!--     select c.id as id, c.collection_type as collection_type, c.following_id as following_id, u.nickname as following_nickname -->
+<!--     from t_collection c inner join t_user_profile u  -->
+<!--         on c.user_id = u.id and c.collection_type = 3 -->
+<!--     where c.user_id = #{userId} -->
+<!--     <include refid="limit" /> -->
+<!--   </sql> -->
+<!--   <sql id="selectTopicCollectionSql"> -->
+<!--     select c.id as id, c.collection_type as collection_type, c.topic_id as topic_id, t.title as topic_title -->
+<!--     from t_collection c inner join t_topic t -->
+<!--         on c.topic_id = t.id and c.collection_type = 1 -->
+<!--     where c.user_id = #{userId} -->
+<!--     <include refid="limit" /> -->
+<!--   </sql> -->
+<!--   <sql id="selectPostCollectionSql"> -->
+<!--     select c.id as id, c.collection_type as collection_type, c.post_id as post_id, p.content as post_content -->
+<!--     from t_collection c inner join t_post p -->
+<!--         on c.post_id = p.id and c.collection_type = 2 -->
+<!--     where c.user_id = #{userId} -->
+<!--     <include refid="limit" /> -->
+<!--   </sql> -->
+  
+<!--   <select id="selectAllCollectionByUidAndType" resultMap="CollectionResultMap"> -->
+<!--     <choose>此处的collection_type是枚举，0 = forum, 1 = topic, 2 = post, 3 = following -->
+<!--         <when test="collectionType == @bbs.usercenter.enuma.CollectionType@FORUM"> -->
+<!--             <include refid="selectForumCollectionSql" />  -->
+<!--         </when> -->
+<!--         <when test="collectionType == @bbs.usercenter.enuma.CollectionType@TOPIC"> -->
+<!--             <include refid="selectTopicCollectionSql" />  -->
+<!--         </when> -->
+<!--         <when test="collectionType == @bbs.usercenter.enuma.CollectionType@POST"> -->
+<!--             <include refid="selectPostCollectionSql" />  -->
+<!--         </when> -->
+<!--         <when test="collectionType == @bbs.usercenter.enuma.CollectionType@FOLLOWING"> -->
+<!--             <include refid="selectFollowingCollectionSql" />  -->
+<!--         </when> -->
+<!--     </choose> -->
+<!--   </select> -->
   
   <delete id="deleteByUidAndTargetId">
     delete from t_collection

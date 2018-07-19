@@ -10,6 +10,7 @@
 	value="<%=bbs.subscriptionsystem.notice.entity.PostTrendNotice.class%>" />
 <c:set var="UserTrendNotice"
 	value="<%=bbs.subscriptionsystem.notice.entity.UserTrendNotice.class%>" />
+<c:set var="currentUser" value="${sessionScope.user }" />
 <%@ include file="/resource/jsp_component/script-sockjs-stomp.jsp" %>
 <nav class="navbar navbar-default">
 	<div class="container-fluid bbs-navbar-container">
@@ -52,6 +53,10 @@
 						</div>
 					</ul> </a></li>
 			</ul>
+			<div class="navbar-right" id="user-avatar">
+		      <img id="nav-bar-user-avatar" class="rounded-circle"src="<c:url value="/resource/upload/img/${currentUser.avatar }" />" />	
+		      <a href="<c:url value="/user/${currentUser.id }" />">${currentUser.nickname }</a>
+			</div>
 			<form class="navbar-form navbar-right"
 				action="<c:url value="/search" />" method="get">
 				<div class="form-group search-form">

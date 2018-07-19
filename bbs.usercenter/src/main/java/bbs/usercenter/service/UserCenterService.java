@@ -7,10 +7,10 @@ import bbs.usercenter.collection.DAO.entity.TopicCollection;
 import bbs.usercenter.exception.RepetitiveCollectException;
 import bbs.usercenter.form.UpdateUserProfileForm;
 import bbs.usercenter.userprofile.DAO.entity.UserProfile;
-import bbs.helper.*;
 
 import java.util.List;
 
+import bbs.form.utils.*;
 import bbs.forum.DTO.*;
 
 public interface UserCenterService {
@@ -19,7 +19,7 @@ public interface UserCenterService {
 	
 	void collectPost(long uid, long postId) throws RepetitiveCollectException;
 	
-	void follow(long uid, long followingId);
+	void collectUser(long uid, long followingId);
 	
 	void collectForum(long uid, int forumId);
 	
@@ -49,7 +49,7 @@ public interface UserCenterService {
 
 	void uncollectForum(long uid, int forumId);
 
-	void unfollow(long uid, long followingId);
+	void uncollectUser(long uid, long followingId);
 	
 	
 	

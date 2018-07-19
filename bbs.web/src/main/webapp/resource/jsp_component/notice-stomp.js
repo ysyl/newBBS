@@ -161,13 +161,14 @@ $(document).ready(function () {
 	  }
 
 	  createTopicTrendNotice(notice) {
+		  console.log("notice topicTitle : "+notice.topicTitle);
 		  let topicTrendNoticeTemplate = 
 			  `
 			  <div class="post-item clearfix">
 	<div class="post-item-content">
 		<p>
 			  <a class="notice-topic-title"
-					href="${this.contextPath}/topic/${notice.topicId }"
+					href="${this.contextPath}/topic/${notice.topicId }">
 					${notice.topicTitle } </a>
 				<span>收到了一条</span>
 				<a href="/topic/${notice.topicId }">新回复</a>

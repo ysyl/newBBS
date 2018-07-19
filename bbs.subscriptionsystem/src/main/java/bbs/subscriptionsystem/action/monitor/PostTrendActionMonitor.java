@@ -28,11 +28,10 @@ public class PostTrendActionMonitor {
 		this.actionManager = actionManager;
 	}
 
+	//如果使用这个切面，则无法监控到一楼的发布
 	@Pointcut("execution(* bbs.forum.service.BBSService.savePost(..))"
 			+ " && args(uid, topicId, postForm)")
 	public void pubPost(long uid, long topicId, PubPostForm postForm) {}
-	
-	public void pubRepost() {}
 
 	@AfterReturning( pointcut="pubPost(uid, topicId, postForm)", returning="postId")
 	public void monitorPubPost(long uid, long topicId, PubPostForm postForm, long postId) {
@@ -40,4 +39,5 @@ public class PostTrendActionMonitor {
 			actionManager.addPostTrendAction(uid, topicId, postForm.getReplyPostId(), postId);
 		}
 	}
+
 }

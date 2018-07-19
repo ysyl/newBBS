@@ -20,11 +20,11 @@ public class UserSubscriptionMonitor {
 		this.subManager = subManager;
 	}
 	
-	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.follow(..))"
+	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.collectUser(..))"
 			+ " && args(uid, followingId)")
 	public void follow(long uid, long followingId) {}
 
-	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.unfollow(..))"
+	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.uncollectUser(..))"
 			+ " && args(uid, followingId)")
 	public void unfollow(long uid, long followingId) {}
 	

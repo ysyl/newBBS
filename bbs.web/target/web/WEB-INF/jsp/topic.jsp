@@ -50,9 +50,11 @@
 					查看: ${topic.views } | 回复: ${topic.replies }</div>
 				<div class="topic-top-bar-component col-md-9">
 				    <span>${topic.title }</span>
-				    <a href="#"><span id="collect-topic-btn" data-topic-id="${topic.id }" class="glyphicon glyphicon-heart
+				    <c:if test="${!isMyTopic }">
+				        <a href="#"><span id="collect-topic-btn" data-topic-id="${topic.id }" class="glyphicon glyphicon-heart
 				        <c:if test="${isTopicCollected }">collected</c:if>
-				     "></span></a>
+				        "></span></a>
+				    </c:if>
 				</div>
 			</div>
 			<div class="panel-body topic-body container-fluent">
@@ -104,6 +106,7 @@
     });
     let collectPostUrl = "<c:url value="/collect/post/" />";
     let collectTopicUrl = "<c:url value="/collect/topic/" />";
+    let followUserUrl = "<c:url value="/collect/user/" />"
 </script>
 </body>
 </html>

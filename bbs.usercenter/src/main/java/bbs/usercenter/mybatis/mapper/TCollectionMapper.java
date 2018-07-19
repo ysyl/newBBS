@@ -1,6 +1,6 @@
 package bbs.usercenter.mybatis.mapper;
 
-import bbs.helper.PageParam;
+import bbs.form.utils.PageParam;
 import bbs.usercenter.collection.DAO.entity.BaseCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.enuma.CollectionType;
@@ -80,6 +80,10 @@ public interface TCollectionMapper {
 	int updateByPrimaryKey(TCollection record);
 
 	List<? extends BaseCollection> selectAllCollectionByUidAndType(@Param("userId") long uid, 
+			@Param("collectionType") CollectionType forum,@Param("pageParam") PageParam pageParam);
+
+	BaseCollection selectCollectionByUidAndTargetIdAndType(@Param("userId") long uid, 
+			@Param("targetId") long targetId,
 			@Param("collectionType") CollectionType forum,@Param("pageParam") PageParam pageParam);
 
 	void deleteByUidAndTargetId(@Param("userId")Long uid,@Param("targetId") long targetId, @Param("collectionType") CollectionType collectionType);

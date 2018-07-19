@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bbs.helper.service.HelperService;
+import bbs.security.helper.SecurityHelper;
 import bbs.usercenter.exception.RepetitiveCollectException;
 import bbs.usercenter.service.UserCenterService;
 
@@ -20,14 +20,14 @@ import bbs.usercenter.service.UserCenterService;
 @RequestMapping("/collect")
 public class CollectController {
 	
-	private HelperService helperService;
+	private SecurityHelper helperService;
 	
 	private UserCenterService userCenterService;
 	
 	private Long uid;
 
 	@Autowired
-	public CollectController(HelperService helperService, UserCenterService userCenterService) {
+	public CollectController(SecurityHelper helperService, UserCenterService userCenterService) {
 		super();
 		this.helperService = helperService;
 		this.userCenterService = userCenterService;
@@ -86,7 +86,7 @@ public class CollectController {
 	@ResponseBody
 	public String follow(@PathVariable("followingId") long followingId) {
 		long uid = helperService.getCurrentUserId();
-		userCenterService.follow(uid, followingId);
+		userCenterService.collectUser(uid, followingId);
 		return "SUCCESS";
 	}
 	
@@ -94,7 +94,7 @@ public class CollectController {
 	@ResponseBody
 	public String unfollow(@PathVariable("followingId") long followingId) {
 		long uid = helperService.getCurrentUserId();
-		userCenterService.unfollow(uid, followingId);
+		userCenterService.uncollectUser(uid, followingId);
 		return "SUCCESS";
 	}
 	

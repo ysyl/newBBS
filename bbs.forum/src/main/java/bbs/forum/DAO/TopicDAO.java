@@ -7,40 +7,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Topic;
 import bbs.forum.entity.TPost;
 import bbs.forum.entity.TTopic;
+import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.mapper.TPostMapper;
 import bbs.forum.mapper.TTopicMapper;
-import bbs.helper.PageParam;
+import bbs.forum.service.BBSService;
 
 @Component
 @Transactional
 public class TopicDAO {
-	
-	public TTopicMapper gettTopicMapper() {
-		return tTopicMapper;
-	}
-	
-	@Autowired
-	public void settTopicMapper(TTopicMapper tTopicMapper) {
-		this.tTopicMapper = tTopicMapper;
-	}
-
-	public TPostMapper gettPostMapper() {
-		return tPostMapper;
-	}
-	
-	@Autowired
-	public void settPostMapper(TPostMapper tPostMapper) {
-		this.tPostMapper = tPostMapper;
-	}
 
 	private TTopicMapper tTopicMapper;
 	
-	private TPostMapper tPostMapper;
-	
+	private PostDAO postDAO;
+
+	@Autowired
+	public TopicDAO(TTopicMapper tTopicMapper, PostDAO postDAO) {
+		super();
+		this.tTopicMapper = tTopicMapper;
+		this.postDAO = postDAO;
+	}
+
 	public Long save(long uid, PubTopicForm topicForm) {
 		String content = topicForm.getContent();
 		String htmlContent = topicForm.getHtmlContent();
@@ -55,18 +46,16 @@ public class TopicDAO {
 		tTopic.setTitle(title);
 		
 		tTopicMapper.insertSelective(tTopic);
-		
-		TPost tPost = new TPost();
-		tPost.setAuthorId(uid);
-		tPost.setContent(content);
-		tPost.setHtmlContent(htmlContent);
-		tPost.setPubTime(now);
-		tPost.setTopicId(tTopic.getId());
 
-		tPostMapper.insertSelective(tPost);
+		PubPostForm pubPostForm = new PubPostForm();
+		pubPostForm.setContent(content);
+		pubPostForm.setHtmlContent(htmlContent);
+		pubPostForm.setReplyPostId(null);
 		
-		tTopic.setMainPostId(tPost.getId());
-		tTopic.setLastReplyPostId(tPost.getId());
+		long postId = postDAO.save1L(uid, tTopic.getId(), pubPostForm);
+		
+		tTopic.setMainPostId(postId);
+		tTopic.setLastReplyPostId(postId);
 		
 		tTopicMapper.updateByPrimaryKeySelective(tTopic);
 		return tTopic.getId();
@@ -109,6 +98,11 @@ public class TopicDAO {
 	
 	public void replyTopic(long topicId) {
 		tTopicMapper.repliesPlusOne(topicId);
+	}
+
+	public boolean isMyTopic(Long uid, long topicId) {
+		// TODO Auto-generated method stub
+		return tTopicMapper.countByUidAndTopicId(uid, topicId) == 1;
 	}
 	
 }

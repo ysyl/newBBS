@@ -8,7 +8,9 @@
         <a href="<c:url value="/forum/${forum.id}" />"><h1>${forum.forumName}</h1></a>
     </div>
     <div class="forum-card-body">
+            <c:set var="lastPost" value="${lastPostMap.get(forum.getId())}" />
             <p>主题:todo  帖数: todo</p>
-            <a href="#">最后发表: todo</a>
+          
+            <a href="<c:url value="/topic/${lastPost.getTopic().id}" />">最新回复</a>  
     </div>
 </div>

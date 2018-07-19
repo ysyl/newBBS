@@ -23,6 +23,12 @@
 .user-post .collect-btn.collected {
 	color: red!important;
 }
+.follow-btn {
+	color: black;
+}
+.follow-btn.followed {
+	color: red!important
+}
 .post-list-item {
   border-bottom: 1px solid #eee;
 }

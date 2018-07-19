@@ -27,7 +27,7 @@ public class MyLogger {
 	}
 	
 	public static <T> void info(T info) {
-		info((String) info);
+		info(String.valueOf(info));
 	}
 	
 	public static void info(Class<?> logClass, String info) {

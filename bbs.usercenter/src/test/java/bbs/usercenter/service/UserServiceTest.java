@@ -2,6 +2,7 @@ package bbs.usercenter.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -18,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Post;
 import bbs.forum.service.BBSService;
-import bbs.helper.PageParam;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
@@ -62,6 +63,7 @@ public class UserServiceTest extends BaseTest {
 		userCenterService.collectTopic(uid, topicId);
 		
 		TopicCollection tCollection = userCenterService.getAllTopicCollectionByUserId(uid, pageParam).get(0);
+		assertNotNull(tCollection);
 		assertEquals((Long) topicId, tCollection.getTopic().getId());
 		
 		logger.info("收藏post");
@@ -74,7 +76,7 @@ public class UserServiceTest extends BaseTest {
 		
 		logger.info("收藏Following");
 		Long followingId = 3L;
-		userCenterService.follow(uid, followingId);
+		userCenterService.collectUser(uid, followingId);
 		FollowingCollection foCollection = userCenterService
 				.getAllFollowingCollectionByUserId(uid, pageParam).get(0);
 				
@@ -88,8 +90,8 @@ public class UserServiceTest extends BaseTest {
 		logger.info("删除收藏");
 		userCenterService.uncollectPost(uid, postId);
 		List<Post> postList2 = new ArrayList<>(Arrays.asList(bbsService.getPost(postId)));
-		Map<Post, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(postList2, uid);
-		assertFalse(postCollectStatus.get(postList2.get(0)));
+		Map<Long, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(postList2, uid);
+		assertFalse(postCollectStatus.get(postList2.get(0).getId()));
 	}
 	
 	//测试非法输入
@@ -117,9 +119,9 @@ public class UserServiceTest extends BaseTest {
 		userCenterService.collectPost(userId, collectedPostId);
 		PageParam pageParam = new PageParam(0, 20);
 		List<Post> postList= bbsService.getPostList(1L, pageParam);
-		Map<Post, Boolean> collectStatusMap = collectMatcher.checkPostCollectStatus(postList, userId);
-		for (Entry<Post, Boolean> entry : collectStatusMap.entrySet()) {
-			if (entry.getKey().getId().equals(collectedPostId)) {
+		Map<Long, Boolean> collectStatusMap = collectMatcher.checkPostCollectStatus(postList, userId);
+		for (Entry<Long, Boolean> entry : collectStatusMap.entrySet()) {
+			if (entry.getKey().equals(collectedPostId)) {
 				assertTrue(entry.getValue());
 			}
 		}
@@ -132,15 +134,17 @@ public class UserServiceTest extends BaseTest {
 		Long topicId = 1L;
 		Long postId = 1L;
 		List<Post> postList = bbsService.getPostList(topicId, new PageParam(0, 20));
-		Map<Post, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(postList, verricktId);
+		//手动初始化collectMatcher 实际中登陆时初始化
+		collectMatcher.freshCollections(verricktId);
+		Map<Long, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(postList, verricktId);
 		userCenterService.collectPost(verricktId, postId);
-		Map<Post, Boolean> postCollectStatusAfter = collectMatcher.checkPostCollectStatus(postList, verricktId);
+		Map<Long, Boolean> postCollectStatusAfter = collectMatcher.checkPostCollectStatus(postList, verricktId);
 		Post post = null;
 		Boolean beforeStatus = false;
 		Boolean afterStatus = null;
 		Boolean isCompared = false;
-		for (Entry<Post, Boolean> entry : postCollectStatusAfter.entrySet()) {
-			if ( entry.getKey().getId().equals(postId)) {
+		for (Entry<Long, Boolean> entry : postCollectStatusAfter.entrySet()) {
+			if ( entry.getKey().equals(postId)) {
 				afterStatus = entry.getValue();
 				isCompared = true;
 			}

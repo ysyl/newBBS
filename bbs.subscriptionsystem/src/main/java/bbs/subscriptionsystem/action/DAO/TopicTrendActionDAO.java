@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import bbs.form.utils.PageParam;
 import bbs.forum.service.BBSService;
-import bbs.helper.PageParam;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.entity.TTopicTrendAction;
 import bbs.subscriptionsystem.mapper.TTopicTrendActionMapper;
