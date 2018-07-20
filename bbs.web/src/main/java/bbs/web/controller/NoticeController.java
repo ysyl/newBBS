@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bbs.security.helper.SecurityHelper;
-import bbs.subscriptionsystem.notice.entity.BaseNotice;
+import bbs.subscriptionsystem.notice.entity.BaseTrendNotice;
 import bbs.subscriptionsystem.notice.service.NoticeService;
 
 @Controller
@@ -31,9 +31,9 @@ public class NoticeController {
 	
 	private class NoticeResult {
 		private String contextPath;
-		private List<BaseNotice> notices;
+		private List<BaseTrendNotice> notices;
 		
-		public NoticeResult(String contextPath, List<BaseNotice> notices) {
+		public NoticeResult(String contextPath, List<BaseTrendNotice> notices) {
 			super();
 			this.contextPath = contextPath;
 			this.notices = notices;
@@ -44,10 +44,10 @@ public class NoticeController {
 		public void setContextPath(String contextPath) {
 			this.contextPath = contextPath;
 		}
-		public List<BaseNotice> getNotices() {
+		public List<BaseTrendNotice> getNotices() {
 			return notices;
 		}
-		public void setNotices(List<BaseNotice> notices) {
+		public void setNotices(List<BaseTrendNotice> notices) {
 			this.notices = notices;
 		}
 		
@@ -59,7 +59,7 @@ public class NoticeController {
 	@ResponseBody
 	public NoticeResult getNotices(HttpServletRequest req) {
 		Long uid = helperService.getCurrentUserId();
-		List<BaseNotice> notices = noticeService.getAllNoticeByUid(uid);
+		List<BaseTrendNotice> notices = noticeService.getAllTrendNoticeByUid(uid);
 		return new NoticeResult(req.getContextPath(), notices);
 	}
 	

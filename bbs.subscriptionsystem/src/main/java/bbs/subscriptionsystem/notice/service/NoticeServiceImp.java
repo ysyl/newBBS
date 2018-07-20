@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bbs.subscriptionsystem.notice.entity.BaseNotice;
+import bbs.subscriptionsystem.notice.entity.BaseTrendNotice;
+import bbs.subscriptionsystem.notice.entity.BeFollowedNotice;
 import bbs.subscriptionsystem.notice.utils.NoticeBuilder;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 
@@ -21,12 +23,6 @@ public class NoticeServiceImp implements NoticeService {
 	}
 
 	@Override
-	public List<BaseNotice> getAllNoticeByUid(long uid) {
-		// TODO Auto-generated method stub
-		return NoticeBuilder.transActionListToNotice(subService.getAllActionByUid(uid));
-	}
-
-	@Override
 	public Integer getNoticeCountByUid(long uid) {
 		// TODO Auto-generated method stub
 		return subService.countActionsByUid(uid);
@@ -36,6 +32,20 @@ public class NoticeServiceImp implements NoticeService {
 	public boolean freshLastReadTime(long uid) {
 		// TODO Auto-generated method stub
 		return subService.freshLastReadTime(uid);
-	}  
+	}
+
+
+	private List<BaseNotice> getAllNoticeByUid(long uid) {
+		// TODO Auto-generated method stub
+		return NoticeBuilder.transActionListToNotice(subService.getAllActionByUid(uid));
+	}
+
+	@Override
+	public NoticeResultMap getNoticeByUid(long uid) {
+		// TODO Auto-generated method stub
+		NoticeResultMap result = new NoticeResultMap(this.getAllNoticeByUid(uid));
+		return result;
+	}
+
 
 }

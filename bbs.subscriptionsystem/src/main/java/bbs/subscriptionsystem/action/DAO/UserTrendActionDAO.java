@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Post;
 import bbs.forum.DTO.Topic;
+import bbs.forum.DTO.User;
 import bbs.forum.form.PubPostForm;
+import bbs.subscriptionsystem.action.entity.CollectUserAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 import bbs.subscriptionsystem.entity.TUserTrendAction;
 import bbs.subscriptionsystem.enuma.UserTrendActionTargetType;
@@ -106,6 +108,16 @@ public class UserTrendActionDAO {
 	public Integer countByUidAfterLastReadTime(Long uid, Date lastReadTime) {
 		// TODO Auto-generated method stub
 		return mapper.countUidAfterLastReadTime(uid, lastReadTime);
+	}
+
+	public List<CollectUserAction> selectAllByFollowingIdAfterLastReadTime(Long myUid, Date lastReadTime) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllByFollowingIdAfterLastReadTime(myUid, lastReadTime);
+	}
+
+	public Integer countByFollowingIdAfterLastReadTime(Long followingId, Date lastReadTime) {
+		// TODO Auto-generated method stub
+		return mapper.countByFollowingIdAfterLastReadTime(followingId, lastReadTime);
 	}
 
 }

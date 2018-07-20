@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bbs.forum.form.PubPostForm;
 import bbs.forum.service.BBSService;
-import bbs.subscriptionsystem.action.entity.BaseAction;
+import bbs.subscriptionsystem.action.entity.BaseTrendAction;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.service.UserCenterService;
 import bbs.web.listener.NoticeInitializer;
@@ -102,7 +102,7 @@ public class MockMvcTest extends BaseTest {
 		MvcResult result = mvc.perform(get("/action/test").with(user(userDetails)).param("userId", "1"))
 				.andExpect(status().is2xxSuccessful()).andReturn();
 		String resultString = result.getResponse().getContentAsString();
-		List<BaseAction> actions = om.readValue(resultString, ArrayList.class);
+		List<BaseTrendAction> actions = om.readValue(resultString, ArrayList.class);
 		logger.info("\n\ntest");
 		Assert.assertEquals(1, actions.size());
 		logger.info(result.getResponse());

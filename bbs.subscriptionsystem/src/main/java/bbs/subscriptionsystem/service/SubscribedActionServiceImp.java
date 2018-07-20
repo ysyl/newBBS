@@ -12,6 +12,7 @@ import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.UserTrendActionDAO;
 import bbs.subscriptionsystem.action.entity.BaseAction;
+import bbs.subscriptionsystem.action.entity.BaseTrendAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 import bbs.subscriptionsystem.action.manager.ActionManager;

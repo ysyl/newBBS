@@ -6,7 +6,7 @@ import bbs.forum.DTO.Announce;
 import bbs.forum.DTO.Forum;
 import bbs.forum.DTO.User;
 
-public class ForumTrendAction extends BaseAction {
+public class ForumTrendAction extends BaseTrendAction {
 
 	/**
 	 * 

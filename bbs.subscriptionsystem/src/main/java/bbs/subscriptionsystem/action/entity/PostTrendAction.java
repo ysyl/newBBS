@@ -4,7 +4,7 @@ import bbs.forum.DTO.Post;
 import bbs.forum.DTO.Topic;
 import bbs.forum.DTO.User;
 
-public class PostTrendAction extends BaseAction {
+public class PostTrendAction extends BaseTrendAction {
 
 	private User replier;
 	

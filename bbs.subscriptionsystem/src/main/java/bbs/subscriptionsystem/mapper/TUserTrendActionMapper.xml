@@ -534,8 +534,13 @@
            <include refid="selectAbstractActionSql" /> 
             where uta.user_id = #{userId} and uta.pub_time &gt; #{lastReadTime}
   </select>
-  <select id="countUidAfterLastReadTime" resultType="int">
-    select count(uta.id)
+
+  <select id="selectAllByFollowingIdAfterLastReadTime" resultMap="UserTrendActionResultMap">
+           <include refid="selectAbstractActionSql" /> 
+            where uta.following_id = #{followingId} and uta.pub_time &gt; #{lastReadTime}
+  </select>
+  <sql id="countSql">
+      select count(uta.id)
     from t_user_trend_action uta 
         left join t_topic t
             on uta.topic_id = t.id <!-- 此处用left， 则topic_id为null时依旧能取出数据 -->
@@ -545,7 +550,16 @@
             on p.topic_id = pt.id
         left join t_user_profile u
             on uta.user_id = u.id
+        left join t_user_profile fo 
+            on uta.following_id = fo.id
+  </sql>
+  <select id="countUidAfterLastReadTime" resultType="int">
+    <include refid="countSql"/> 
         where uta.user_id = #{userId} and uta.pub_time &gt; #{lastReadTime}
+  </select>
+  <select id="countByFollowingIdAfterLastReadTime" resultType="int">
+    <include refid="countSql"/> 
+        where uta.following_id = #{followingId} and uta.pub_time &gt; #{lastReadTime}
   </select>
   <select id="selectUserTrendActionById" parameterType="long" resultMap="UserTrendActionResultMap">
      <include refid="selectAbstractActionSql" />

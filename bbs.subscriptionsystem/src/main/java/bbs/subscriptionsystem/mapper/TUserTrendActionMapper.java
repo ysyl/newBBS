@@ -1,6 +1,8 @@
 package bbs.subscriptionsystem.mapper;
 
 import bbs.form.utils.PageParam;
+import bbs.forum.DTO.User;
+import bbs.subscriptionsystem.action.entity.CollectUserAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 import bbs.subscriptionsystem.entity.TUserTrendAction;
 import bbs.subscriptionsystem.entity.TUserTrendActionExample;
@@ -92,6 +94,10 @@ public interface TUserTrendActionMapper {
 	UserTrendAction<?> selectUserTrendActionById(long actionId);
 
 	Integer countUidAfterLastReadTime(@Param("userId") Long uid,@Param("lastReadTime") Date lastReadTime);
+
+	List<CollectUserAction> selectAllByFollowingIdAfterLastReadTime(@Param("followingId") Long myUid,@Param("lastReadTime") Date lastReadTime);
+
+	Integer countByFollowingIdAfterLastReadTime(@Param("followingId") Long followingId,@Param("lastReadTime") Date lastReadTime);
 	
 //	List<UserTrendAction<?>> selectAllByUidAfterLastReadTime(@Param("userId")long uid, 
 //			@Param("lastReadTime") Date lastReadTime,

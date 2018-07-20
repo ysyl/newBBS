@@ -12,6 +12,7 @@ import bbs.subscriptionsystem.entity.TSubscription;
 import bbs.subscriptionsystem.enuma.SubscriptionType;
 import bbs.subscriptionsystem.mapper.TSubscriptionMapper;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
+import bbs.subscriptionsystem.subscription.entity.BeFollowedSubscription;
 import bbs.subscriptionsystem.subscription.entity.FollowingSubscription;
 import bbs.subscriptionsystem.subscription.entity.ForumSubscription;
 import bbs.subscriptionsystem.subscription.entity.PostSubscription;
@@ -65,6 +66,14 @@ public class SubscriptionDAO {
 		entity.setSubscriptionType(SubscriptionType.FORUM);
 		entity.setForumId(forumId);
 		entity.setUserId(uid);
+		mapper.insertSelective(entity);
+	}
+	
+	public void saveBeFollowedSubscription(long uid) {
+		TSubscription entity = new TSubscription();
+		entity.setSubscriptionType(SubscriptionType.BEFOLLOWED);
+		entity.setUserId(uid);
+		//被关注订阅不需要target，target就是自己
 		mapper.insertSelective(entity);
 	}
 	public boolean hasTopicSubscription(long uid, long topicId) {
@@ -133,6 +142,11 @@ public class SubscriptionDAO {
 	public void removeUserSubscription(long uid, long targetId) {
 		// TODO Auto-generated method stub
 		mapper.deleteByUidAndTargetId(uid, targetId, SubscriptionType.FOLLOW);
+	}
+
+	public BeFollowedSubscription getBeFollowedSubscriptionByUid(long uid) {
+		// TODO Auto-generated method stub
+		return mapper.selectBeFollowedSubscriptionByUid(uid);
 	}
 
 	

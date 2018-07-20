@@ -1,20 +1,24 @@
 package bbs.subscriptionsystem.notice.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class BaseNotice implements Serializable {
+	
+	private Date pubTime;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private TrendNoticeType trendNoticeType;
-
-	public TrendNoticeType getTrendNoticeType() {
-		return trendNoticeType;
+	public Date getPubTime() {
+		return pubTime;
 	}
 
-	public void setTrendNoticeType(TrendNoticeType trendNoticeType) {
-		this.trendNoticeType = trendNoticeType;
+	public void setPubTime(Date pubTime) {
+		this.pubTime = pubTime;
 	}
+
+	public BaseNotice(Date pubTime) {
+		super();
+		this.pubTime = pubTime;
+	}
+	
+
 }

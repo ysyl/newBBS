@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.entity.BaseAction;
+import bbs.subscriptionsystem.action.entity.BaseTrendAction;
+import bbs.subscriptionsystem.action.entity.BeFollowedAction;
 import bbs.subscriptionsystem.action.entity.ForumTrendAction;
 import bbs.subscriptionsystem.action.entity.PostTrendAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
+import bbs.subscriptionsystem.subscription.entity.BeFollowedSubscription;
 import bbs.subscriptionsystem.subscription.entity.FollowingSubscription;
 import bbs.subscriptionsystem.subscription.entity.ForumSubscription;
 import bbs.subscriptionsystem.subscription.entity.PostSubscription;
@@ -30,6 +33,8 @@ public class SubscriptionMatcher {
 	
 	private List<FollowingSubscription> followingSubscriptions = new ArrayList<>();
 	
+	private List<BeFollowedSubscription> beFollowedSubscriptions = new ArrayList<>();
+	
 	private String username = null;
 
 	public SubscriptionMatcher(String username, List<BaseSubscription<?>> subscriptions) {
@@ -43,11 +48,13 @@ public class SubscriptionMatcher {
 		MyLogger.info("\n\n\n刷新之前的topic订阅情况 ： "+this.topicSubscriptions.size());
 		MyLogger.info("\n\n\n刷新之前的post订阅情况 ： "+this.postSubscriptions.size());
 		MyLogger.info("\n\n\n刷新之前的following订阅情况 ： "+this.followingSubscriptions.size());
+		MyLogger.info("\n\n\n刷新之前的beFollowing订阅情况 ： "+this.beFollowedSubscriptions.size());
 		this.subscriptions = subscriptions;
 		this.topicSubscriptions.clear();
 		this.forumSubscriptions.clear();
 		this.postSubscriptions.clear();
 		this.followingSubscriptions.clear();
+		this.beFollowedSubscriptions.clear();
 		for (BaseSubscription<?> subscription : subscriptions) {
 			if (subscription instanceof ForumSubscription) {
 				forumSubscriptions.add((ForumSubscription) subscription);
@@ -61,11 +68,15 @@ public class SubscriptionMatcher {
 			else if (subscription instanceof FollowingSubscription) {
 				followingSubscriptions.add((FollowingSubscription) subscription);
 			}
+			else if (subscription instanceof BeFollowedSubscription) {
+				beFollowedSubscriptions.add((BeFollowedSubscription) subscription);
+			}
 		}
 				MyLogger.info("\n\n\n刷新后的forum订阅情况 ： "+this.forumSubscriptions.size());
 				MyLogger.info("\n\n\n刷新后的topic订阅情况 ： "+this.topicSubscriptions.size());
 				MyLogger.info("\n\n\n刷新后的post订阅情况 ： "+this.postSubscriptions.size());
 				MyLogger.info("\n\n\n刷新后的following订阅情况 ： "+this.followingSubscriptions.size());
+				MyLogger.info("\n\n\n刷新后的beFollowing订阅情况 ： "+this.beFollowedSubscriptions.size());
 	}
 
 	boolean match(BaseAction action) {
@@ -82,10 +93,21 @@ public class SubscriptionMatcher {
 		else if (action instanceof UserTrendAction) {
 			isMatch = matchUserTrendAction((UserTrendAction<?>)action);
 		}
+		else if (action instanceof BeFollowedAction) {
+			isMatch = matchBeFollowedAction((BeFollowedAction) action);
+		}
 		MyLogger.info(isMatch);
 		return isMatch;
 	}
 	
+	private boolean matchBeFollowedAction(BeFollowedAction action) {
+		// TODO Auto-generated method stub
+		BeFollowedSubscription subscription = beFollowedSubscriptions.get(0);
+		if (action.getFollowingUser().getId().equals(subscription.getUser().getId()))
+			return true;
+		return false;
+	}
+
 	private boolean matchUserTrendAction(UserTrendAction<?> action) {
 		// TODO Auto-generated method stub
 		for (FollowingSubscription subscription : followingSubscriptions) {

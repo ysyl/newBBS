@@ -59,8 +59,8 @@ public class UserTrendActionMonitor extends AbstractActionMonitor {
 	private void collectPost(long uid, long postId) {};
 
 	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.collectUser(..))"
-			+ "&& args(uid, userId)")
-	private void collectUser(long uid, long userId) {};
+			+ "&& args(uid, followingId)")
+	private void collectUser(long uid, long followingId) {};
 	
 	@Transactional
 	@AfterReturning(value = "pubTopic(uid, pubTopicForm)", returning = "topicId")
@@ -83,9 +83,9 @@ public class UserTrendActionMonitor extends AbstractActionMonitor {
 		actionManager.addUserTrendAction(UserTrendActionType.COLLECT, UserTrendActionTargetType.POST, uid, postId);
 	}
 
-	@AfterReturning(value = "collectUser(uid, userId)")
-	public void monitorCollectUser(long uid,long userId) {
-		actionManager.addUserTrendAction(UserTrendActionType.COLLECT, UserTrendActionTargetType.USER, uid, userId);
+	@AfterReturning(value = "collectUser(uid, followingId)")
+	public void monitorCollectUser(long uid,long followingId) {
+		actionManager.addUserTrendAction(UserTrendActionType.COLLECT, UserTrendActionTargetType.USER, uid, followingId);
 	}
 
 	

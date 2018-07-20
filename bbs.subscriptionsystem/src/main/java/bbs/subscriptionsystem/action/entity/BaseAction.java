@@ -1,13 +1,8 @@
 package bbs.subscriptionsystem.action.entity;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class BaseAction implements Serializable {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Date pubTime;
@@ -24,6 +19,5 @@ public class BaseAction implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
 	
 }

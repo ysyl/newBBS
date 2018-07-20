@@ -395,7 +395,7 @@
         <id column="user_id" property="id" />
         <result column="user_nickname" property="nickname" />
     </association>
-    <!-- 0 = Topic, 1 = Follow, 2 = forum, 3 = post, 4 = user -->
+    <!-- 0 = Topic, 1 = Follow, 2 = forum, 3 = post, 4 = beFollowed -->
     <discriminator column="subscription_type" javaType="bbs.subscriptionsystem.enuma.SubscriptionType" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler">
        <case resultType="bbs.subscriptionsystem.subscription.entity.FollowingSubscription" value="FOLLOW">
             <association javaType="bbs.forum.DTO.User" property="target">
@@ -420,6 +420,13 @@
                 <id column="forum_id" property="id" />
                 <result column="forum_name" property="forumName" />
             </association>
+       </case> 
+       <case resultType="bbs.subscriptionsystem.subscription.entity.BeFollowedSubscription" value="BEFOLLOWED">
+       <!-- 被关注提醒，target是自己 -->
+        <association javaType="bbs.forum.DTO.User" property="target">
+            <id column="user_id" property="id" />
+            <result column="user_nickname" property="nickname" />
+        </association>
        </case> 
     </discriminator>
   </resultMap>
@@ -450,7 +457,7 @@
     <include refid="selectAllBaseSubscriptionSql" />
     where s.user_id = #{userId}
   </select>
-    <!-- 0 = Topic, 1 = Follow, 2 = forum, 3 = post, 4 = user -->
+    <!-- 0 = Topic, 1 = Follow, 2 = forum, 3 = post, 4 = beFollowed -->
   <select id="selectAllTopicSubscriptionByUid" parameterType="long" resultMap="SubscriptionResultMap">
     <include refid="selectAllBaseSubscriptionSql" />
     where s.user_id = #{userId} and subscription_type = 0
@@ -466,6 +473,10 @@
   <select id="selectAllFollowingSubscriptionByUid" parameterType="long" resultMap="SubscriptionResultMap">
     <include refid="selectAllBaseSubscriptionSql" />
     where s.user_id = #{userId} and subscription_type = 1
+  </select>
+<select id="selectBeFollowedSubscriptionByUid" parameterType="long" resultMap="SubscriptionResultMap">
+    <include refid="selectAllBaseSubscriptionSql" />
+    where s.user_id = #{userId} and subscription_type = 4
   </select>
     
   <sql id="limit">

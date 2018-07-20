@@ -9,7 +9,7 @@ import bbs.subscriptionsystem.action.entity.AbstractCollectAction;
 import bbs.subscriptionsystem.action.entity.AbstractPubAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 
-public class UserTrendNotice extends BaseNotice  {
+public class UserTrendNotice extends BaseTrendNotice  {
 	
 	/**
 	 * 
@@ -31,10 +31,10 @@ public class UserTrendNotice extends BaseNotice  {
 	private Date pubTime;
 
 	public UserTrendNotice(UserTrendAction<?> action) {
+		super(action.getPubTime(), TrendNoticeType.UserTrendNotice);
 		this.nickname = action.getUser().getNickname();
 		this.userId = action.getUser().getId();
 		this.setPubTime(action.getPubTime());
-		this.setTrendNoticeType(TrendNoticeType.UserTrendNotice);
 
 		if (action instanceof AbstractCollectAction) {
 			this.actionType = "收藏了";

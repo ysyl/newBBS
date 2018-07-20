@@ -14,6 +14,7 @@ import bbs.subscriptionsystem.action.DAO.PostTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.UserTrendActionDAO;
 import bbs.subscriptionsystem.action.entity.BaseAction;
+import bbs.subscriptionsystem.action.entity.BaseTrendAction;
 import bbs.subscriptionsystem.action.provider.ActionProvider;
 import bbs.subscriptionsystem.enuma.UserTrendActionTargetType;
 import bbs.subscriptionsystem.enuma.UserTrendActionType;

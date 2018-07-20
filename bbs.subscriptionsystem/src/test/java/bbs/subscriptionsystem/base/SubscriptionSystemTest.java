@@ -253,7 +253,8 @@ public class SubscriptionSystemTest extends BaseTest{
 		User user = bbsService.getUser(1L);
 		//确定这个用户没用订阅topic
 		List<BaseSubscription<?>> subs = subManager.getAllSubscriptions(user.getId());
-		assertEquals(0, subs.size());
+		//任何用户初始都只有一个被关注订阅
+		assertEquals(1, subs.size());
 		Topic luckTopic = bbsService.getTopic(2L);
 		logger.info("\n\n\nfinal test\n\n");
 		List<Long> postIdList = pubRandomPost(user.getId(), luckTopic.getId(), 1);
@@ -261,7 +262,8 @@ public class SubscriptionSystemTest extends BaseTest{
 		for (BaseSubscription<?> sub : subs) {
 			logger.info("subscriptionId: "+sub.getId());
 		}
-		assertEquals(1, subs.size());
+		//算上被关注订阅，有两个
+		assertEquals(2, subs.size());
 		
 		logger.info("发完第一个帖子");
 		//选择某个用户，对user发送的第一个回复进行三次回复

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
 import bbs.subscriptionsystem.action.entity.BaseAction;
+import bbs.subscriptionsystem.action.entity.BaseTrendAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
 import bbs.subscriptionsystem.subscription.entity.TopicSubscription;
@@ -27,7 +28,7 @@ public class TopicTrendActionProvider implements ActionProvider {
 	}
 
 	@Override
-	public List<TopicTrendAction> getAllActionBySubscription(BaseSubscription<?> subscription) {
+	public List<? extends BaseAction> getAllActionBySubscription(BaseSubscription<?> subscription) {
 		// TODO Auto-generated method stub
 		if (!support((Class<? extends BaseSubscription<?>>) subscription.getClass())) throw new IllegalArgumentException();
 		

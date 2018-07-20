@@ -5,20 +5,18 @@ import java.util.Date;
 
 import bbs.subscriptionsystem.action.entity.PostTrendAction;
 
-public class PostTrendNotice extends BaseNotice {
+public class PostTrendNotice extends BaseTrendNotice {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public Long topicId;
+	private Long topicId;
 
-	public String postDigest; 
+	private String postDigest; 
 	
-	public Long postId;
-	
-	public Date pubTime;
+	private Long postId;
 
 	public Long getTopicId() {
 		return topicId;
@@ -43,24 +41,14 @@ public class PostTrendNotice extends BaseNotice {
 	public void setPostId(Long postId) {
 		this.postId = postId;
 	}
-
-	public Date getPubTime() {
-		return pubTime;
-	}
-
-	public void setPubTime(Date pubTime) {
-		this.pubTime = pubTime;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	public PostTrendNotice(PostTrendAction action) {
+		super(action.getPubTime(), TrendNoticeType.PostTrendNotice);
 		this.postDigest = action.getTargetPost().getContent();
 		this.postId = action.getTargetPost().getId();
-		this.pubTime = action.getPubTime();
 		this.topicId = action.getTopic().getId();
-		this.setTrendNoticeType(TrendNoticeType.PostTrendNotice);
 	}
 }

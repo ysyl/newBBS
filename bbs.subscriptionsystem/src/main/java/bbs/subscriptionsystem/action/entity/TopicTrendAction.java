@@ -6,7 +6,7 @@ import bbs.forum.DTO.Post;
 import bbs.forum.DTO.Topic;
 import bbs.forum.DTO.User;
 
-public class TopicTrendAction extends BaseAction implements Serializable {
+public class TopicTrendAction extends BaseTrendAction implements Serializable {
 
 	public TopicTrendAction(User replier, Post newReply, Topic topic) {
 		super();

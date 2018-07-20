@@ -4,6 +4,7 @@ import bbs.subscriptionsystem.entity.TSubscription;
 import bbs.subscriptionsystem.entity.TSubscriptionExample;
 import bbs.subscriptionsystem.enuma.SubscriptionType;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
+import bbs.subscriptionsystem.subscription.entity.BeFollowedSubscription;
 import bbs.subscriptionsystem.subscription.entity.FollowingSubscription;
 import bbs.subscriptionsystem.subscription.entity.ForumSubscription;
 import bbs.subscriptionsystem.subscription.entity.TopicSubscription;
@@ -93,4 +94,6 @@ public interface TSubscriptionMapper {
 	int countSubscriptionByUidAndTargetIdAndType(@Param("userId")long uid,@Param("targetId") long targetId,@Param("subscriptionType") SubscriptionType subscriptionType);
 
 	List<FollowingSubscription> selectAllFollowingSubscriptionByUid(long uid);
+
+	BeFollowedSubscription selectBeFollowedSubscriptionByUid(long uid);
 }

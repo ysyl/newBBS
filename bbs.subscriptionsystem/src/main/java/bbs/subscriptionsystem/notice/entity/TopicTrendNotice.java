@@ -5,7 +5,7 @@ import java.util.Date;
 
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 
-public class TopicTrendNotice extends BaseNotice  {
+public class TopicTrendNotice extends BaseTrendNotice  {
 
 	/**
 	 * 
@@ -21,11 +21,11 @@ public class TopicTrendNotice extends BaseNotice  {
 	private Long repostId;
 
 	public TopicTrendNotice(TopicTrendAction action) {
+		super(action.getPubTime(), TrendNoticeType.TopicTrendNotice);
 		this.topicTitle = action.getTopic().getTitle();
 		this.topicId = action.getTopic().getId();
 		this.pubTime = action.getPubTime();
 		this.repostId = action.getNewReply().getId();
-		this.setTrendNoticeType(TrendNoticeType.TopicTrendNotice);
 	}
 
 	public Long getRepostId() {
