@@ -12,6 +12,7 @@ import bbs.subscriptionsystem.entity.TSubscription;
 import bbs.subscriptionsystem.enuma.SubscriptionType;
 import bbs.subscriptionsystem.mapper.TSubscriptionMapper;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
+import bbs.subscriptionsystem.subscription.entity.FollowingSubscription;
 import bbs.subscriptionsystem.subscription.entity.ForumSubscription;
 import bbs.subscriptionsystem.subscription.entity.PostSubscription;
 import bbs.subscriptionsystem.subscription.entity.TopicSubscription;
@@ -52,7 +53,7 @@ public class SubscriptionDAO {
 	public void saveUserSubscription(long uid, long followingId) {
 		// TODO Auto-generated method stub
 		TSubscription entity = new TSubscription();
-		entity.setSubscriptionType(SubscriptionType.USER);
+		entity.setSubscriptionType(SubscriptionType.FOLLOW);
 		entity.setFollowingId(followingId);
 		entity.setUserId(uid);
 		mapper.insertSelective(entity);
@@ -104,6 +105,11 @@ public class SubscriptionDAO {
 		return mapper.selectAllForumSubscriptionByUid(uid);
 	}
 
+	public List<FollowingSubscription> getAllFollowingSubscriptionByUid(long uid) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllFollowingSubscriptionByUid(uid);
+	}
+
 	public void updateLastReadTime(Long id) {
 		// TODO Auto-generated method stub
 		TSubscription entity = new TSubscription();
@@ -126,7 +132,8 @@ public class SubscriptionDAO {
 	}
 	public void removeUserSubscription(long uid, long targetId) {
 		// TODO Auto-generated method stub
-		mapper.deleteByUidAndTargetId(uid, targetId, SubscriptionType.USER);
+		mapper.deleteByUidAndTargetId(uid, targetId, SubscriptionType.FOLLOW);
 	}
+
 	
 }

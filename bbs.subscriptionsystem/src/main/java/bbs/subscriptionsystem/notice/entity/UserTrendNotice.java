@@ -4,6 +4,7 @@ import java.util.Date;
 
 import bbs.forum.DTO.Post;
 import bbs.forum.DTO.Topic;
+import bbs.forum.DTO.User;
 import bbs.subscriptionsystem.action.entity.AbstractCollectAction;
 import bbs.subscriptionsystem.action.entity.AbstractPubAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
@@ -41,6 +42,7 @@ public class UserTrendNotice extends BaseNotice  {
 		else if (action instanceof AbstractPubAction) {
 			this.actionType = "发布了";
 		}
+		
 
 		switch(action.getTargetType()) {
 		case TOPIC:
@@ -55,6 +57,11 @@ public class UserTrendNotice extends BaseNotice  {
 			this.targetDigest = post.getContent();
 			this.targetId = post.getId();
 			break;
+		case USER:
+			this.targetType = "用户";
+			User user = ((User) action.getTarget());
+			this.targetDigest = user.getNickname();
+			this.targetId = user.getId();
 		}
 	}
 

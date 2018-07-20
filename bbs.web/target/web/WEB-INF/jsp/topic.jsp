@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %> 
 <%@ page isELIgnored="false"%>
 
 <!DOCTYPE html>
@@ -81,8 +82,6 @@
     <%@ include file="/resource/jsp_component/common-script.jsp" %>
 	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 	
-    <script type="text/javascript"
-	   src="<c:url value="/resource/js/topic.js" />"></script>
 	
 	<script type="text/javascript">
     $(document).ready(function() {
@@ -108,5 +107,7 @@
     let collectTopicUrl = "<c:url value="/collect/topic/" />";
     let followUserUrl = "<c:url value="/collect/user/" />"
 </script>
+    <script type="text/javascript"
+	   src="<c:url value="/resource/js/topic.js" />"></script>
 </body>
 </html>

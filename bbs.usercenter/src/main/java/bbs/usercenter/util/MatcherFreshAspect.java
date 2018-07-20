@@ -6,6 +6,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import bbs.helper.utils.MyLogger;
+
 
 @Aspect
 @Component
@@ -47,6 +49,7 @@ public class MatcherFreshAspect {
 	
 	@After("collect(uid, targetId)")
 	public void freshCollectionAfterCollect(long uid, long targetId) {
+		MyLogger.info("\n\n刷新收藏");
 		collectMatcher.freshCollections(uid);
 	}
 

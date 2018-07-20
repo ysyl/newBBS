@@ -54,8 +54,8 @@
 					</ul> </a></li>
 			</ul>
 			<div class="navbar-right" id="user-avatar">
-		      <img src="/resource/upload/img/${currentUser.avatar }" />	
-		      <a href="javascript: void(0)">${currentUser.nickname }</a>
+		      <img id="nav-bar-user-avatar" class="rounded-circle"src="<c:url value="/resource/upload/img/${currentUser.avatar }" />" />	
+		      <a href="<c:url value="/user/${currentUser.id }" />">${currentUser.nickname }</a>
 			</div>
 			<form class="navbar-form navbar-right"
 				action="<c:url value="/search" />" method="get">

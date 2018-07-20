@@ -4,5 +4,5 @@ public enum SubscriptionType {
 	TOPIC,
 	FOLLOW,
 	FORUM,
-	POST, USER
+	POST, 
 }

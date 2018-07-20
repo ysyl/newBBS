@@ -1,12 +1,39 @@
+$(document).ready(function() {
 	class BbsPostForm {
 		constructor(pubPostFormId) {
 			this.form = $(`#${pubPostFormId}`);
-			this.header = this.form.find("#pub-post-form-header");
+			this.header = $("#pub-post-form-header");
+			this.subBtn = $("#submitPost");
+			this.replyPostId = null;
+			this.form.submit(this.changePostName.bind(this));
 		}
 		
 		reply(nickname, postId) {
-			$(this.form).find("#reply-post-input").attr("value", postId);
-			this.header.html("replyTo: " + nickname);
+			this.replyPostId = postId;
+			$("#reply-post-input").val(postId);
+			this.header.html("回复: " + nickname);
+		}
+		
+		changePostName(e) {
+			$("[name=editormd-html-code]").attr("name", "htmlContent");
+			console.log(this.replyPostId)
+		}
+		
+		submitPost(e) {
+			let content = $("textarea[name='editormd-markdown-doc']").val();
+			let htmlContent = $("textarea[name='editormd-html-code']").val();
+			let replyPostId = this.replyPostId;
+			let postData = {
+					content,
+					htmlContent,
+					replyPostId,
+			}
+			$.ajax({
+				type: "POST",
+				url: pubPostUrl,
+				data: postData,
+				dataType:"json",
+			})
 		}
 	}
 	
@@ -22,8 +49,8 @@
 			this.bindReplyEventToBtn();
 			this.bindFollowEventToBtn();
 			
-			this.isCollected = false;
-			this.isFollowed = false;
+			this.isCollected = this.collectBtn.hasClass("collected");
+			this.isFollowed = this.followBtn.hasClass("followed");
 		}
 		
 		setCollected(isCollected) {
@@ -170,3 +197,4 @@
 		postList.push(new PostListItem($(item), bbsEditor));
 	});
 	let collectTopicBtn = new CollectTopicBtn($("#collect-topic-btn"));
+})

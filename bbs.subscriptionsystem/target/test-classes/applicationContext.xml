@@ -17,9 +17,7 @@
     <context:component-scan base-package="bbs.*" > 
     </context:component-scan>
     
-    <import resource="classpath*:bbs-forum-mybatis.xml " />  
-    <import resource="classpath*:bbs-usercenter-mybatis.xml" />
-    <import resource="classpath:bbs-subscriptionsystem-mybatis.xml" />
+    <import resource="classpath*:base-mybatis.xml " />  
     <import resource="classpath:bbs-subscriptionsystem-message.xml" />
     
     

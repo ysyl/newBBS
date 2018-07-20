@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -85,28 +86,14 @@ public class PostController {
 	}
 	
 	@PostMapping("/post/{topicId}")
-	public String pubPostMd(@PathVariable("topicId") long topicId,
-		@RequestParam("editormd-markdown-doc") String mdContent,
-		@RequestParam("editormd-html-code") String htmlContent,
-		@RequestParam(value = "reply-post-id", required=false) Long postId) {
-		PubPostForm pubPostForm = new PubPostForm();
-		pubPostForm.setContent(mdContent);
-		pubPostForm.setHtmlContent(htmlContent);
-		pubPostForm.setReplyPostId(postId);
+	public String pubPostMd(@PathVariable("topicId") long topicId,PubPostForm pubPostForm) {
 		Long uid = helperService.getCurrentUserId();
 		bbsService.savePost(uid, topicId, pubPostForm);
 		return "redirect:/topic/"+topicId;
 	}
 	
 	@PostMapping("/topic/{forumId}")
-	public String pubTopicMd(@PathVariable("forumId") int forumId,
-			@RequestParam("editormd-markdown-doc") String mdContent,
-			@RequestParam("editormd-html-code") String htmlContent,
-			@RequestParam("title") String title) {
-		PubTopicForm pubTopicForm = new PubTopicForm();
-		pubTopicForm.setContent(mdContent);
-		pubTopicForm.setHtmlContent(htmlContent);
-		pubTopicForm.setTitle(title);
+	public String pubTopicMd(@PathVariable("forumId") int forumId,PubTopicForm pubTopicForm) {
 		pubTopicForm.setForumId(forumId);
 		bbsService.saveTopic(helperService.getCurrentUserId(), pubTopicForm);
 		

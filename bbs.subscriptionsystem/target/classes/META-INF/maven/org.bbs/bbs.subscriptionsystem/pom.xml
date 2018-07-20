@@ -36,6 +36,11 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+    	<groupId>org.bbs</groupId>
+    	<artifactId>config</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <parent>
   	<groupId>org.bbs</groupId>

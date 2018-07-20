@@ -111,13 +111,18 @@ public class ForumController {
 		Topic topic = bbsService.getTopic(topicId);
 		List<Post> posts = bbsService.getPostList(topicId, pageParam);
 		Map<Long, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(posts, uid);
+		Map<Long, Boolean> userCollectStatus = collectMatcher.checkUserCollectStatus(posts, uid);
 		Map<Long, Boolean> postOwnStatus = ownChecker.checkPostListOwnStatus(posts);
 		Boolean isTopicCollected = collectMatcher.checkTopicIsCollected(topicId);
 		Boolean isMyTopic = ownChecker.isMyTopic(topicId);
 		
+		MyLogger.info("\n\n post收藏情况：" + postCollectStatus);
+		MyLogger.info("\n\n user收藏情况：" + userCollectStatus);
+		
 		model.addAttribute("topic", topic);
 		model.addAttribute("posts", posts);
 		model.addAttribute("postCollectionStatus", postCollectStatus);
+		model.addAttribute("userCollectionStatus", userCollectStatus);
 		model.addAttribute("postOwnStatus", postOwnStatus);
 		model.addAttribute("isMyTopic", isMyTopic);
 		model.addAttribute("collectMatcher", collectMatcher);

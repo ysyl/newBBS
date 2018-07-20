@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import bbs.forum.DTO.Post;
+import bbs.forum.DTO.User;
 import bbs.usercenter.collection.DAO.entity.BaseCollection;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
@@ -42,7 +43,16 @@ public class CollectMatcher {
 		}
 		return postCollectStatusMap;
 	}
-	
+
+	public Map<Long, Boolean> checkUserCollectStatus(List<Post> userList, long uid) {
+		Map<Long, Boolean> userCollectStatusMap = new HashMap<>();
+		for(Post post : userList ) {
+			User user = post.getAuthor();
+			Boolean isCollected = this.checkUserIsFollowed(user);
+			userCollectStatusMap.put(user.getId(), isCollected);
+		}
+		return userCollectStatusMap;
+	}	
 	public void freshCollections(long uid) {
 		this.postCollections = userCenterService.getAllPostCollectionByUserId(uid);
 		this.forumCollections = userCenterService.getAllForumCollectionByUserId(uid);
@@ -72,8 +82,9 @@ public class CollectMatcher {
 		return result;
 	}
 	
-	public boolean checkUserIsFollowed(long followingId) {
+	public boolean checkUserIsFollowed(User user) {
 		boolean result = false;
+		long followingId = user.getId();
 		for(FollowingCollection followingCollection : this.followingCollections ) {
 			if (followingCollection.getFollowing().getId().equals(followingId)) {
 				result = true;

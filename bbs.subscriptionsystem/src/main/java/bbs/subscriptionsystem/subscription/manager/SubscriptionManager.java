@@ -41,6 +41,7 @@ public class SubscriptionManager {
 	}
 
 	public void subscribeTopic(long uid, long topicId) {
+		MyLogger.info("订阅Topic: " + topicId);
 		if (!subscriptionDAO.hasTopicSubscription(uid, topicId))
 			subscriptionDAO.saveTopicSubscription(uid, topicId);
 	}
@@ -53,11 +54,13 @@ public class SubscriptionManager {
 	}
 
 	public void subscribeUserTrend(long uid, long followingId) {
+		MyLogger.info("订阅User: " + followingId);
 		if (!subscriptionDAO.hasFollowingSubscription(uid, followingId))
 			subscriptionDAO.saveUserSubscription(uid, followingId);
 	}
 
 	public void subscribeForum(long uid, int forumId) {
+		MyLogger.info("订阅Forum: " + forumId);
 		if (!subscriptionDAO.hasForumSubscription(uid, forumId))
 			subscriptionDAO.saveForumSubscription(uid, forumId);
 	}

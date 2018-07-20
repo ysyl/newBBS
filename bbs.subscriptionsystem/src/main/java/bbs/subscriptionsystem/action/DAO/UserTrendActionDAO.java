@@ -43,6 +43,9 @@ public class UserTrendActionDAO {
 		case POST:
 			entity.setPostId(targetId);
 			break;
+		case USER:
+			entity.setFollowingId(targetId);
+			break;
 		}
 		mapper.insertSelective(entity);
 		return entity.getId();

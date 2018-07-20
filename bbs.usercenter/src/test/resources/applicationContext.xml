@@ -16,6 +16,5 @@
     
     <context:component-scan base-package="bbs.*" />
     
-    <import resource="classpath:bbs-usercenter-mybatis.xml" />
-    <import resource="classpath*:bbs-forum-mybatis.xml" />
+    <import resource="classpath*:base-mybatis.xml" />
 </beans>

@@ -108,4 +108,9 @@ a:hover {
 .bbs-side-bar .panel {
   border: none;
 }
+#nav-bar-user-avatar {
+	width:40px; 
+	height: 40px;
+	border-radius: 100%;
+}
 

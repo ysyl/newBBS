@@ -39,8 +39,10 @@ public class SubscriptionMatcher {
 	}
 	
 	public void freshSubscriptions(List<BaseSubscription<?>> subscriptions) {
+		MyLogger.info("\n\n\n刷新之前的forum订阅情况 ： "+this.forumSubscriptions.size());
 		MyLogger.info("\n\n\n刷新之前的topic订阅情况 ： "+this.topicSubscriptions.size());
 		MyLogger.info("\n\n\n刷新之前的post订阅情况 ： "+this.postSubscriptions.size());
+		MyLogger.info("\n\n\n刷新之前的following订阅情况 ： "+this.followingSubscriptions.size());
 		this.subscriptions = subscriptions;
 		this.topicSubscriptions.clear();
 		this.forumSubscriptions.clear();

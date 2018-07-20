@@ -13,8 +13,12 @@
 			<div class="caption">
 				<a href="<c:url value="/user/${post.author.id }" />"><h4>${post.author.nickname }</h4></a>
 				<c:if test="${!postOwnStatus.get(post.getId()) }">
-				<a href="#"><span data-user-id="${post.author.id }"
-					class="glyphicon glyphicon-heart  follow-btn"></span></a>
+				<a href="#"><span id="follow-btn" data-user-id="${post.author.id }"
+					class="glyphicon glyphicon-heart 
+					   <c:if test="${userCollectionStatus.get(post.author.id) }">
+					       followed 
+					   </c:if>
+					 follow-btn"></span></a>
 				</c:if>
 				<div class="user-info container-fluent clearfix">
 					<div class="user-info-component col-md-4">
@@ -34,10 +38,11 @@
 		</div>
 	</div>
 	<div class="col-md-9 user-post">
+	<!-- 如果这个回复不是自己发的则显示收藏 -->
 		<c:if test="${!postOwnStatus.get(post.getId()) }">
 			<a
 				class="collect-btn
-	       <c:if test="${isChecked }">collected</c:if>
+	       <c:if test="${postCollectionStatus.get(post.id) }">collected</c:if>
 	    "
 				href="#"><span data-post-id="${post.id }"
 				class="glyphicon glyphicon-heart"></span></a>

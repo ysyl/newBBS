@@ -10,12 +10,12 @@ import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 
 @Aspect
 @Component
-public class UserSubscriptionMonitor {
+public class FollowingSubscriptionMonitor {
 	
 	private SubscriptionManager subManager;
 
 	@Autowired
-	public UserSubscriptionMonitor(SubscriptionManager subManager) {
+	public FollowingSubscriptionMonitor(SubscriptionManager subManager) {
 		super();
 		this.subManager = subManager;
 	}

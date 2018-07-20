@@ -70,4 +70,11 @@ public class ActionGeneratedMonitor {
 		actionPusher.pushForumTrendAction(forumTrendActionId);
 	}
 	
+	@AfterReturning( pointcut="userTrendActionGenerated(actionType, targetType, uid, targetId)", returning="userTrendActionId")
+	public void pushUserTrendAction(UserTrendActionType actionType, UserTrendActionTargetType targetType,
+			long uid, long targetId, long userTrendActionId) {
+		MyLogger.info("监控到User trend发布");
+		actionPusher.pushUserTrendAction(userTrendActionId);
+	}
+	
 }
