@@ -2,6 +2,8 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %> 
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ page isELIgnored="false"%>
 
 <!DOCTYPE html>
@@ -103,9 +105,9 @@
         });
         */
     });
-    let collectPostUrl = "<c:url value="/collect/post/" />";
-    let collectTopicUrl = "<c:url value="/collect/topic/" />";
-    let followUserUrl = "<c:url value="/collect/user/" />"
+    let collectPostUrl = "<c:url value="/usercenter/collect/post/" />";
+    let collectTopicUrl = "<c:url value="/usercenter/collect/topic/" />";
+    let followUserUrl = "<c:url value="/usercenter/collect/user/" />"
 </script>
     <script type="text/javascript"
 	   src="<c:url value="/resource/js/topic.js" />"></script>

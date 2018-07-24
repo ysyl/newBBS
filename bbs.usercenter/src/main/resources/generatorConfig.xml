@@ -13,5 +13,10 @@
         typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
       />
     </table>
+    <table schema="mydb" tableName="t_user_profile" domainObjectName="TUserProfile">
+      <columnOverride column="sex" property="sex" javaType="bbs.forum.enuma.Sex"
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+      />
+    </table>
   </context>
 </generatorConfiguration>

@@ -27,11 +27,11 @@ import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.form.UpdateUserProfileForm;
 import bbs.forum.mapper.TUserPrincipalForumMapper;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 
 @Service
 @Transactional
-public class BBSServiceImp implements BBSService {
+public class BBSServiceImp implements BbsService {
 	
 	private ForumDAO forumDAO;
 	
@@ -218,11 +218,6 @@ public class BBSServiceImp implements BBSService {
 		return topicDAO.getAllByUid(uid, pageParam);
 	}
 
-	@Override
-	public void updateUserProfile(Long uid, UpdateUserProfileForm updateUserProfileForm) {
-		// TODO Auto-generated method stub
-		userDAO.update(uid, updateUserProfileForm);
-	}
 
 	@Override
 	public String getUsername(long uid) {

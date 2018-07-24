@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bbs.security.helper.SecurityHelper;
+import bbs.security.utils.HasNotLoginException;
+import bbs.security.utils.IAuthenticationFacade;
 import bbs.subscriptionsystem.notice.entity.BaseTrendNotice;
+import bbs.subscriptionsystem.notice.service.NoticeResultMap;
 import bbs.subscriptionsystem.notice.service.NoticeService;
 
 @Controller
@@ -20,60 +22,36 @@ public class NoticeController {
 	
 	private NoticeService noticeService;
 	
-	private SecurityHelper helperService;
+	private IAuthenticationFacade authenticationFacade;
 
 	@Autowired
-	public NoticeController(NoticeService noticeService, SecurityHelper helperService) {
+	public NoticeController(NoticeService noticeService, IAuthenticationFacade authenticationFacade) {
 		super();
 		this.noticeService = noticeService;
-		this.helperService = helperService;
-	}
-	
-	private class NoticeResult {
-		private String contextPath;
-		private List<BaseTrendNotice> notices;
-		
-		public NoticeResult(String contextPath, List<BaseTrendNotice> notices) {
-			super();
-			this.contextPath = contextPath;
-			this.notices = notices;
-		}
-		public String getContextPath() {
-			return contextPath;
-		}
-		public void setContextPath(String contextPath) {
-			this.contextPath = contextPath;
-		}
-		public List<BaseTrendNotice> getNotices() {
-			return notices;
-		}
-		public void setNotices(List<BaseTrendNotice> notices) {
-			this.notices = notices;
-		}
-		
+		this.authenticationFacade = authenticationFacade;
 	}
 
 
 	//ajax拉取通知，用于第一次点开通知面版, 会刷新订阅时间
 	@GetMapping("/trend/all")
 	@ResponseBody
-	public NoticeResult getNotices(HttpServletRequest req) {
-		Long uid = helperService.getCurrentUserId();
-		List<BaseTrendNotice> notices = noticeService.getAllTrendNoticeByUid(uid);
-		return new NoticeResult(req.getContextPath(), notices);
+	public NoticeResultMap getNotices(HttpServletRequest req) throws HasNotLoginException {
+		Long uid = authenticationFacade.getUserId();
+		NoticeResultMap notices = noticeService.getNoticeByUid(uid);
+		return notices;
 	}
 	
 	@GetMapping("/trend/count")
 	@ResponseBody
-	public int getNoticesCount() {
-		Long uid = helperService.getCurrentUserId();
+	public int getNoticesCount() throws HasNotLoginException {
+		Long uid = authenticationFacade.getUserId();
 		return noticeService.getNoticeCountByUid(uid);
 	}
 	
 	@GetMapping("/trend/freshLastReadTime")
 	@ResponseBody
-	public String freshTrendLastReadTime() {
-		Long uid = helperService.getCurrentUserId();
+	public String freshTrendLastReadTime() throws HasNotLoginException {
+		Long uid = authenticationFacade.getUserId();
 		boolean isFreshed = noticeService.freshLastReadTime(uid);
 		return isFreshed ? "SUCCESS":"FAILURE";
 	}

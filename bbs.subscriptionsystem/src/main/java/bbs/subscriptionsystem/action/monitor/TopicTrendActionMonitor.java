@@ -39,7 +39,7 @@ public class TopicTrendActionMonitor extends AbstractActionMonitor {
 
 	//发布回复后，发布帖子动态动作
 	@Transactional
-	@AfterReturning(value = "execution(* bbs.forum.service.BBSService.savePost(..)) "
+	@AfterReturning(value = "execution(* bbs.forum.service.BbsService.savePost(..)) "
 			+ "&& args(uid, topicId, postForm)", returning = "postId")
 	public void monitor(long uid, long topicId, PubPostForm postForm, Long postId) {
 		actionManager.addTopicTrendAction(uid, topicId, postId);

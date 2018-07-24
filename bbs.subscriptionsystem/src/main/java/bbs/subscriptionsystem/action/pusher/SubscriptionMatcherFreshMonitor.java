@@ -4,6 +4,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import bbs.helper.utils.MyLogger;
@@ -20,19 +21,19 @@ public class SubscriptionMatcherFreshMonitor {
 		this.matcherHolder = matcherHolder;
 	}
 
-	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.subscribe*(..))"
+	@Pointcut("execution(* bbs.subscriptionsystem.service.SubscriptionService.subscribe*(..))"
 			+ " && args(uid, targetId)")
 	public void subscribed(long uid, long targetId) {}
 	
-	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.subscribeForum(..))"
+	@Pointcut("execution(* bbs.subscriptionsystem.service.SubscriptionService.subscribeForum(..))"
 			+ " && args(uid, forumId)")
 	public void subscribeForum(long uid, int forumId) {}
 
-	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.unsubscribe*(..))"
+	@Pointcut("execution(* bbs.subscriptionsystem.service.SubscriptionService.unsubscribe*(..))"
 			+ " && args(uid, targetId)")
 	public void unsubscribed(long uid, long targetId) {}
 	
-	@Pointcut("execution(* bbs.subscriptionsystem.subscription.manager.SubscriptionManager.unsubscribeForum(..))"
+	@Pointcut("execution(* bbs.subscriptionsystem.service.SubscriptionService.unsubscribeForum(..))"
 			+ " && args(uid, forumId)")
 	public void unsubscribeForum(long uid, int forumId) {}
 

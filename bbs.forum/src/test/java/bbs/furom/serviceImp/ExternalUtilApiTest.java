@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import bbs.forum.DTO.Forum;
 import bbs.forum.DTO.Post;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.helper.utils.MyLogger;
 
 @Transactional
@@ -22,7 +22,7 @@ import bbs.helper.utils.MyLogger;
 public class ExternalUtilApiTest extends BaseTest {
 
 	@Autowired
-	BBSService bbsService;
+	BbsService bbsService;
 	
 	@Test
 	public void testUsername() {

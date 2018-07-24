@@ -11,18 +11,53 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 
+	<beans:import
+		resource="classpath*:security-core-security.xml" />
 
 
 
 	<context:property-placeholder
 		location="classpath:security.properties" ignore-unresolvable="true" />
-	<http pattern="${resourceUrl}" security="none"  /> 
+	<http pattern="${resourceUrl}" security="none" />
 	<http pattern="${cssUrl}" security="none" />
 	<http pattern="${jsUrl}" security="none" />
 	<http use-expressions="true">
-		<intercept-url pattern="/login" access="isAnonymous()" />
-		<intercept-url pattern="/**" access="isAuthenticated()" />
-		<form-login login-page="/login" />
+		<intercept-url pattern="${forumUrl}" access="permitAll" />
+		<intercept-url pattern="${loginUrl}"
+			access="isAnonymous()" />
+		<intercept-url pattern="${usercenterUrl}" method="GET"
+			access="permitAll" />
+		<intercept-url pattern="${registerUrl}"
+			access="isAnonymous()" />
+			<!-- 更新用户资料 -->
+		<intercept-url pattern="/upload/userprofile/{userId}"
+			access="isAuthenticated() and @principalChecker.isMeByUid(#userId)" />
+		<!-- <intercept-url pattern="/**" -->
+		<!-- access="isAuthenticated()" /> -->
+		<form-login login-page="${loginUrl}" />
+		<logout logout-url="${logoutUrl}" />
 		<csrf disabled="true" />
 	</http>
+
+	<global-method-security
+		pre-post-annotations="enabled">
+		<protect-pointcut access="ROLE_USER"
+			expression="execution(* bbs.usercenter.service.UserCenterService.*(..))" />
+	</global-method-security>
+
+	<beans:bean id="roleVoter"
+		class="org.springframework.security.access.vote.RoleHierarchyVoter">
+		<beans:constructor-arg ref="roleHierarchy" />
+	</beans:bean>
+	<beans:bean id="roleHierarchy"
+		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+		<beans:property name="hierarchy">
+			<beans:value>
+				ROLE_BBS_MANAGER > ROLE_FORUM_MANAGER
+				ROLE_FORUM_MANAGER
+				> ROLE_USER
+			</beans:value>
+		</beans:property>
+	</beans:bean>
+
 </beans:beans>

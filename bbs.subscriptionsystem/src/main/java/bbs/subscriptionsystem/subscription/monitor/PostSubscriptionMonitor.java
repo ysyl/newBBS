@@ -4,13 +4,14 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import bbs.forum.DTO.Post;
 import bbs.forum.form.PubPostForm;
+import bbs.subscriptionsystem.service.SubscriptionService;
 import bbs.subscriptionsystem.subscription.entity.PostSubscription;
-import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 
 //鏀惰棌鍙婂彂甯冨悗璁㈤槄
 @Order(2)
@@ -18,10 +19,10 @@ import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 @Aspect
 public class PostSubscriptionMonitor {
 	
-	private SubscriptionManager subscriptionManager;
+	private SubscriptionService subscriptionManager;
 	
 	@Autowired
-	public PostSubscriptionMonitor(SubscriptionManager subscriptionManager) {
+	public PostSubscriptionMonitor(SubscriptionService subscriptionManager) {
 		super();
 		this.subscriptionManager = subscriptionManager;
 	}
@@ -40,7 +41,7 @@ public class PostSubscriptionMonitor {
 		subscriptionManager.subscribePost(uid, postId);
 	}
 	
-	@AfterReturning( value = "execution(* bbs.forum.service.BBSService.savePost(..))"
+	@AfterReturning( value = "execution(* bbs.forum.service.BbsService.savePost(..))"
 			+ " && args(uid, topicId, postForm)", returning = "pubPostId")
 	public void monitor(long uid, long topicId, PubPostForm postForm, long pubPostId) {
 		subscriptionManager.subscribePost(uid, pubPostId);
@@ -51,7 +52,7 @@ public class PostSubscriptionMonitor {
 		subscriptionManager.subscribePost(uid, pubPostId);
 	}
 	
-	@AfterReturning(value = "execution(* bbs.forum.service.BBSService.reply(..))"
+	@AfterReturning(value = "execution(* bbs.forum.service.BbsService.reply(..))"
 			+ " && args(uid, topicId, targetPostId, postForm)", returning = "pubPostId")
 	public void monitor(long uid, long topicId, long targetPostId, PubPostForm postForm, long pubPostId) {
 		subscriptionManager.subscribePost(uid, pubPostId);

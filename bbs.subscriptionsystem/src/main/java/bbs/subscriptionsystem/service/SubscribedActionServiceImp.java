@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import bbs.form.utils.PageParam;
@@ -17,7 +18,6 @@ import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 import bbs.subscriptionsystem.action.manager.ActionManager;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
-import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 
 @Component
 public class SubscribedActionServiceImp implements SubscribedActionService {
@@ -26,44 +26,18 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	
 	private UserTrendActionDAO userTrendActionDAO;
 	
-	private SubscriptionManager subscriptionManager;
+	private SubscriptionService subscriptionManager;
 	
 	private ActionManager actionManager;
 
-	public TopicTrendActionDAO getTopicTrendActionDAO() {
-		return topicTrendActionDAO;
-	}
-
 	@Autowired
-	public void setTopicTrendActionDAO(TopicTrendActionDAO topicTrendActionDAO) {
+	public SubscribedActionServiceImp(TopicTrendActionDAO topicTrendActionDAO, UserTrendActionDAO userTrendActionDAO,
+			 SubscriptionService subscriptionManager, ActionManager actionManager) {
+		super();
 		this.topicTrendActionDAO = topicTrendActionDAO;
-	}
-
-	public UserTrendActionDAO getUserTrendActionDAO() {
-		return userTrendActionDAO;
-	}
-
-	@Autowired
-	public void setUserTrendActionDAO(UserTrendActionDAO userTrendActionDAO) {
 		this.userTrendActionDAO = userTrendActionDAO;
-	}
-
-	public SubscriptionManager getSubscriptionManager() {
-		return subscriptionManager;
-	}
-
-	@Autowired
-	public void setSubscriptionManager(SubscriptionManager subscriptionManager) {
 		this.subscriptionManager = subscriptionManager;
-	}
-
-	public ActionManager getActionManger() {
-		return actionManager;
-	}
-
-	@Autowired
-	public void setActionManger(ActionManager actionManger) {
-		this.actionManager = actionManger;
+		this.actionManager = actionManager;
 	}
 
 	@Override
@@ -90,7 +64,7 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	@Override
 	public List<BaseAction> getAllActionByUid(long uid) {
 		// TODO Auto-generated method stub
-		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
+		List<? extends BaseSubscription<?>> subscriptions = subscriptionManager.getSubscriptions(uid);
 		List<BaseAction> actions = new ArrayList<>();
 		for (BaseSubscription<?> subscription : subscriptions ) {
 			actions.addAll(actionManager.getAllActionBySubscription(subscription));
@@ -102,7 +76,7 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	@Override
 	public Integer countActionsByUid(long uid) {
 		// TODO Auto-generated method stub
-		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
+		List<? extends BaseSubscription<?>> subscriptions = subscriptionManager.getSubscriptions(uid);
 		Integer count = 0;
 		for (BaseSubscription<?> subscription : subscriptions ) {
 			count += actionManager.countActionBySubscription(subscription);
@@ -113,7 +87,7 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	@Override
 	public boolean freshLastReadTime(long uid) {
 		// TODO Auto-generated method stub
-		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
+		List<? extends BaseSubscription<?>> subscriptions = subscriptionManager.getSubscriptions(uid);
 		for(BaseSubscription<?> subscription : subscriptions) {
 			freshLastReadTime(subscription);
 		}

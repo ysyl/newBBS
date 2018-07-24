@@ -33,6 +33,7 @@ public class BeFollowedAction extends BaseAction {
 
 	public BeFollowedAction(CollectUserAction collectUserAction) {
 		this.follower = collectUserAction.getUser();
+		this.followingUser = collectUserAction.getTarget();
 		this.rawAction = collectUserAction;
 	}
 

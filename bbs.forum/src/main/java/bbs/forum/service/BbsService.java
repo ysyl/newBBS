@@ -19,7 +19,7 @@ import bbs.forum.form.PubTopicForm;
 import bbs.forum.form.UpdateUserProfileForm;
 
 public
-interface BBSService {
+interface BbsService {
 
 	List<Forum> getAllForums();
 	
@@ -42,8 +42,6 @@ interface BBSService {
 	void updateForum(ForumForm forumForm);
 	
 	void updatePost(long uid, long postId, ModifyPostForm modifyPostForm);
-	
-	void updateUserProfile(Long uid, UpdateUserProfileForm updateUserProfileForm);
 	
 	Forum getForum(int forumId);
 	

@@ -37,16 +37,6 @@ public class MatcherFreshAspect {
 	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.uncollectForum(..))"
 			+ " && args(uid, forumId)")
 	public void uncollectForum(long uid, int forumId) {}
-	
-//	@Pointcut("execution(* bbs.forum.service.BBSService.getPostList(..))")
-//	public void getPostList() {}
-//	
-//	@Pointcut("execution(* bbs.forum.service.BBSService.getTopicList(..))")
-//	public void getTopicList() {}
-//
-//	@Pointcut("execution(* bbs.forum.service.BBSService.getTopic(..))")
-//	public void getTopic() {}
-	
 	@After("collect(uid, targetId)")
 	public void freshCollectionAfterCollect(long uid, long targetId) {
 		MyLogger.info("\n\n刷新收藏");

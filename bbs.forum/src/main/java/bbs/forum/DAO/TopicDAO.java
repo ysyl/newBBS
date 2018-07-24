@@ -15,7 +15,7 @@ import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.mapper.TPostMapper;
 import bbs.forum.mapper.TTopicMapper;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 
 @Component
 @Transactional

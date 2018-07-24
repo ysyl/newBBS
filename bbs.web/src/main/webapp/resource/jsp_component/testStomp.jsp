@@ -52,7 +52,7 @@
 					</ul> </a></li>
 			</ul>
 			<form class="navbar-form navbar-right"
-				action="<c:url value="/search" />" method="get">
+				action="<c:url value="/forum/search" />" method="get">
 				<div class="form-group search-form">
 					<div class="input-group">
 						<input type="text" name="title"

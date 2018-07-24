@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bbs.forum.DTO.User;
 import bbs.forum.form.PubPostForm;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.exception.RepetitiveCollectException;
@@ -46,7 +46,7 @@ public class ActionPusherTest extends BaseTest {
 	private static final Logger logger = Logger.getLogger(ActionPusherTest.class.getName());
 	
 	@Autowired
-	BBSService bbsService;
+	BbsService bbsService;
 	
 	@Autowired
 	SubscribedActionService subService;

@@ -14,17 +14,17 @@ import bbs.forum.mapper.TUserMapper;
 public class UserDAO {
 	
 	private TUserMapper tUserMapper;
-
-	public void save(long uid, UpdateUserProfileForm form) {
-		// TODO Auto-generated method stub
-		TUser tUser = new TUser();
-		tUser.setId(uid);
-		tUser.setNickname(form.getNickname());
-		tUser.setSex(form.getSex());
-		tUser.setAvatar(form.getAvatar());
-		
-		tUserMapper.insertSelective(tUser);
-	}
+//
+//	public void save(long uid, UpdateUserProfileForm form) {
+//		// TODO Auto-generated method stub
+//		TUser tUser = new TUser();
+//		tUser.setId(uid);
+//		tUser.setNickname(form.getNickname());
+//		tUser.setSex(form.getSex());
+//		tUser.setAvatar(form.getAvatar());
+//		
+//		tUserMapper.insertSelective(tUser);
+//	}
 
 	public User get(long uid) {
 		// TODO Auto-generated method stub
@@ -46,14 +46,14 @@ public class UserDAO {
 		User user = tUserMapper.selectUserByNickname(nickname);
 		return user;
 	}
-	
-	public void update(Long uid, UpdateUserProfileForm updateUserProfileForm) {
-		TUser tUser = new TUser();
-		tUser.setId(uid);
-		tUser.setNickname(updateUserProfileForm.getNickname());
-		tUser.setSex(updateUserProfileForm.getSex());
-		tUser.setAvatar(updateUserProfileForm.getAvatar());
-		
-		tUserMapper.updateByPrimaryKeySelective(tUser);
-	}
+//	
+//	public void update(Long uid, UpdateUserProfileForm updateUserProfileForm) {
+//		TUser tUser = new TUser();
+//		tUser.setId(uid);
+//		tUser.setNickname(updateUserProfileForm.getNickname());
+//		tUser.setSex(updateUserProfileForm.getSex());
+//		tUser.setAvatar(updateUserProfileForm.getAvatar());
+//		
+//		tUserMapper.updateByPrimaryKeySelective(tUser);
+//	}
 }

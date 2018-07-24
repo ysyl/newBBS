@@ -21,7 +21,7 @@ import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Post;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
@@ -37,7 +37,7 @@ public class UserServiceTest extends BaseTest {
 	UserCenterService userCenterService;
 	
 	@Autowired
-	BBSService bbsService;
+	BbsService bbsService;
 	
 	@Autowired
 	CollectMatcher collectMatcher;

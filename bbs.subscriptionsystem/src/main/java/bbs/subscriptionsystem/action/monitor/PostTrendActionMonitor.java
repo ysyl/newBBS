@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import bbs.forum.form.PubPostForm;
 import bbs.subscriptionsystem.action.manager.ActionManager;
-import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 
 //在TopicTrendAction之后执行
 @Order(1)
@@ -19,17 +18,14 @@ public class PostTrendActionMonitor {
 	
 	private ActionManager actionManager;
 
-	public ActionManager getActionManager() {
-		return actionManager;
-	}
-
 	@Autowired
-	public void setActionManager(ActionManager actionManager) {
+	public PostTrendActionMonitor(ActionManager actionManager) {
+		super();
 		this.actionManager = actionManager;
 	}
 
 	//如果使用这个切面，则无法监控到一楼的发布
-	@Pointcut("execution(* bbs.forum.service.BBSService.savePost(..))"
+	@Pointcut("execution(* bbs.forum.service.BbsService.savePost(..))"
 			+ " && args(uid, topicId, postForm)")
 	public void pubPost(long uid, long topicId, PubPostForm postForm) {}
 

@@ -6,7 +6,7 @@
 	<div class="container topic-nar-bar-container clearfix">
 		<ol class="breadcrumb">
             <li><a href="<c:url value="/" />">Home</a></li>
-            <li><a href="<c:url value="/forum/${topic.forum.id }" />">${topic.forum.forumName }</a></li>
+            <li><a href="<c:url value="/forum/forum/${topic.forum.id }" />">${topic.forum.forumName }</a></li>
             <li class="active">${topic.title }</li>
         </ol>
 		<nav>

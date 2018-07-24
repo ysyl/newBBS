@@ -3,31 +3,31 @@ package bbs.subscriptionsystem.action.pusher;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.helper.utils.MyLogger;
+import bbs.subscriptionsystem.service.SubscriptionService;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
-import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 
 @Component
 public class SubscriptionMatcherFactory {
 	
 	@Autowired
-	public SubscriptionMatcherFactory(SubscriptionManager subscriptionManager, BBSService bbsService) {
+	public SubscriptionMatcherFactory(SubscriptionService subscriptionManager, BbsService bbsService) {
 		super();
 		this.subscriptionManager = subscriptionManager;
 		this.bbsService = bbsService;
 	}
 
-	private SubscriptionManager subscriptionManager;
+	private SubscriptionService subscriptionManager;
 	
-	private BBSService bbsService;
+	private BbsService bbsService;
 
-	public SubscriptionMatcher createSubscriptionMatcher(String username) {
+	public SubscriptionMatcher createSubscriptionMatcher(String username, long uid) {
 		MyLogger.info("为用户： " + username + " 创建matcher");
-		Long uid = bbsService.getUser(username).getId();
-		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
+		List<BaseSubscription<?>> subscriptions = (List<BaseSubscription<?>>) subscriptionManager.getSubscriptions(uid);
 		return new SubscriptionMatcher(username, subscriptions);
 	}
 }

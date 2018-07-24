@@ -22,11 +22,11 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bbs.forum.form.PubPostForm;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.subscriptionsystem.action.entity.BaseTrendAction;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.service.UserCenterService;
-import bbs.web.listener.NoticeInitializer;
+import bbs.web.listener.LoginAndLogoutListener;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.*;
@@ -52,7 +52,7 @@ public class MockMvcTest extends BaseTest {
 	@Autowired
 	SubscribedActionService subService;
 	@Autowired
-	BBSService bbsService;
+	BbsService bbsService;
 	@Autowired
 	UserCenterService userCenterService;
 	@Autowired
@@ -73,7 +73,6 @@ public class MockMvcTest extends BaseTest {
 		this.mockSession = new MockHttpSession();
 	}
 
-	@Test
 	// @WithUserDetails(value = "varrickt",
 	// userDetailsServiceBeanName="userDetailsServiceImp")
 	public void testLogin() throws Exception {
@@ -86,7 +85,6 @@ public class MockMvcTest extends BaseTest {
 		mvc.perform(formLogin().user("verrickt").password("123456")).andExpect(authenticated());
 	}
 
-	@Test
 	public void testActionPull() throws Exception {
 		// 预先订阅，然后插入数据
 		ObjectMapper om = new ObjectMapper();
@@ -124,10 +122,26 @@ public class MockMvcTest extends BaseTest {
 				bbsService.savePost(luckyUserId, luckyTopicId, pubPostForm);
 		Object count =  this.mockSession
 				.getAttribute(
-						NoticeInitializer.NOTICE_COUNT_NAME);
+						LoginAndLogoutListener.NOTICE_COUNT_NAME);
 		logger.info("\n\n\nint" + count);
 		assertEquals(1,(int) count);
 		logger.info("\n\n\n初始化测试结束");
+	}
+	
+	@Test
+	public void testRegister() throws Exception {
+		mvc
+			.perform(post("/register")
+						.param("nickname", "zhou2")
+						.param("username", "admin1")
+						.param("password", "123456")
+						.param("email", "zhoujian1237@gmail.com")
+						.param("sex", "MALE")
+					)
+			.andExpect(status().is3xxRedirection());
+		mvc
+			.perform(formLogin().user("admin1").password("123456"))
+			.andExpect(authenticated());
 	}
 
 }

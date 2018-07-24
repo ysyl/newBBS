@@ -5,15 +5,18 @@ import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
 import bbs.usercenter.collection.DAO.entity.TopicCollection;
 import bbs.usercenter.exception.RepetitiveCollectException;
-import bbs.usercenter.form.UpdateUserProfileForm;
+import bbs.usercenter.form.PubUserProfileForm;
 import bbs.usercenter.userprofile.DAO.entity.UserProfile;
 
 import java.util.List;
 
 import bbs.form.utils.*;
 import bbs.forum.DTO.*;
+import bbs.forum.form.UpdateUserProfileForm;
 
 public interface UserCenterService {
+	
+	long createUserProfile(PubUserProfileForm userProfileForm); 
 
 	void collectTopic(long uid, long topicId) throws RepetitiveCollectException;
 	
@@ -23,7 +26,7 @@ public interface UserCenterService {
 	
 	void collectForum(long uid, int forumId);
 	
-	void updateUserProfile(long uid, UpdateUserProfileForm updateUserProfileForm);
+	void updateUserProfile(long uid, PubUserProfileForm updateUserProfileForm);
 	
 	List<TopicCollection> getAllTopicCollectionByUserId(long uid);
 
@@ -50,6 +53,8 @@ public interface UserCenterService {
 	void uncollectForum(long uid, int forumId);
 
 	void uncollectUser(long uid, long followingId);
+
+	void updateUserProfile(Long uid, UpdateUserProfileForm updateUserProfileForm);
 	
 	
 	

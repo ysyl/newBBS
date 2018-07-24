@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.notice.service.NoticeResultMap;
 import bbs.subscriptionsystem.notice.service.NoticeService;
+import bbs.subscriptionsystem.service.SubscriptionService;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
-import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 import bbs.usercenter.service.UserCenterService;
 
 @Transactional
@@ -25,8 +25,8 @@ public class BeFollowedTest extends BaseTest {
 	private static final Logger logger  = MyLogger.getLogger(BeFollowedTest.class);
 	
 	@Autowired
-	@Qualifier("mySubscriptionManager")
-	SubscriptionManager subManager;
+	
+	SubscriptionService subManager;
 	
 	@Autowired
 	UserCenterService userCenterService;
@@ -43,7 +43,7 @@ public class BeFollowedTest extends BaseTest {
 		
 		assertNotNull(subManager);
 		
-		List<BaseSubscription<?>> subscriptionList = subManager.getAllSubscriptions(verricktId);
+		List<BaseSubscription<?>> subscriptionList = (List<BaseSubscription<?>>) subManager.getSubscriptions(verricktId);
 		
 		assertEquals(1, subscriptionList.size());
 		

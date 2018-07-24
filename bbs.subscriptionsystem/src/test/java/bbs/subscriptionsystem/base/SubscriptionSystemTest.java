@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
@@ -28,11 +29,11 @@ import bbs.forum.DTO.Topic;
 import bbs.forum.DTO.User;
 import bbs.forum.form.PubAnnounceForm;
 import bbs.forum.form.PubPostForm;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.forum.serviceImp.BBSServiceImp;
 import bbs.subscriptionsystem.service.SubscribedActionService;
+import bbs.subscriptionsystem.service.SubscriptionService;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
-import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 import bbs.usercenter.exception.RepetitiveCollectException;
 import bbs.usercenter.service.UserCenterService;
 import bbs.subscriptionsystem.action.entity.BaseAction;
@@ -61,16 +62,17 @@ import bbs.subscriptionsystem.enuma.UserTrendActionType;
 public class SubscriptionSystemTest extends BaseTest{  
 	
 	@Autowired
-	BBSService bbsService;
+	BbsService bbsService;
 	
 	@Autowired
 	UserCenterService userCenterService;
 	
 	@Autowired
+
 	SubscribedActionService subService;
 	
 	@Autowired
-	SubscriptionManager subManager;
+	SubscriptionService subManager;
 	
 	
 	private static final Logger logger = Logger.getLogger(SubscriptionSystemTest.class.getName());
@@ -252,13 +254,13 @@ public class SubscriptionSystemTest extends BaseTest{
 		logger.info("测试postTrendAction订阅开始");
 		User user = bbsService.getUser(1L);
 		//确定这个用户没用订阅topic
-		List<BaseSubscription<?>> subs = subManager.getAllSubscriptions(user.getId());
+		List<BaseSubscription<?>> subs = (List<BaseSubscription<?>>) subManager.getSubscriptions(user.getId());
 		//任何用户初始都只有一个被关注订阅
 		assertEquals(1, subs.size());
 		Topic luckTopic = bbsService.getTopic(2L);
 		logger.info("\n\n\nfinal test\n\n");
 		List<Long> postIdList = pubRandomPost(user.getId(), luckTopic.getId(), 1);
-		subs = subManager.getAllSubscriptions(user.getId());
+		subs = (List<BaseSubscription<?>>) subManager.getSubscriptions(user.getId());
 		for (BaseSubscription<?> sub : subs) {
 			logger.info("subscriptionId: "+sub.getId());
 		}

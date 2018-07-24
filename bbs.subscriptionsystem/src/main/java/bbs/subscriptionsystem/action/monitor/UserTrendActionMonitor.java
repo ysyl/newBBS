@@ -13,7 +13,7 @@ import bbs.forum.DTO.Post;
 import bbs.forum.DTO.Topic;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.subscriptionsystem.action.manager.ActionManager;
 import bbs.subscriptionsystem.enuma.UserTrendActionTargetType;
 import bbs.subscriptionsystem.enuma.UserTrendActionType;
@@ -34,19 +34,19 @@ public class UserTrendActionMonitor extends AbstractActionMonitor {
 		this.actionManager = actionManager;
 	}
 
-	@Pointcut("execution(* bbs.forum.service.BBSService.saveTopic(..))"
+	@Pointcut("execution(* bbs.forum.service.BbsService.saveTopic(..))"
 			+ "&& args(uid, pubTopicForm)")
 	private void pubTopic(long uid, PubTopicForm pubTopicForm) {};
 	
-	@Pointcut("execution(* bbs.forum.service.BBSService.savePost(..))"
+	@Pointcut("execution(* bbs.forum.service.BbsService.savePost(..))"
 			+ "&& args(uid, topicId, pubPostForm)")
 	private void pubPost(long uid, long topicId, PubPostForm pubPostForm) {};
 	
-	@Pointcut("execution(* bbs.forum.service.BBSService.likeTopic(..))"
+	@Pointcut("execution(* bbs.forum.service.BbsService.likeTopic(..))"
 			+ "&& args(topicId) ")
 	private void likeTopic(long topicId) {};
 	
-	@Pointcut("execution(* bbs.forum.service.BBSService.likePost(..))"
+	@Pointcut("execution(* bbs.forum.service.BbsService.likePost(..))"
 			+ "&& args(postId) ")
 	private void likePost(long postId) {};
 	

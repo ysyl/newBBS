@@ -14,25 +14,26 @@ import org.springframework.stereotype.Component;
 import bbs.forum.DAO.PostDAO;
 import bbs.forum.DAO.UserDAO;
 import bbs.forum.DTO.Post;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.helper.utils.MyLogger;
-import bbs.security.helper.SecurityHelper;
+import bbs.security.utils.HasNotLoginException;
+import bbs.security.utils.IAuthenticationFacade;
 
 //用于检测用户当前访问和要收藏的对象是不是自己已经订阅的，如果是，则取消方法调用
 @Component
 public class OwnChecker {
 	
-	private BBSService bbsService;
+	private BbsService bbsService;
 	
-	private SecurityHelper securityHelper;
+	private IAuthenticationFacade authenticationFacade;
 
 	@Autowired
-	public OwnChecker(BBSService bbsService, SecurityHelper securityHelper) {
+	public OwnChecker(BbsService bbsService, IAuthenticationFacade authenticationFacade) {
 		super();
 		this.bbsService = bbsService;
-		this.securityHelper = securityHelper;
+		this.authenticationFacade = authenticationFacade;
 	}
-	
+
 	public Map<Long, Boolean> checkPostListOwnStatus(List<Post> postList) {
 		Map<Long, Boolean> postOwnStatusMap = new HashMap<>();
 		for (Post post : postList) {
@@ -45,12 +46,30 @@ public class OwnChecker {
 	}
 
 	public boolean isMyTopic(long topicId) {
-		Long uid = securityHelper.getCurrentUserId();
+		if (authenticationFacade.isAuthenticated()) {
+			return false;
+		}
+		Long uid;
+		try {
+			uid = authenticationFacade.getUserId();
+		} catch (HasNotLoginException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
 		return bbsService.isMyTopic(uid, topicId);
 	}
 	
 	public boolean isMyPost(long postId) {
-		Long uid = securityHelper.getCurrentUserId();
+		if (authenticationFacade.isAuthenticated()) {
+			return false;
+		}
+		Long uid;
+		try {
+			uid = authenticationFacade.getUserId();
+		} catch (HasNotLoginException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
 		boolean result = bbsService.isMyPost(uid, postId);
 
 		MyLogger.info("\n\nmatchOwn " + result + "postId: " + postId);
@@ -58,6 +77,14 @@ public class OwnChecker {
 	}
 	
 	public boolean isMe(long followingId) {
-		return followingId == securityHelper.getCurrentUserId(); 
+		if (authenticationFacade.isAuthenticated()) {
+			return false;
+		}
+		try {
+			return followingId == authenticationFacade.getUserId();
+		} catch (HasNotLoginException e) {
+			// TODO Auto-generated catch block
+			return false;
+		} 
 	}
 }

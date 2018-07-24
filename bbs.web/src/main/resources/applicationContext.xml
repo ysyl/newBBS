@@ -26,7 +26,6 @@
 	<context:component-scan
 		base-package="security.core.*, bbs.*" />
     <import resource="classpath*:base-mybatis.xml" />
-	<import resource="classpath*:security-core-security.xml" />
 	<import resource="classpath*:bbs-security.xml" />
 	<import resource="classpath*:bbs-subscriptionsystem-message.xml" />
 

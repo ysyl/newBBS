@@ -26,7 +26,7 @@ public class ForumTrendActionMonitor {
 		this.forumTrendActionDAO = forumTrendActionDAO;
 	}
 	
-	@Pointcut("execution(* bbs.forum.service.BBSService.saveAnnounce(..))"
+	@Pointcut("execution(* bbs.forum.service.BbsService.saveAnnounce(..))"
 			+ " && args(managerId, pubAnnounceForm)")
 	public void pubAnnounce(long managerId, PubAnnounceForm pubAnnounceForm) {}
 	

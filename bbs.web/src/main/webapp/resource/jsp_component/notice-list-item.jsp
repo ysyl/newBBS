@@ -17,18 +17,18 @@
 			<c:if test="${isTopicTrendNotice }">
 				<c:set var="notice" value="${TopicTrendNotice.cast(trendNotice) }" />
 				<a class="notice-topic-title"
-					href="<c:url value="/topic/${notice.topicId }" />">
+					href="<c:url value="/forum/topic/${notice.topicId }" />">
 					${notice.getTopicTitle() } </a>
 				<span>收到了一条</span>
-				<a href="<c:url value="/post/notice.getRepostId()" />">新回复</a>
+				<a href="<c:url value="/forum/post/${notice.getRepostId()}" />">新回复</a>
 				<span>${notice.getPubTime() }</span>
 			</c:if>
 			<c:if test="${isPostTrendNotice }">
 				<c:set var="notice" value="${PostTrendNotice.cast(trendNotice) }" />
 				<a class="notice-post-digest"
-					href="<c:url value="/topic/${postNotice.getTopicId() }" />">${postNotice.getPostDigest() }</a>
+					href="<c:url value="/forum/topic/${postNotice.getTopicId() }" />">${postNotice.getPostDigest() }</a>
 				<span>收到了一条</span>
-				<a href="<c:url value="/topic/${postNotice.getTopicId }" />">新回复</a>
+				<a href="<c:url value="/forum/topic/${postNotice.getTopicId }" />">新回复</a>
 			</c:if>
 			<c:if test="${isUserTrendNotice }">
 				<c:set var="notice" value="${UserTrendNotice.cast(trendNotice) }" />

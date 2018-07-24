@@ -7,37 +7,28 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.helper.utils.MyLogger;
+import bbs.subscriptionsystem.service.SubscriptionService;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
-import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 
 @Component
 public class SubscriptionMatcherHolder extends AbstractMap<String, SubscriptionMatcher> {
 	
-	private SubscriptionManager subscriptionManager;
+	private SubscriptionService subscriptionManager;
 	
-	private BBSService bbsService;
+	private BbsService bbsService;
 
 	private Map<String, SubscriptionMatcher> matcherMap = new HashMap<>();
 
 	@Autowired
-	public SubscriptionMatcherHolder(SubscriptionManager subscriptionManager, BBSService bbsService) {
+	public SubscriptionMatcherHolder(SubscriptionService subscriptionManager, BbsService bbsService) {
 		super();
 		this.subscriptionManager = subscriptionManager;
 		this.bbsService = bbsService;
-	}
-
-	public SubscriptionMatcherHolder(Map<String, SubscriptionMatcher> matcherMap) {
-		super();
-		this.matcherMap = matcherMap;
-	}
-
-	public SubscriptionMatcherHolder() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -54,7 +45,7 @@ public class SubscriptionMatcherHolder extends AbstractMap<String, SubscriptionM
 	}
 	
 	public void freshMatcher(long uid ) {
-		List<BaseSubscription<?>> subscriptions = subscriptionManager.getAllSubscriptions(uid);
+		List<BaseSubscription<?>> subscriptions = (List<BaseSubscription<?>>) subscriptionManager.getSubscriptions(uid);
 		String username = bbsService.getUsername(uid);
 		SubscriptionMatcher matcher = this.matcherMap.get(username);
 		if (matcher != null) {

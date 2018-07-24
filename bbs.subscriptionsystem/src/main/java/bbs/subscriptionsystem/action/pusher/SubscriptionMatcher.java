@@ -9,6 +9,7 @@ import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.entity.BaseAction;
 import bbs.subscriptionsystem.action.entity.BaseTrendAction;
 import bbs.subscriptionsystem.action.entity.BeFollowedAction;
+import bbs.subscriptionsystem.action.entity.CollectUserAction;
 import bbs.subscriptionsystem.action.entity.ForumTrendAction;
 import bbs.subscriptionsystem.action.entity.PostTrendAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
@@ -19,7 +20,6 @@ import bbs.subscriptionsystem.subscription.entity.FollowingSubscription;
 import bbs.subscriptionsystem.subscription.entity.ForumSubscription;
 import bbs.subscriptionsystem.subscription.entity.PostSubscription;
 import bbs.subscriptionsystem.subscription.entity.TopicSubscription;
-import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
 
 public class SubscriptionMatcher {
 	
@@ -96,9 +96,10 @@ public class SubscriptionMatcher {
 		else if (action instanceof BeFollowedAction) {
 			isMatch = matchBeFollowedAction((BeFollowedAction) action);
 		}
-		MyLogger.info(isMatch);
+		MyLogger.info(action.getClass().getSimpleName() + "在 Matcher.match 中的匹配结果" + isMatch);
 		return isMatch;
 	}
+	
 	
 	private boolean matchBeFollowedAction(BeFollowedAction action) {
 		// TODO Auto-generated method stub

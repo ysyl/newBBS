@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.helper.utils.MyLogger;
+import bbs.subscriptionsystem.action.entity.BaseAction;
 import bbs.subscriptionsystem.action.entity.BaseTrendAction;
 
 @Controller
@@ -27,7 +28,7 @@ public class ActionController {
 
 	@GetMapping("/test")
 	@ResponseBody
-	public List<BaseTrendAction> getAllAction(@RequestParam("userId") long uid) {
+	public List<BaseAction> getAllAction(@RequestParam("userId") long uid) {
 		MyLogger.info("\n\n测试action控制器123124");
 		return subService.getAllActionByUid(uid);   
 	}

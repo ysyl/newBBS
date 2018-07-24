@@ -49,7 +49,7 @@ public class SubscribeActionPushController {
 	@SubscribeMapping("/action")
 	public void handleSubscribeAction(Principal principal) {
 		String username = principal.getName(); 
-		subscriptionMatcherHolder.put(username, subscriptionMatcherFactory.createSubscriptionMatcher(username));
+		subscriptionMatcherHolder.put(username, subscriptionMatcherFactory.createSubscriptionMatcher(username, 0));
 		MyLogger.info(subscriptionMatcherHolder.size());
 	}
 	

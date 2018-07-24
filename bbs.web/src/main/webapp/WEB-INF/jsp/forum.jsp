@@ -111,7 +111,7 @@
         });
         */
     });
-    let collectPostUrl = "<c:url value="/collect/post/" />";
+    let collectPostUrl = "<c:url value="/usercenter/collect/post/" />";
 </script>
 </body>
 </html>

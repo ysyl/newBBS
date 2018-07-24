@@ -25,14 +25,14 @@ import bbs.forum.form.PubAnnounceForm;
 import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.form.UpdateUserProfileForm;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 
 @Transactional
 @Rollback
 public class BBSServiceImpTest extends BaseTest {
 	
 	@Autowired
-	BBSService bbsService;
+	BbsService bbsService;
 	
 	private static Logger logger = Logger.getLogger(BBSServiceImpTest.class);
 	

@@ -11,7 +11,7 @@
 				src="<c:url value="/resource/upload/img/${post.author.avatar }" />"
 				alt="user_avatar" />
 			<div class="caption">
-				<a href="<c:url value="/user/${post.author.id }" />"><h4>${post.author.nickname }</h4></a>
+				<a href="<c:url value="/usercenter/user/${post.author.id }" />"><h4>${post.author.nickname }</h4></a>
 				<c:if test="${!postOwnStatus.get(post.getId()) }">
 				<a href="#"><span id="follow-btn" data-user-id="${post.author.id }"
 					class="glyphicon glyphicon-heart 

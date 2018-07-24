@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import bbs.form.utils.PageParam;
+import bbs.forum.form.UpdateUserProfileForm;
 import bbs.helper.utils.MyLogger;
 import bbs.usercenter.collection.DAO.CollectionDAO;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
@@ -18,9 +19,10 @@ import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
 import bbs.usercenter.collection.DAO.entity.TopicCollection;
 import bbs.usercenter.exception.RepetitiveCollectException;
-import bbs.usercenter.form.UpdateUserProfileForm;
+import bbs.usercenter.form.PubUserProfileForm;
 import bbs.usercenter.mybatis.entity.TCollection;
 import bbs.usercenter.mybatis.mapper.TCollectionMapper;
+import bbs.usercenter.profile.DAO.UserProfileDAO;
 import bbs.usercenter.service.UserCenterService;
 import bbs.usercenter.userprofile.DAO.entity.UserProfile;
 
@@ -29,14 +31,19 @@ public class UserCenterServiceImp implements UserCenterService {
 
 	private CollectionDAO collectionDAO;
 	
+	private UserProfileDAO userProfileDAO;
+	
 	public CollectionDAO getCollectionDAO() {
 		return collectionDAO;
 	}
 
 	@Autowired
-	public void setCollectionDAO(CollectionDAO collectionDAO) {
+	public UserCenterServiceImp(CollectionDAO collectionDAO, UserProfileDAO userProfileDAO) {
+		super();
 		this.collectionDAO = collectionDAO;
+		this.userProfileDAO = userProfileDAO;
 	}
+
 
 	@Override
 	public void collectTopic(long uid, long topicId) {
@@ -70,7 +77,7 @@ public class UserCenterServiceImp implements UserCenterService {
 	}
 
 	@Override
-	public void updateUserProfile(long uid, UpdateUserProfileForm updateUserProfileForm) {
+	public void updateUserProfile(long uid, PubUserProfileForm updateUserProfileForm) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -160,6 +167,18 @@ public class UserCenterServiceImp implements UserCenterService {
 	public void uncollectUser(long uid, long followingId) {
 		// TODO Auto-generated method stub
 		collectionDAO.removeFollowingCollection(uid, followingId);
+	}
+
+	@Override
+	public long createUserProfile(PubUserProfileForm userProfileForm) {
+		// TODO Auto-generated method stub
+		return userProfileDAO.save(userProfileForm);
+	}
+
+	@Override
+	public void updateUserProfile(Long uid, UpdateUserProfileForm updateUserProfileForm) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

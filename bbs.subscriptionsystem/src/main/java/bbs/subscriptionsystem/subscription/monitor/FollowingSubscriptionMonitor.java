@@ -4,18 +4,19 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import bbs.subscriptionsystem.subscription.manager.SubscriptionManager;
+import bbs.subscriptionsystem.service.SubscriptionService;
 
 @Aspect
 @Component
 public class FollowingSubscriptionMonitor {
 	
-	private SubscriptionManager subManager;
+	private SubscriptionService subManager;
 
 	@Autowired
-	public FollowingSubscriptionMonitor(SubscriptionManager subManager) {
+	public FollowingSubscriptionMonitor(SubscriptionService subManager) {
 		super();
 		this.subManager = subManager;
 	}

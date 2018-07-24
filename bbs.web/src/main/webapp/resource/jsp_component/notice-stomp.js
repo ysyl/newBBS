@@ -126,7 +126,7 @@ $(document).ready(function () {
 		 $.ajax({
 			 url: pullNoticesUrl,
 			 success: noticeResult => { 
-				 this.setAjaxNotices(noticeResult.notices); 
+				 this.setAjaxNotices(noticeResult.trend); 
 				 this.contextPath = noticeResult.contextPath;
 				 }, 
 			 failure: e => { console.log(e.message) },
@@ -214,7 +214,7 @@ $(document).ready(function () {
 		  return userTrendNoticeTemplate;
 	  }
   }
-  
-  let noticePanel = new NoticePanel($("#notice-panel-toggle"),$("#notice-menu-content"), $("#new-notice-remind"), $("#trend"));
-  console.log(JSON.stringify(noticePanel));
+  if (isAuthenticated) {
+	  let noticePanel = new NoticePanel($("#notice-panel-toggle"),$("#notice-menu-content"), $("#new-notice-remind"), $("#trend"));
+  }
 })

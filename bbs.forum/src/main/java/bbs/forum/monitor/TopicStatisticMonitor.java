@@ -22,11 +22,11 @@ public class TopicStatisticMonitor {
 		this.topicDAO = topicDAO;
 	}
 
-	@Pointcut("execution(* bbs.forum.service.BBSService.getTopic(..))"
+	@Pointcut("execution(* bbs.forum.service.BbsService.getTopic(..))"
 			+ " && args(topicId)")
 	public void getTopic(long topicId) {};
 	
-	@Pointcut("execution(* bbs.forum.service.BBSService.savePost(..))"
+	@Pointcut("execution(* bbs.forum.service.BbsService.savePost(..))"
 			+ " && args(uid, topicId, pubPostForm)")
 	public void pubPost(long uid, long topicId, PubPostForm pubPostForm) {}
 	

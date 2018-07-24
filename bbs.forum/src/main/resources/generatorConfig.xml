@@ -17,7 +17,6 @@
       <generatedKey column="id" sqlStatement="MySql" identity="true" />
     </table>
     <table schema="mydb" tableName="t_user_profile" domainObjectName="TUser">
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
       <columnOverride column="sex" property="sex" javaType="bbs.forum.enuma.Sex"
         typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
       />

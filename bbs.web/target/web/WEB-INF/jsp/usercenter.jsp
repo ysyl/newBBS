@@ -62,14 +62,14 @@
                 <tbody>
                   <c:forEach var="topic" items="${topics }">
                    <tr>
-                    <td><a href="<c:url value="/topic/${topic.id }" />">${topic.title }</a></td>
-                    <td><a href="<c:url value="/forum/${topic.forum.id }" />">${topic.forum.forumName }</a></td>
+                    <td><a href="<c:url value="/forum/topic/${topic.id }" />">${topic.title }</a></td>
+                    <td><a href="<c:url value="/forum/forum/${topic.forum.id }" />">${topic.forum.forumName }</a></td>
                     <td>
                       <p>${topic.replies }</p>
                       <p>${topic.views }</p>
                     </td>
                     <td>
-                      <p><a href="<c:url value="/user/${topic.lastReplier.id }" />">${topic.lastReplier.nickname }</a></p>
+                      <p><a href="<c:url value="/usercenter/user/${topic.lastReplier.id }" />">${topic.lastReplier.nickname }</a></p>
                       <p>
                         <fmt:formatDate value="${topic.lastReplyPost.pubTime }"
                             type="both" />

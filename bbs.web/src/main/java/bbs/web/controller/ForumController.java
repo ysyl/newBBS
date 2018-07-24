@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bbs.form.utils.PageParam;
@@ -22,9 +23,10 @@ import bbs.forum.DTO.Post;
 import bbs.forum.DTO.Topic;
 import bbs.forum.DTO.User;
 import bbs.forum.form.PubPostForm;
-import bbs.forum.service.BBSService;
+import bbs.forum.service.BbsService;
 import bbs.helper.utils.MyLogger;
-import bbs.security.helper.SecurityHelper;
+import bbs.security.utils.HasNotLoginException;
+import bbs.security.utils.IAuthenticationFacade;
 import bbs.subscriptionsystem.action.entity.BaseTrendAction;
 import bbs.subscriptionsystem.notice.entity.BaseTrendNotice;
 import bbs.subscriptionsystem.notice.service.NoticeService;
@@ -32,18 +34,16 @@ import bbs.subscriptionsystem.notice.utils.NoticeBuilder;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.service.UserCenterService;
 import bbs.usercenter.util.CollectMatcher;
-import bbs.web.listener.NoticeInitializer;
 import bbs.web.utils.OwnChecker;
-import security.core.DTO.UserDetailsImp;
+import security.core.DTO.CustomUser;
 
 @Controller
+@RequestMapping("/forum")
 public class ForumController {
 	
-	private BBSService bbsService;
+	private BbsService bbsService;
 	
 	private SubscribedActionService subService;
-	
-	private SecurityHelper helperService;
 	
 	private UserCenterService userCenterService;
 	
@@ -52,6 +52,8 @@ public class ForumController {
 	private NoticeService noticeService;
 	
 	private OwnChecker ownChecker;
+	
+	private IAuthenticationFacade authenticationFacade;
 //	
 //	@PostConstruct
 //	public void init() {
@@ -66,29 +68,22 @@ public class ForumController {
 //
 //	}
 //	
+
 	@Autowired
-	public ForumController(BBSService bbsService, SubscribedActionService subService, SecurityHelper helperService,
+	public ForumController(BbsService bbsService, SubscribedActionService subService,
 			UserCenterService userCenterService, CollectMatcher collectMatcher, NoticeService noticeService,
-			OwnChecker ownChecker) {
+			OwnChecker ownChecker, IAuthenticationFacade authenticationFacade) {
 		super();
 		this.bbsService = bbsService;
 		this.subService = subService;
-		this.helperService = helperService;
 		this.userCenterService = userCenterService;
 		this.collectMatcher = collectMatcher;
 		this.noticeService = noticeService;
 		this.ownChecker = ownChecker;
+		this.authenticationFacade = authenticationFacade;
 	}
 
-	@GetMapping("/")
-	public String index(HttpSession session, Model model, Principal principal) {
-		Long uid = helperService.getCurrentUserId();
-		List<Forum> forums = bbsService.getAllForums(); 
-		Map<Integer, Post> lastPostMap = bbsService.getLastPostInForum();
-		model.addAttribute("forums", forums);
-		model.addAttribute("lastPostMap", lastPostMap);
-		return "index";
-	}
+
 
 	@GetMapping("/forum/{forumId}")
 	public String forum(@PathVariable("forumId") int forumId, 
@@ -102,19 +97,35 @@ public class ForumController {
 		model.addAttribute("announces", announceList);
 		return "forum";
 	}
-	
+	//todo: 移除获取uid
 	@GetMapping("/topic/{topicId}")
 	public String topic(@PathVariable("topicId") long topicId,
 			@RequestParam(value="pageNo", defaultValue="0") int pageNo, Model model) {
-		long uid = helperService.getCurrentUserId();
+		Long uid;
+
 		PageParam pageParam = new PageParam(pageNo, 20);
 		Topic topic = bbsService.getTopic(topicId);
 		List<Post> posts = bbsService.getPostList(topicId, pageParam);
-		Map<Long, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(posts, uid);
-		Map<Long, Boolean> userCollectStatus = collectMatcher.checkUserCollectStatus(posts, uid);
-		Map<Long, Boolean> postOwnStatus = ownChecker.checkPostListOwnStatus(posts);
-		Boolean isTopicCollected = collectMatcher.checkTopicIsCollected(topicId);
-		Boolean isMyTopic = ownChecker.isMyTopic(topicId);
+		Map<Long, Boolean> postCollectStatus = new HashMap<>();
+		Map<Long, Boolean> userCollectStatus = new HashMap<>(); 
+		Boolean isTopicCollected = false;
+		Map<Long, Boolean> postOwnStatus = new HashMap<>();
+		Boolean isMyTopic = false;
+		try {
+			uid = authenticationFacade.getUserId();
+			postCollectStatus = collectMatcher.checkPostCollectStatus(posts, uid);
+			userCollectStatus = collectMatcher.checkUserCollectStatus(posts, uid);
+			isTopicCollected = collectMatcher.checkTopicIsCollected(topicId);
+			postOwnStatus = ownChecker.checkPostListOwnStatus(posts);
+			isMyTopic	= ownChecker.isMyTopic(topicId);
+		} catch (HasNotLoginException e) {
+			// TODO Auto-generated catch block
+			for (Post post : posts) {
+				postCollectStatus.put(post.getId(), false);
+				userCollectStatus.put(post.getId(), false);
+				postOwnStatus.put(post.getId(), false);
+			}
+		}
 		
 		MyLogger.info("\n\n post收藏情况：" + postCollectStatus);
 		MyLogger.info("\n\n user收藏情况：" + userCollectStatus);
@@ -152,8 +163,5 @@ public class ForumController {
 		return "usercenter";
 	}
 
-	@GetMapping("/login")
-	public String login() {
-		return "login";
-	}
+	
 }
