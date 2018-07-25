@@ -102,15 +102,15 @@
             </div>
             <div class="tab-panel" id="edit-user-profile">
               <div class="well">
-              <sec:authorize access="isAuthenticated() and @principalChecker.isMe(authentication.name)">
-                <form id="edit-user-profile-form" action="<c:url value="/upload/userprofile" />" enctype="multipart/form-data" method="post">
+              <sec:authorize access="isAuthenticated() and @principalChecker.isMeByUid(${user.id })">
+                <form id="edit-user-profile-form" action="<c:url value="/upload/userprofile/${user.id }" />" enctype="multipart/form-data" method="post">
                       <img id="avatar-display"  />
                     <div class="input-group">
                       <input type="text" class="form-control" id="file-name-display" readonly />
                       <div class="input-group-btn">
                         <button class="btn btn-primary" id="file-btn" type="button">上传图片</button>
                       </div>
-                      <input type="file" name="avatar" accept="image/*" id="file-input" />
+                      <input type="file" name="avatarFile" accept="image/*" id="file-input" />
                     </div>
                     <br/>
                     <div class="input-group">

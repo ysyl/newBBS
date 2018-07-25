@@ -22,6 +22,7 @@ import bbs.forum.form.PubPostForm;
 import bbs.forum.form.PubTopicForm;
 import bbs.forum.form.UpdateUserProfileForm;
 import bbs.forum.service.BbsService;
+import bbs.helper.utils.MyLogger;
 import bbs.security.utils.HasNotLoginException;
 import bbs.security.utils.IAuthenticationFacade;
 import bbs.usercenter.service.UserCenterService;
@@ -78,18 +79,22 @@ public class PostController {
 
 	@PostMapping("/userprofile/{userId}")
 	public String updateUserProfile(HttpServletRequest req, @PathVariable("userId") long uid,
-			UpdateUserProfileForm updateUserProfileForm, @RequestParam("avatar") MultipartFile avatarFile)
+			UpdateUserProfileForm updateUserProfileForm)
 			throws IllegalStateException, IOException, HasNotLoginException {
+
+		String avatarName = null;
+		
+		MultipartFile avatarFile = updateUserProfileForm.getAvatarFile();
+		
+		MyLogger.info("\n avatarFile: " + avatarFile.getSize());
 
 		if (avatarFile != null) {
 			AvatarGeneratorResult avatarGeneratorResult = bbsImgUtils.getRealFile(req, avatarFile);
-			String avatarName = avatarGeneratorResult.getAvatarName();
+			avatarName = avatarGeneratorResult.getAvatarName();
 			File realFile = avatarGeneratorResult.getFile();
 			avatarFile.transferTo(realFile);
-
-			updateUserProfileForm.setAvatar(avatarName);
 		}
-		userCenterService.updateUserProfile(uid, updateUserProfileForm);
+		userCenterService.updateUserProfile(uid, avatarName, updateUserProfileForm.getNickname(), updateUserProfileForm.getSex());
 
 		return "redirect:/user/" + uid;
 	}

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import bbs.forum.DTO.User;
 import bbs.forum.entity.TUser;
+import bbs.forum.enuma.Sex;
 import bbs.forum.form.UpdateUserProfileForm;
 import bbs.usercenter.form.PubUserProfileForm;
 import bbs.usercenter.mybatis.entity.TUserProfile;
@@ -34,12 +35,14 @@ public class UserProfileDAO {
 		return tUser.getId();
 	}
 	
-	public void update(Long uid, PubUserProfileForm updateUserProfileForm) {
+
+	public void update(Long uid, String avatarFilename, String nickname, Sex sex) {
+		// TODO Auto-generated method stub
 		TUserProfile tUser = new TUserProfile();
 		tUser.setId(uid);
-		tUser.setNickname(updateUserProfileForm.getNickname());
-		tUser.setSex(updateUserProfileForm.getSex());
-		tUser.setAvatar(updateUserProfileForm.getAvatar());
+		tUser.setNickname(nickname);
+		tUser.setSex(sex);
+		tUser.setAvatar(avatarFilename);
 		
 		tUserMapper.updateByPrimaryKeySelective(tUser);
 	}

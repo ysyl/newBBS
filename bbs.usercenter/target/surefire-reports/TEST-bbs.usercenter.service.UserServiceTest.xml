@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="bbs.usercenter.service.UserServiceTest" time="1.015" errors="0" skipped="0">
+<testsuite tests="5" failures="0" name="bbs.usercenter.service.UserServiceTest" time="1.474" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_171\jre\bin"/>
     <property name="java.vm.version" value="25.171-b11"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="maven.multiModuleProjectDirectory" value="C:\Users\dell\eclipse-workspace\bbs"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\dell\eclipse-workspace\bbs.usercenter"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=";"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="C:\Users\dell\eclipse-workspace\bbs"/>
+    <property name="user.dir" value="C:\Users\dell\eclipse-workspace\bbs.usercenter"/>
     <property name="java.runtime.version" value="1.8.0_171-b11"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
     <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.8.0_171\jre\lib\endorsed"/>
@@ -27,7 +27,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 10"/>
-    <property name="classworlds.conf" value="C:\Users\dell\eclipse-workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf6032787673027053465.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\dell\eclipse-workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf1390897301853794475.tmp"/>
     <property name="sun.jnu.encoding" value="GBK"/>
     <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_171\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_171/bin/server;C:/Program Files/Java/jre1.8.0_171/bin;C:/Program Files/Java/jre1.8.0_171/lib/amd64;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\System32\OpenSSH\;&quot;C:\Program Files\Java\jdk1.8.0_171\bin;C:\Program Files\Java\jdk1.8.0_171\jre\bin;&quot;;C:\Program Files\Git\cmd;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\nodejs\;C:\Users\dell\AppData\Local\Microsoft\WindowsApps;C:\Users\dell\AppData\Local\Programs\Fiddler;C:\Users\dell\AppData\Roaming\npm;C:\Users\dell\AppData\Local\atom\bin;C:\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -53,7 +53,7 @@
     <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.8.0_171\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
     <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.8.0_171\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_171\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_171\jre\classes"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="C:\Users\dell\eclipse-workspace\bbs\EMBEDDED"/>
+    <property name="maven.home" value="C:\Users\dell\eclipse-workspace\bbs.usercenter\EMBEDDED"/>
     <property name="file.separator" value="\"/>
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -61,9 +61,9 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="bbs.usercenter.service.UserServiceTest" name="testMatcherFreshMonitor" time="0.802"/>
-  <testcase classname="bbs.usercenter.service.UserServiceTest" name="testPostCollectMatcher" time="0.041"/>
-  <testcase classname="bbs.usercenter.service.UserServiceTest" name="testIllegalArgument" time="0.089"/>
-  <testcase classname="bbs.usercenter.service.UserServiceTest" name="testCollection" time="0.083"/>
+  <testcase classname="bbs.usercenter.service.UserServiceTest" name="testMatcherFreshMonitor" time="1.188"/>
+  <testcase classname="bbs.usercenter.service.UserServiceTest" name="testPostCollectMatcher" time="0.058"/>
+  <testcase classname="bbs.usercenter.service.UserServiceTest" name="testIllegalArgument" time="0.119"/>
+  <testcase classname="bbs.usercenter.service.UserServiceTest" name="testCollection" time="0.109"/>
   <testcase classname="bbs.usercenter.service.UserServiceTest" name="test" time="0"/>
 </testsuite>

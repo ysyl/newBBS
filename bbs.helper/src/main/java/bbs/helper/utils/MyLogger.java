@@ -33,4 +33,9 @@ public class MyLogger {
 	public static void info(Class<?> logClass, String info) {
 		getLogger(logClass).info(info);
 	}
+
+	public static void infoln(String string) {
+		// TODO Auto-generated method stub
+		info("\n" + string);
+	}
 }

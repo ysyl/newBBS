@@ -34,15 +34,13 @@
 			access="isAuthenticated() and @principalChecker.isMeByUid(#userId)" />
 		<!-- <intercept-url pattern="/**" -->
 		<!-- access="isAuthenticated()" /> -->
-		<form-login login-page="${loginUrl}" />
+		<form-login login-page="${loginUrl}" default-target-url="/"/>
 		<logout logout-url="${logoutUrl}" />
 		<csrf disabled="true" />
 	</http>
 
 	<global-method-security
 		pre-post-annotations="enabled">
-		<protect-pointcut access="ROLE_USER"
-			expression="execution(* bbs.usercenter.service.UserCenterService.*(..))" />
 	</global-method-security>
 
 	<beans:bean id="roleVoter"

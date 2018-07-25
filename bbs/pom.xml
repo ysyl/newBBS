@@ -17,6 +17,8 @@
 		<module>config</module>
 		<module>../../git/security-all</module>
 		<module>../total</module>
+		
+		<module>../bbs.shop</module>
 	</modules>
 
 	<build>

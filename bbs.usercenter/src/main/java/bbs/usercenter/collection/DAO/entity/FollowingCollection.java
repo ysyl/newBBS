@@ -2,8 +2,8 @@ package bbs.usercenter.collection.DAO.entity;
 
 import java.io.Serializable;
 
-import bbs.usercenter.userprofile.DAO.entity.UserProfile;
 import bbs.forum.DTO.User;
+import bbs.usercenter.userprofile.DTO.UserProfile;
 
 public class FollowingCollection extends BaseCollection {
 	

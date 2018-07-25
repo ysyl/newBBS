@@ -6,12 +6,13 @@ import bbs.usercenter.collection.DAO.entity.PostCollection;
 import bbs.usercenter.collection.DAO.entity.TopicCollection;
 import bbs.usercenter.exception.RepetitiveCollectException;
 import bbs.usercenter.form.PubUserProfileForm;
-import bbs.usercenter.userprofile.DAO.entity.UserProfile;
+import bbs.usercenter.userprofile.DTO.UserProfile;
 
 import java.util.List;
 
 import bbs.form.utils.*;
 import bbs.forum.DTO.*;
+import bbs.forum.enuma.Sex;
 import bbs.forum.form.UpdateUserProfileForm;
 
 public interface UserCenterService {
@@ -54,7 +55,7 @@ public interface UserCenterService {
 
 	void uncollectUser(long uid, long followingId);
 
-	void updateUserProfile(Long uid, UpdateUserProfileForm updateUserProfileForm);
+	void updateUserProfile(Long uid, String avatarFilename, String nickname, Sex sex);
 	
 	
 	

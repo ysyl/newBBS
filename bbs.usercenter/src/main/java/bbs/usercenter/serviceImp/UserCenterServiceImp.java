@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import bbs.form.utils.PageParam;
+import bbs.forum.enuma.Sex;
 import bbs.forum.form.UpdateUserProfileForm;
 import bbs.helper.utils.MyLogger;
 import bbs.usercenter.collection.DAO.CollectionDAO;
@@ -24,7 +25,7 @@ import bbs.usercenter.mybatis.entity.TCollection;
 import bbs.usercenter.mybatis.mapper.TCollectionMapper;
 import bbs.usercenter.profile.DAO.UserProfileDAO;
 import bbs.usercenter.service.UserCenterService;
-import bbs.usercenter.userprofile.DAO.entity.UserProfile;
+import bbs.usercenter.userprofile.DTO.UserProfile;
 
 @Service
 public class UserCenterServiceImp implements UserCenterService {
@@ -176,9 +177,10 @@ public class UserCenterServiceImp implements UserCenterService {
 	}
 
 	@Override
-	public void updateUserProfile(Long uid, UpdateUserProfileForm updateUserProfileForm) {
+	public void updateUserProfile(Long uid, String avatarFilename, String nickname, Sex sex) {
 		// TODO Auto-generated method stub
-		
+		userProfileDAO.update(uid, avatarFilename, nickname, sex);
 	}
+
 
 }

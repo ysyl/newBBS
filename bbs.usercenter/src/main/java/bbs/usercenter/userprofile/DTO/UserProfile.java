@@ -1,4 +1,4 @@
-package bbs.usercenter.userprofile.DAO.entity;
+package bbs.usercenter.userprofile.DTO;
 
 import java.io.Serializable;
 import java.util.Date;

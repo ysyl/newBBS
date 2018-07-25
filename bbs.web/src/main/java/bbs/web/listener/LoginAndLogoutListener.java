@@ -21,7 +21,7 @@ import bbs.security.service.BbsSecurityService;
 import bbs.security.utils.HasNotLoginException;
 import bbs.security.utils.IAuthenticationFacade;
 import bbs.subscriptionsystem.notice.service.NoticeService;
-import bbs.usercenter.userprofile.DAO.entity.UserProfile;
+import bbs.usercenter.userprofile.DTO.UserProfile;
 import bbs.usercenter.util.CollectMatcher;
 import security.core.DTO.UserPrincipal;
 

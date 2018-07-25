@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mydb" driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
+    <javaModelGenerator targetPackage="bbs.shop.entity" targetProject="bbs.shop" />
+    <sqlMapGenerator targetPackage="bbs.shop.mapper" targetProject="bbs.shop" />
+    <javaClientGenerator targetPackage="bbs.shop.mapper" targetProject="bbs.shop" type="XMLMAPPER" />
+
+    <table schema="mydb" tableName="t_commody" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_commody_classification" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_commody_comment" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+      <columnOverride column="comment_type" javaType="bbs.shop.enuma.CommentType"
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+       />
+    </table>
+    <table schema="mydb" tableName="t_commody_recommend" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+      <columnOverride column="recommend_type" javaType="bbs.shop.enuma.RecommendType"
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+      ></columnOverride>
+    </table>
+    <table schema="mydb" tableName="t_commody_img" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+  </context>
+</generatorConfiguration>

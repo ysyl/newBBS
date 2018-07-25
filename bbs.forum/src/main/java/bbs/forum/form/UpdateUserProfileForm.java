@@ -1,10 +1,12 @@
 package bbs.forum.form;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import bbs.forum.enuma.Sex;
 
 public class UpdateUserProfileForm {
 	
-	private String avatar;
+	private MultipartFile avatarFile;
 
 	private String nickname;
 	
@@ -26,12 +28,12 @@ public class UpdateUserProfileForm {
 		this.sex = sex;
 	}
 
-	public String getAvatar() {
-		return avatar;
+	public MultipartFile getAvatarFile() {
+		return avatarFile;
 	}
 
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
+	public void setAvatarFile(MultipartFile avatarFile) {
+		this.avatarFile = avatarFile;
 	}
 	
 	
