@@ -14,7 +14,8 @@ import bbs.helper.utils.MyLogger;
 import bbs.shop.DTO.BaseCommodyComment;
 import bbs.shop.DTO.Commody;
 import bbs.shop.DTO.PrimaryCommodyComment;
-import bbs.shop.form.PubCommodyCommentForm;
+import bbs.shop.form.PubPrimaryCommodyCommentForm;
+import bbs.shop.form.PubReplyCommodyCommentForm;
 import bbs.shop.form.PubCommodyForm;
 import bbs.shop.form.UpdateCommodyForm;
 
@@ -64,12 +65,10 @@ public class ShopServiceTest extends BaseTest {
 		assertEquals("新标题", newCommody.getTitle());
 		
 		//测试添加评论
-		PubCommodyCommentForm commentForm = new PubCommodyCommentForm();
+		PubPrimaryCommodyCommentForm commentForm = new PubPrimaryCommodyCommentForm();
 		commentForm.setContent("评论内容");
-		commentForm.setCommodyId(commodyId);
-		commentForm.setReplyCommentId(null);
 		
-		long commentId = shopService.savePrimaryComment(VERRICKT_ID, commentForm);
+		long commentId = shopService.savePrimaryComment(VERRICKT_ID, commodyId ,commentForm);
 		
 		BaseCommodyComment newComment = shopService.getCommodyCommentByCommentId(commentId);
 		//测试评论内容
@@ -96,5 +95,31 @@ public class ShopServiceTest extends BaseTest {
 		PrimaryCommodyComment secendryPrimaryComment = primaryCommodyComments.get(1);
 		assertEquals(1, secendryPrimaryComment.getCommody().getId());
 		assertEquals(0, secendryPrimaryComment.getReplyComments().size());
+	}
+	
+	@Test
+	public void testPubPrimaryCommentAndReplyComment() {
+		logger.info("\n 先发布基本评论");
+		Long VERRICKT_ID = 1l;
+		PubPrimaryCommodyCommentForm primaryCommentForm = new PubPrimaryCommodyCommentForm();
+		primaryCommentForm.setContent("1L 测试基本评论");
+		long commodyId = 1l;
+		
+		long primaryCommentId = shopService.savePrimaryComment(VERRICKT_ID, commodyId ,primaryCommentForm);
+
+		logger.info("\n 再发布楼中楼评论"); 
+		PubReplyCommodyCommentForm replyCommentForm1 = new PubReplyCommodyCommentForm();
+		replyCommentForm1.setReplyTargetCommentId(null);
+		replyCommentForm1.setBelongPrimaryCommentId(primaryCommentId);
+		replyCommentForm1.setContent("测试楼中楼");
+		
+		long replyCommentForm1Id = shopService.saveReplyComment(VERRICKT_ID, commodyId, replyCommentForm1);
+		
+		logger.info("\n 测试");
+		PrimaryCommodyComment pcc = (PrimaryCommodyComment)shopService.getCommodyCommentByCommentId(primaryCommentId);
+		assertEquals("1L 测试基本评论", pcc.getContent());
+		assertEquals(1, pcc.getReplyComments().size());
+		assertEquals("测试楼中楼", pcc.getReplyComments().get(0).getContent());
+
 	}
 }

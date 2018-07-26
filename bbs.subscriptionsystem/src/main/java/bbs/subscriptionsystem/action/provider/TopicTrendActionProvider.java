@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
 import bbs.subscriptionsystem.action.entity.BaseAction;
-import bbs.subscriptionsystem.action.entity.BaseTrendAction;
+import bbs.subscriptionsystem.action.entity.BbsTrendAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
 import bbs.subscriptionsystem.subscription.entity.TopicSubscription;

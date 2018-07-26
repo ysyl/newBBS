@@ -22,6 +22,8 @@ import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Post;
 import bbs.forum.service.BbsService;
+import bbs.shop.service.ShopService;
+import bbs.usercenter.collection.DAO.entity.CommodyCollection;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
@@ -41,6 +43,9 @@ public class UserServiceTest extends BaseTest {
 	
 	@Autowired
 	CollectMatcher collectMatcher;
+	
+	@Autowired
+	ShopService shopService;
 	
 	private static Logger logger = Logger.getLogger(UserServiceTest.class);
 	
@@ -81,6 +86,17 @@ public class UserServiceTest extends BaseTest {
 				.getAllFollowingCollectionByUserId(uid, pageParam).get(0);
 				
 		assertEquals(followingId, foCollection.getFollowing().getId());
+		
+		logger.info("收藏Commody");
+		long commodyId = 1l;
+		long verricktId = 1l;
+		userCenterService.collectCommody(verricktId, commodyId);
+		
+		CommodyCollection cCollection = userCenterService.getAllCommodyCollectionByUserId(verricktId).get(0);
+		
+		assertEquals(commodyId, cCollection.getCommody().getId());
+		assertEquals(verricktId, (long)cCollection.getUser().getId());
+		
 
 		logger.info("获取forum收藏");
 		logger.info("获取topic收藏");

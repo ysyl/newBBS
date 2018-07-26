@@ -37,6 +37,11 @@
   		<scope>test</scope>
   		<type>pom</type>
   	</dependency>
+  	<dependency>
+  		<groupId>org.bbs</groupId>
+  		<artifactId>shop</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
   
     <build>

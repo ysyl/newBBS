@@ -2,7 +2,7 @@ package bbs.subscriptionsystem.action.entity;
 
 import bbs.forum.DTO.User;
 
-public class ForumAnnounceAction extends BaseTrendAction {
+public class ForumAnnounceAction extends BbsTrendAction {
 
 	public User publisher;
 	

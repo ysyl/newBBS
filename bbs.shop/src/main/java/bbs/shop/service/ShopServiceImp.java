@@ -14,7 +14,8 @@ import bbs.shop.DTO.PrimaryCommodyComment;
 import bbs.shop.DTO.BaseCommodyComment;
 import bbs.shop.entity.TCommodyComment;
 import bbs.shop.enuma.CommentType;
-import bbs.shop.form.PubCommodyCommentForm;
+import bbs.shop.form.PubPrimaryCommodyCommentForm;
+import bbs.shop.form.PubReplyCommodyCommentForm;
 import bbs.shop.form.PubCommodyForm;
 import bbs.shop.form.UpdateCommodyForm;
 
@@ -58,13 +59,11 @@ public class ShopServiceImp implements ShopService {
 	}
 
 	@Override
-	public long savePrimaryComment(Long uid, PubCommodyCommentForm commentForm) {
+	public long savePrimaryComment(Long uid, Long commodyId ,PubPrimaryCommodyCommentForm commentForm) {
 		// TODO Auto-generated method stub
-		Long commodyId = commentForm.getCommodyId();
 		String content = commentForm.getContent();
-		Long replyCommentId = commentForm.getReplyCommentId();
 		
-		long commentId = commentDAO.save(uid, CommentType.PRIMARY ,commodyId, content, replyCommentId);
+		long commentId = commentDAO.savePrimaryComment(uid, commodyId, content);
 		
 		
 		return commentId;
@@ -80,6 +79,13 @@ public class ShopServiceImp implements ShopService {
 	public List<PrimaryCommodyComment> getAllPrimaryCommentByCommodyId(Long commodyId) {
 		// TODO Auto-generated method stub
 		return commentDAO.getAllPrimaryCommentByCommodyId(commodyId);
+	}
+
+	@Override
+	public long saveReplyComment(Long uid, Long commodyId, PubReplyCommodyCommentForm replyCommentForm) {
+		// TODO Auto-generated method stub
+		return commentDAO.saveReplyComment(uid, commodyId , replyCommentForm.getBelongPrimaryCommentId(), replyCommentForm.getReplyTargetCommentId(),
+				replyCommentForm.getContent());
 	}
 
 }

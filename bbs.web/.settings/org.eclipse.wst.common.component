@@ -16,6 +16,9 @@
         <dependent-module archiveName="config-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bbs.config/bbs.config">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="shop-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bbs.shop/bbs.shop">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="helper-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bbs.helper/bbs.helper">
             <dependency-type>uses</dependency-type>
         </dependent-module>

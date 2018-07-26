@@ -4,20 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bbs.subscriptionsystem.notice.entity.BaseNotice;
-import bbs.subscriptionsystem.notice.entity.BaseTrendNotice;
+import bbs.subscriptionsystem.notice.entity.BbsTrendNotice;
 import bbs.subscriptionsystem.notice.entity.BeFollowedNotice;
+import bbs.subscriptionsystem.notice.entity.ShopTrendNotice;
 
 public class NoticeResultMap {
 	
-	private List<BaseTrendNotice> trend = new ArrayList<>();
+	private List<BbsTrendNotice> trend = new ArrayList<>();
 	
 	private List<BeFollowedNotice> beFollowed = new ArrayList<>();
+	
+	private List<ShopTrendNotice> shop = new ArrayList<>();
 
-	public List<BaseTrendNotice> getTrend() {
+	public List<? extends ShopTrendNotice> getShop() {
+		return shop;
+	}
+
+	public void setShop(List<ShopTrendNotice> shop) {
+		this.shop = shop;
+	}
+
+	public List<BbsTrendNotice> getTrend() {
 		return trend;
 	}
 
-	public void setTrend(List<BaseTrendNotice> trend) {
+	public void setTrend(List<BbsTrendNotice> trend) {
 		this.trend = trend;
 	}
 
@@ -32,11 +43,14 @@ public class NoticeResultMap {
 	public NoticeResultMap(List<? extends BaseNotice> noticeList) {
 		super();
 		for (BaseNotice baseNotice : noticeList) {
-			if (baseNotice instanceof BaseTrendNotice) {
-				this.trend.add((BaseTrendNotice) baseNotice);
+			if (baseNotice instanceof BbsTrendNotice) {
+				this.trend.add((BbsTrendNotice) baseNotice);
 			}
 			else if (baseNotice instanceof BeFollowedNotice) {
 				this.beFollowed.add((BeFollowedNotice) baseNotice);
+			}
+			else if (baseNotice instanceof ShopTrendNotice) {
+				this.shop.add((ShopTrendNotice) baseNotice);
 			}
 		}
 	}

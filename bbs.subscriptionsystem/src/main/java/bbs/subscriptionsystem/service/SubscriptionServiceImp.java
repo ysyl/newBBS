@@ -77,5 +77,11 @@ public class SubscriptionServiceImp implements SubscriptionService {
 		subscriptionDAO.updateLastReadTime(subscription.getId());
 	}
 
+	@Override
+	public void subscribeCommody(Long uid, Long commodyId) {
+		// TODO Auto-generated method stub
+		subscriptionDAO.saveCommodySubscription(uid, commodyId);
+	}
+
 
 }

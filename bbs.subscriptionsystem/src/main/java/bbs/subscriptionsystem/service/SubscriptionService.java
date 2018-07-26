@@ -39,4 +39,8 @@ public interface SubscriptionService {
 
 	public void updateLastReadTime(BaseSubscription<?> subscription);
 
+	public void subscribeCommody(Long uid, Long commodyId);
+
+	public void subscribeCommodyComment(Long uid, long commentId);
+
 }

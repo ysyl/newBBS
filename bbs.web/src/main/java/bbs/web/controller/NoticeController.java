@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bbs.security.utils.HasNotLoginException;
 import bbs.security.utils.IAuthenticationFacade;
-import bbs.subscriptionsystem.notice.entity.BaseTrendNotice;
+import bbs.subscriptionsystem.notice.entity.BbsTrendNotice;
 import bbs.subscriptionsystem.notice.service.NoticeResultMap;
 import bbs.subscriptionsystem.notice.service.NoticeService;
 

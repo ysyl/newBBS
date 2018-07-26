@@ -3,7 +3,7 @@ package bbs.subscriptionsystem.notice.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class BaseTrendNotice extends BaseNotice {
+public class BbsTrendNotice extends BaseNotice {
 
 	/**
 	 * 
@@ -16,7 +16,7 @@ public class BaseTrendNotice extends BaseNotice {
 	}
 
 
-	public BaseTrendNotice(Date pubTime, TrendNoticeType trendNoticeType) {
+	public BbsTrendNotice(Date pubTime, TrendNoticeType trendNoticeType) {
 		super(pubTime);
 		this.trendNoticeType = trendNoticeType;
 	}

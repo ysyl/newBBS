@@ -13,7 +13,7 @@ import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.UserTrendActionDAO;
 import bbs.subscriptionsystem.action.entity.BaseAction;
-import bbs.subscriptionsystem.action.entity.BaseTrendAction;
+import bbs.subscriptionsystem.action.entity.BbsTrendAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 import bbs.subscriptionsystem.action.manager.ActionManager;
@@ -26,7 +26,7 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	
 	private UserTrendActionDAO userTrendActionDAO;
 	
-	private SubscriptionService subscriptionManager;
+	private SubscriptionService subscriptionService;
 	
 	private ActionManager actionManager;
 
@@ -36,7 +36,7 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 		super();
 		this.topicTrendActionDAO = topicTrendActionDAO;
 		this.userTrendActionDAO = userTrendActionDAO;
-		this.subscriptionManager = subscriptionManager;
+		this.subscriptionService = subscriptionManager;
 		this.actionManager = actionManager;
 	}
 
@@ -58,13 +58,13 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	
 	private void freshLastReadTime(BaseSubscription<?> subscription) {
 		MyLogger.info("\n\n\n刷新订阅时间\n\n\n");
-		subscriptionManager.updateLastReadTime(subscription);
+		subscriptionService.updateLastReadTime(subscription);
 	}
 
 	@Override
 	public List<BaseAction> getAllActionByUid(long uid) {
 		// TODO Auto-generated method stub
-		List<? extends BaseSubscription<?>> subscriptions = subscriptionManager.getSubscriptions(uid);
+		List<? extends BaseSubscription<?>> subscriptions = subscriptionService.getSubscriptions(uid);
 		List<BaseAction> actions = new ArrayList<>();
 		for (BaseSubscription<?> subscription : subscriptions ) {
 			actions.addAll(actionManager.getAllActionBySubscription(subscription));
@@ -76,7 +76,7 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	@Override
 	public Integer countActionsByUid(long uid) {
 		// TODO Auto-generated method stub
-		List<? extends BaseSubscription<?>> subscriptions = subscriptionManager.getSubscriptions(uid);
+		List<? extends BaseSubscription<?>> subscriptions = subscriptionService.getSubscriptions(uid);
 		Integer count = 0;
 		for (BaseSubscription<?> subscription : subscriptions ) {
 			count += actionManager.countActionBySubscription(subscription);
@@ -87,7 +87,7 @@ public class SubscribedActionServiceImp implements SubscribedActionService {
 	@Override
 	public boolean freshLastReadTime(long uid) {
 		// TODO Auto-generated method stub
-		List<? extends BaseSubscription<?>> subscriptions = subscriptionManager.getSubscriptions(uid);
+		List<? extends BaseSubscription<?>> subscriptions = subscriptionService.getSubscriptions(uid);
 		for(BaseSubscription<?> subscription : subscriptions) {
 			freshLastReadTime(subscription);
 		}

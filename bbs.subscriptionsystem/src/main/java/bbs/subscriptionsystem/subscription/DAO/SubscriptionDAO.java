@@ -13,6 +13,8 @@ import bbs.subscriptionsystem.enuma.SubscriptionType;
 import bbs.subscriptionsystem.mapper.TSubscriptionMapper;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
 import bbs.subscriptionsystem.subscription.entity.BeFollowedSubscription;
+import bbs.subscriptionsystem.subscription.entity.CommodyCommentSubscription;
+import bbs.subscriptionsystem.subscription.entity.CommodySubscription;
 import bbs.subscriptionsystem.subscription.entity.FollowingSubscription;
 import bbs.subscriptionsystem.subscription.entity.ForumSubscription;
 import bbs.subscriptionsystem.subscription.entity.PostSubscription;
@@ -147,6 +149,41 @@ public class SubscriptionDAO {
 	public BeFollowedSubscription getBeFollowedSubscriptionByUid(long uid) {
 		// TODO Auto-generated method stub
 		return mapper.selectBeFollowedSubscriptionByUid(uid);
+	}
+
+	public List<CommodySubscription> getAllCommodySubscriptionByUid(long uid) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllCommodySubscriptionByUid(uid);
+	}
+	
+	public List<CommodyCommentSubscription> getAllCommodyCommentSubscriptionByUid(long uid) {
+		return mapper.selectAllCommodyCommentSubscriptionByUid(uid);
+	}
+
+	public boolean hasCommodySubscription(Long uid, Long commodyId) {
+		// TODO Auto-generated method stub
+		return mapper.countSubscriptionByUidAndTargetIdAndType(uid, commodyId, SubscriptionType.COMMODY) > 0;
+	}
+
+	public void saveCommodySubscription(Long uid, Long commodyId) {
+		// TODO Auto-generated method stub
+		TSubscription entity = new TSubscription();
+		entity.setSubscriptionType(SubscriptionType.COMMODY);
+		entity.setCommodyId(commodyId);
+		entity.setUserId(uid);
+		
+		mapper.insertSelective(entity);
+	}
+
+	public void saveCommodyCommentSubscription(Long uid, long commentId) {
+		// TODO Auto-generated method stub
+		TSubscription entity = new TSubscription();
+		entity.setSubscriptionType(SubscriptionType.COMMODY_COMMENT);
+		entity.setCommentId(commentId);
+		entity.setUserId(uid);
+		
+		mapper.insertSelective(entity);
+		
 	}
 
 	

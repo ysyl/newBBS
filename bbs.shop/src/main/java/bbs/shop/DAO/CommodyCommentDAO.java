@@ -22,14 +22,13 @@ public class CommodyCommentDAO {
 		this.mapper = mapper;
 	}
 
-	public long save(Long uid, CommentType commentType ,Long commodyId, String content, Long replyCommentId) {
+	public long savePrimaryComment(Long uid, Long commodyId, String content) {
 		// TODO Auto-generated method stub
 		TCommodyComment entity = new TCommodyComment();
 		entity.setCommodyId(commodyId);
-		entity.setReplyCommentId(null);
 		entity.setUserId(uid);
 		entity.setContent(content);
-		entity.setCommentType(commentType);
+		entity.setCommentType(CommentType.PRIMARY);
 		
 		mapper.insertSelective(entity);
 		
@@ -44,6 +43,21 @@ public class CommodyCommentDAO {
 	public PrimaryCommodyComment get(long commentId) {
 		// TODO Auto-generated method stub
 		return mapper.selectPrimaryCommentById(commentId);
+	}
+
+	public long saveReplyComment(Long uid, Long commodyId, Long belongPrimaryCommentId, Long replyTargetCommentId, String content) {
+		// TODO Auto-generated method stub
+		TCommodyComment entity = new TCommodyComment();
+		entity.setCommodyId(commodyId);
+		entity.setUserId(uid);
+		entity.setContent(content);
+		entity.setCommentType(CommentType.REPLY);
+		entity.setBelongCommentId(belongPrimaryCommentId);
+		entity.setReplyCommentId(replyTargetCommentId);
+		
+		mapper.insertSelective(entity);
+
+		return entity.getId();
 	}
 
 }

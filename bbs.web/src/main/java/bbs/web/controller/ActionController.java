@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.entity.BaseAction;
-import bbs.subscriptionsystem.action.entity.BaseTrendAction;
+import bbs.subscriptionsystem.action.entity.BbsTrendAction;
 
 @Controller
 @RequestMapping("/action")

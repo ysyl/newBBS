@@ -4,5 +4,6 @@ public enum CollectionType {
 	FORUM,
 	TOPIC,
 	POST,
-	FOLLOWING
+	FOLLOWING,
+	COMMODY,
 }

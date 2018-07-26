@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import bbs.helper.utils.MyLogger;
 import bbs.subscriptionsystem.action.entity.BaseAction;
-import bbs.subscriptionsystem.action.entity.BaseTrendAction;
+import bbs.subscriptionsystem.action.entity.BbsTrendAction;
 import bbs.subscriptionsystem.action.entity.BeFollowedAction;
 import bbs.subscriptionsystem.action.entity.CollectUserAction;
 import bbs.subscriptionsystem.action.entity.ForumTrendAction;

@@ -15,6 +15,7 @@ import bbs.forum.enuma.Sex;
 import bbs.forum.form.UpdateUserProfileForm;
 import bbs.helper.utils.MyLogger;
 import bbs.usercenter.collection.DAO.CollectionDAO;
+import bbs.usercenter.collection.DAO.entity.CommodyCollection;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
@@ -50,6 +51,12 @@ public class UserCenterServiceImp implements UserCenterService {
 	public void collectTopic(long uid, long topicId) {
 		// TODO Auto-generated method stub
 		collectionDAO.saveTopicCollection(uid, topicId);
+	}
+
+	@Override
+	public void collectCommody(long uid, long commodyId) {
+		// TODO Auto-generated method stub
+		collectionDAO.saveCommodyCollection(uid, commodyId);
 	}
 
 	@Override
@@ -113,6 +120,13 @@ public class UserCenterServiceImp implements UserCenterService {
 	}
 
 	@Override
+	public List<CommodyCollection> getAllCommodyCollectionByUserId(long uid, PageParam pageParam) {
+		// TODO Auto-generated method stub
+		List<CommodyCollection> cCs = collectionDAO.getAllCommodyCollectionByUserId(uid, pageParam);
+		return cCs;
+	}
+
+	@Override
 	public UserProfile getUserProfile(long uid) {
 		// TODO Auto-generated method stub
 		return null;
@@ -145,6 +159,14 @@ public class UserCenterServiceImp implements UserCenterService {
 		PageParam infinityPageParam = new PageParam(0, Integer.MAX_VALUE);
 		return getAllPostCollectionByUserId(uid, infinityPageParam);
 	}
+
+	@Override
+	public List<CommodyCollection> getAllCommodyCollectionByUserId(long uid) {
+		// TODO Auto-generated method stub
+		PageParam infinityPageParam = new PageParam(0, Integer.MAX_VALUE);
+		return getAllCommodyCollectionByUserId(uid, infinityPageParam);
+	}
+
 
 	@Override
 	public void uncollectPost(Long uid, long postId) {
@@ -180,6 +202,12 @@ public class UserCenterServiceImp implements UserCenterService {
 	public void updateUserProfile(Long uid, String avatarFilename, String nickname, Sex sex) {
 		// TODO Auto-generated method stub
 		userProfileDAO.update(uid, avatarFilename, nickname, sex);
+	}
+
+	@Override
+	public void uncollectCommody(long uid, long commodyId) {
+		// TODO Auto-generated method stub
+		collectionDAO.removeCommodyCollection(uid, commodyId);
 	}
 
 

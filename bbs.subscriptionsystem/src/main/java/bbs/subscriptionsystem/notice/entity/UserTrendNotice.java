@@ -9,7 +9,7 @@ import bbs.subscriptionsystem.action.entity.AbstractCollectAction;
 import bbs.subscriptionsystem.action.entity.AbstractPubAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 
-public class UserTrendNotice extends BaseTrendNotice  {
+public class UserTrendNotice extends BbsTrendNotice  {
 	
 	/**
 	 * 

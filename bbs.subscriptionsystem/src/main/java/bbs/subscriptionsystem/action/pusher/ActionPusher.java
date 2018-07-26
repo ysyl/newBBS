@@ -15,7 +15,7 @@ import bbs.subscriptionsystem.action.DAO.UserTrendActionDAO;
 import bbs.subscriptionsystem.action.entity.PostTrendAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.action.entity.BaseAction;
-import bbs.subscriptionsystem.action.entity.BaseTrendAction;
+import bbs.subscriptionsystem.action.entity.BbsTrendAction;
 import bbs.subscriptionsystem.action.entity.BeFollowedAction;
 import bbs.subscriptionsystem.action.entity.CollectUserAction;
 import bbs.subscriptionsystem.action.entity.ForumTrendAction;

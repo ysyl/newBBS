@@ -1,5 +1,6 @@
 package bbs.usercenter.service;
 
+import bbs.usercenter.collection.DAO.entity.CommodyCollection;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
@@ -27,6 +28,8 @@ public interface UserCenterService {
 	
 	void collectForum(long uid, int forumId);
 	
+	void collectCommody(long uid, long commodyId);
+	
 	void updateUserProfile(long uid, PubUserProfileForm updateUserProfileForm);
 	
 	List<TopicCollection> getAllTopicCollectionByUserId(long uid);
@@ -44,6 +47,10 @@ public interface UserCenterService {
 	List<PostCollection> getAllPostCollectionByUserId(long uid);
 	
 	List<PostCollection> getAllPostCollectionByUserId(long uid, PageParam pageParam);
+	
+	List<CommodyCollection> getAllCommodyCollectionByUserId(long uid);
+
+	List<CommodyCollection> getAllCommodyCollectionByUserId(long uid, PageParam pageParam);
 
 	UserProfile getUserProfile(long uid);
 
@@ -54,6 +61,8 @@ public interface UserCenterService {
 	void uncollectForum(long uid, int forumId);
 
 	void uncollectUser(long uid, long followingId);
+	
+	void uncollectCommody(long uid, long commodyId);
 
 	void updateUserProfile(Long uid, String avatarFilename, String nickname, Sex sex);
 	

@@ -24,6 +24,9 @@
     <table schema="mydb" tableName="t_forum_trend_action" >
       <generatedKey column="id" sqlStatement="MySql" identity="true" />
     </table>
+    <table schema="mydb" tableName="t_commody_comment_action" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
     <table schema="mydb" tableName="t_user_trend_action" >
       <generatedKey column="id" sqlStatement="MySql" identity="true" />
       <columnOverride column="action_type" javaType="bbs.subscriptionsystem.enuma.UserTrendActionType"

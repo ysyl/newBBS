@@ -5,7 +5,7 @@ import java.util.Date;
 
 import bbs.subscriptionsystem.action.entity.PostTrendAction;
 
-public class PostTrendNotice extends BaseTrendNotice {
+public class PostTrendNotice extends BbsTrendNotice {
 
 	/**
 	 * 

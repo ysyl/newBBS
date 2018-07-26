@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 import bbs.form.utils.PageParam;
+import bbs.usercenter.collection.DAO.entity.CommodyCollection;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
@@ -66,6 +67,15 @@ public class CollectionDAO {
 		tCollectionMapper.insertSelective(tCollection);
 	}
 	
+	public void saveCommodyCollection(long uid, long commodyId) {
+		// TODO Auto-generated method stub
+		TCollection tCollection = new TCollection();
+		tCollection.setCollectionType(CollectionType.COMMODY);
+		tCollection.setCommodyId(commodyId);
+		tCollection.setUserId(uid);
+		
+		tCollectionMapper.insertSelective(tCollection);
+	}
 
 	public List<ForumCollection> getAllForumCollectionsByUserId(long uid, PageParam pageParam) {
 		// TODO Auto-generated method stub
@@ -88,6 +98,11 @@ public class CollectionDAO {
 		List<FollowingCollection> foCs = (List<FollowingCollection>) tCollectionMapper.selectAllCollectionByUidAndType(uid, CollectionType.FOLLOWING, pageParam);
 		return foCs;
 	}
+	
+	public List<CommodyCollection> getAllCommodyCollectionByUserId(long uid, PageParam pageParam) {
+		List<CommodyCollection> resultList = (List<CommodyCollection>) tCollectionMapper.selectAllCollectionByUidAndType(uid, CollectionType.COMMODY, pageParam);
+		return resultList;
+	}
 
 	public void removePostCollection(Long uid, long postId) {
 		// TODO Auto-generated method stub
@@ -108,4 +123,9 @@ public class CollectionDAO {
 		// TODO Auto-generated method stub
 		tCollectionMapper.deleteByUidAndTargetId(uid, followingId, CollectionType.FOLLOWING);
 	}
+	
+	public void removeCommodyCollection(long uid, long commodyId) {
+		tCollectionMapper.deleteByUidAndTargetId(uid, commodyId, CollectionType.COMMODY);
+	}
+
 }

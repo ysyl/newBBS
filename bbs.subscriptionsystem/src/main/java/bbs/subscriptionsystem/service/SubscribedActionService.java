@@ -6,7 +6,7 @@ import java.util.List;
 import bbs.form.utils.PageParam;
 import bbs.forum.form.PubPostForm;
 import bbs.subscriptionsystem.action.entity.BaseAction;
-import bbs.subscriptionsystem.action.entity.BaseTrendAction;
+import bbs.subscriptionsystem.action.entity.BbsTrendAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 

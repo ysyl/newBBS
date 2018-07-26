@@ -14,7 +14,7 @@ import bbs.subscriptionsystem.action.DAO.PostTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.UserTrendActionDAO;
 import bbs.subscriptionsystem.action.entity.BaseAction;
-import bbs.subscriptionsystem.action.entity.BaseTrendAction;
+import bbs.subscriptionsystem.action.entity.BbsTrendAction;
 import bbs.subscriptionsystem.action.provider.ActionProvider;
 import bbs.subscriptionsystem.enuma.UserTrendActionTargetType;
 import bbs.subscriptionsystem.enuma.UserTrendActionType;
@@ -77,9 +77,9 @@ public class ActionManager {
 	public Integer countActionBySubscription(BaseSubscription<?> subscription) {
 		Integer count = 0;
 		for (ActionProvider provider : actionProviders) {
-			MyLogger.info("进入provider foreach" + provider.getClass().getName() +"\n" + subscription.getClass().getName());
+			MyLogger.info("enter provider foreach" + provider.getClass().getName() +"\n" + subscription.getClass().getName());
 			if (provider.support((Class<? extends BaseSubscription<?>>) subscription.getClass())) {
-				MyLogger.info("\n\n\n进入" + subscription.getClass().getName());
+				MyLogger.info("\n\n\n enter" + subscription.getClass().getName());
 				count += provider.getActionCountBySubscription(subscription);
 			}
 		}

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bbs.subscriptionsystem.notice.entity.BaseNotice;
-import bbs.subscriptionsystem.notice.entity.BaseTrendNotice;
+import bbs.subscriptionsystem.notice.entity.BbsTrendNotice;
 import bbs.subscriptionsystem.notice.entity.BeFollowedNotice;
 import bbs.subscriptionsystem.notice.utils.NoticeBuilder;
 import bbs.subscriptionsystem.service.SubscribedActionService;

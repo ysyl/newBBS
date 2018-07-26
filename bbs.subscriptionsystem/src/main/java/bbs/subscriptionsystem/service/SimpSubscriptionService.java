@@ -79,5 +79,18 @@ public class SimpSubscriptionService implements SubscriptionService {
 		subscriptionDAO.updateLastReadTime(subscription.getId());
 	}
 
+	@Override
+	public void subscribeCommody(Long uid, Long commodyId) {
+		// TODO Auto-generated method stub
+		if (!subscriptionDAO.hasCommodySubscription(uid, commodyId))
+			subscriptionDAO.saveCommodySubscription(uid, commodyId);
+	}
+
+	@Override
+	public void subscribeCommodyComment(Long uid, long commentId) {
+		// TODO Auto-generated method stub
+		subscriptionDAO.saveCommodyCommentSubscription(uid, commentId);
+	}
+
 
 }
