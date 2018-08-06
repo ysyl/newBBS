@@ -1,12 +1,13 @@
 package bbs.subscriptionsystem.subscription.monitor;
 
+import java.util.List;
+
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import bbs.shop.form.PubCommodyForm;
 import bbs.subscriptionsystem.service.SubscriptionService;
 
 @Aspect
@@ -22,15 +23,15 @@ public class CommodySubscriptoinMonitor {
 	}
 
 	@Pointcut("execution(* bbs.shop.service.ShopService.saveCommody(..))"
-			+ " && args(uid, pubCommodyForm)")
-	public void pubCommody(long uid, PubCommodyForm pubCommodyForm) {}
+			+ " && args(uid, title, description, price, imgFileNames, commodyClassificationId, subClassList)")
+	public void pubCommody(long uid, String title,  String description, Integer price, List<String> imgFileNames, Integer commodyClassificationId, List<Integer> subClassList) {}
 	
 	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.collectCommody(..))"
 			+ " && args(uid, commodyId)")
 	public void collectCommody(long uid, long commodyId) {}
 	
-	@AfterReturning(pointcut = "pubCommody(uid, pubCommodyForm)", returning="commodyId")
-	public void monitorPubCommody(long uid, PubCommodyForm pubCommodyForm, long commodyId) {
+	@AfterReturning(pointcut = "pubCommody(uid, title, description, price,imgFileNames, commodyClassificationId, subClassList)", returning="commodyId")
+	public void monitorPubCommody(long uid, String title, String description, Integer price, List<String> imgFileNames, Integer commodyClassificationId, List<Integer> subClassList, long commodyId) {
 		subService.subscribeCommody(uid, commodyId);
 	}
 	

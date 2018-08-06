@@ -131,7 +131,7 @@ public class MockMvcTest extends BaseTest {
 	@Test
 	public void testRegister() throws Exception {
 		mvc
-			.perform(post("/register")
+			.perform(post("/principal/register")
 						.param("nickname", "zhou2")
 						.param("username", "admin1")
 						.param("password", "123456")

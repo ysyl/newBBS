@@ -14,6 +14,7 @@ import security.core.form.UserPrincipalForm;
 import security.core.service.SecurityCoreService;
 
 @Service
+@Transactional
 public class BbsSecurityServiceImp implements BbsSecurityService {
 	
 	private UserCenterService userCenterService;
@@ -28,7 +29,6 @@ public class BbsSecurityServiceImp implements BbsSecurityService {
 	}
 
 	@Override
-	@Transactional
 	public void register(BbsUserForm form) {
 		// TODO Auto-generated method stub
 		UserPrincipalForm userPrincipalForm = new UserPrincipalForm();
@@ -45,11 +45,6 @@ public class BbsSecurityServiceImp implements BbsSecurityService {
 		userCenterService.createUserProfile(userProfileForm);
 	}
 
-	@Override
-	public void getCurrentUid() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public UserPrincipal getUserPrincipal(String username) {

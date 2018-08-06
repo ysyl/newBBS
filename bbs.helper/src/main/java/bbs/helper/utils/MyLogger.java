@@ -38,4 +38,9 @@ public class MyLogger {
 		// TODO Auto-generated method stub
 		info("\n" + string);
 	}
+
+	public static void infoln(Class<?> class1, String string) {
+		// TODO Auto-generated method stub
+		getLogger(class1).info("\n" + string);
+	}
 }

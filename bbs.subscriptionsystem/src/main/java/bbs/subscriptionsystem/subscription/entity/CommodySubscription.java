@@ -2,7 +2,7 @@ package bbs.subscriptionsystem.subscription.entity;
 
 import java.io.Serializable;
 
-import bbs.shop.DTO.Commody;
+import bbs.shop.entity.Commody;
 
 public class CommodySubscription extends BaseSubscription<Commody> {
 

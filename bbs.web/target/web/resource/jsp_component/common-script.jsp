@@ -11,6 +11,13 @@
 	src="<c:url value="/resource/editor.md-master/editormd.min.js" />"></script>
 
 <script type="text/javascript">
+let isAuthenticated = false;
+<sec:authorize access="isAuthenticated()">
+isAuthenticated = true;    
+</sec:authorize>
+
+let contextPath = "<c:out value="${pageContext.servletContext.contextPath}" />";
+
 //用户名，用于拼接订阅链接
 let username = "<sec:authentication property="name" />";
 //ajax拉取所有通知的url

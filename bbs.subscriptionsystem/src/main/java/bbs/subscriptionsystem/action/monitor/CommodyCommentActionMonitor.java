@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import bbs.helper.utils.MyLogger;
 import bbs.shop.form.PubPrimaryCommodyCommentForm;
 import bbs.shop.form.PubReplyCommodyCommentForm;
 import bbs.subscriptionsystem.action.DAO.CommodyCommentActionDAO;
@@ -33,12 +34,14 @@ public class CommodyCommentActionMonitor {
 	@AfterReturning(pointcut="pubPrimaryCommodyComment(uid, commodyId, commentForm)", returning="commentId")
 	public void monitorPubPrimaryComment(Long uid, Long commodyId ,PubPrimaryCommodyCommentForm commentForm,
 			long commentId) {
+		MyLogger.infoln(this.getClass(), "插入Commody Comment Action");
 		actionDAO.save(uid, commentId, commodyId);
 	}
 	
 	@AfterReturning(pointcut="pubReplyCommodyComment(uid, commodyId, replyCommentForm)", returning="commentId")
 	public void monitorPubReplyComment(Long uid, Long commodyId , PubReplyCommodyCommentForm replyCommentForm,
 			long commentId) {
+		MyLogger.info(this.getClass(), "插入Commody Comment Action");
 		actionDAO.save(uid, commentId, commodyId);
 	}
 }

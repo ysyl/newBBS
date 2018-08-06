@@ -1,6 +1,6 @@
 package bbs.subscriptionsystem.action.entity;
 
-import bbs.shop.DTO.Commody;
+import bbs.shop.entity.Commody;
 
 public class CommodyTrendAction extends ShopTrendAction {
 

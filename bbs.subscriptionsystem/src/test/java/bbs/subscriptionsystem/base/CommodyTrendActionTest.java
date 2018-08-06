@@ -3,6 +3,7 @@ package bbs.subscriptionsystem.base;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -76,9 +77,11 @@ public class CommodyTrendActionTest extends BaseTest {
 		commodyForm.setCommodyClassificationId(gameClassId);
 		commodyForm.setDescription("测试商品");
 		commodyForm.setTitle("测试标题");
-		commodyForm.setImgFile(null);
+		commodyForm.setSubClassList(new ArrayList<Integer>());
+		commodyForm.setPrice(3000);
 		
-		long newCommodyId = shopService.saveCommody(VERRICKT_ID, commodyForm);
+		long newCommodyId = shopService.saveCommody(VERRICKT_ID, commodyForm.getTitle(), 
+				commodyForm.getDescription(), commodyForm.getPrice(), new ArrayList<String>(), commodyForm.getCommodyClassificationId(), commodyForm.getSubClassList());
 		
 		MyLogger.info("\n 在商品下发表评论");
 		PubPrimaryCommodyCommentForm primaryCommentForm1 = new PubPrimaryCommodyCommentForm();
@@ -111,8 +114,6 @@ public class CommodyTrendActionTest extends BaseTest {
 		List<CommodyCommentNotice> notices = (List<CommodyCommentNotice>) noticeService.getNoticeByUid(ZHOU_ID).getShop();
 		assertEquals(1, notices.size());
 		
-		List<CommodyCommentNotice> notices1 = (List<CommodyCommentNotice>) noticeService.getNoticeByUid(VERRICKT_ID).getShop();
-		assertEquals(1, notices1.size());
 		
 		
 		//接上条测试， 再让另一个用户回复楼中楼回复，取评论者的通知和第一个楼中楼回复者的通知
@@ -129,5 +130,12 @@ public class CommodyTrendActionTest extends BaseTest {
 		List<CommodyCommentNotice> notices2 = (List<CommodyCommentNotice>) noticeService.getNoticeByUid(ZHOU_ID).getShop();
 		assertEquals(1, notices2.size());
 		assertEquals("reply reply commody comment", notices2.get(0).getComment().getContent());
+		
+		
+		List<CommodyCommentNotice> notices1 = (List<CommodyCommentNotice>) noticeService.getNoticeByUid(VERRICKT_ID).getShop();
+		assertEquals(2, notices1.size());
+		
+		assertEquals(JAY_ID, notices1.get(0).getUser().getId());
+		assertEquals(ZHOU_ID, notices1.get(1).getUser().getId());
 	}
 }

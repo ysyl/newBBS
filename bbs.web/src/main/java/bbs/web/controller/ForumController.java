@@ -142,12 +142,12 @@ public class ForumController {
 	}
 	
 	@GetMapping("/search")
-	public String search(@RequestParam(value="title", required = false) String title,
+	public String search(@RequestParam(value="keyword", required = false) String keyword,
 			@RequestParam(value="pageNo", defaultValue="0") int pageNo, Model model) {
 		PageParam pageParam = new PageParam(pageNo, 20);
-		List<Topic> resultTopics = bbsService.searchTopic(title, pageParam);
+		List<Topic> resultTopics = bbsService.searchTopic(keyword, pageParam);
 		model.addAttribute("resultTopics", resultTopics);
-		model.addAttribute("key", title);
+		model.addAttribute("key", keyword);
 		return "search";
 	}
 	

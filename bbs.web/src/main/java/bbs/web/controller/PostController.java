@@ -26,8 +26,8 @@ import bbs.helper.utils.MyLogger;
 import bbs.security.utils.HasNotLoginException;
 import bbs.security.utils.IAuthenticationFacade;
 import bbs.usercenter.service.UserCenterService;
-import bbs.web.utils.AvatarGeneratorResult;
-import bbs.web.utils.ImgTransformUtils;
+import bbs.web.utils.FileUploadResult;
+import bbs.web.utils.UploadUtils;
 
 @Controller
 @RequestMapping("/upload")
@@ -37,7 +37,7 @@ public class PostController {
 
 	private UserCenterService userCenterService;
 
-	private ImgTransformUtils bbsImgUtils;
+	private UploadUtils bbsImgUtils;
 
 	private IAuthenticationFacade authenticationFacade;
 
@@ -68,7 +68,7 @@ public class PostController {
 	// }
 
 	@Autowired
-	public PostController(BbsService bbsService, UserCenterService userCenterService, ImgTransformUtils imgUtils,
+	public PostController(BbsService bbsService, UserCenterService userCenterService, UploadUtils imgUtils,
 			IAuthenticationFacade authenticationFacade) {
 		super();
 		this.bbsService = bbsService;
@@ -89,8 +89,8 @@ public class PostController {
 		MyLogger.info("\n avatarFile: " + avatarFile.getSize());
 
 		if (avatarFile != null) {
-			AvatarGeneratorResult avatarGeneratorResult = bbsImgUtils.getRealFile(req, avatarFile);
-			avatarName = avatarGeneratorResult.getAvatarName();
+			FileUploadResult avatarGeneratorResult = bbsImgUtils.getImgRealFile(req, avatarFile);
+			avatarName = avatarGeneratorResult.getFileName();
 			File realFile = avatarGeneratorResult.getFile();
 			avatarFile.transferTo(realFile);
 		}

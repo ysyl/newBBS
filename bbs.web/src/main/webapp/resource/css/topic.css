@@ -1,6 +1,5 @@
 
 .forum-breadcrumb {
-  width: 990px!important;
   margin: 0 auto;
 }
 .post-main-wrap {
@@ -8,7 +7,6 @@
 }
 
 .topic-nar-bar-container {
-  width: 990px!important;
   position: relative;
   padding: 0;
 }
@@ -40,7 +38,6 @@
 }
 
 #topic-content-wrap {
-  width: 990px!important;
   padding: 0;
 }
 

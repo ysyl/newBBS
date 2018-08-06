@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import bbs.shop.DTO.BaseCommodyComment;
-import bbs.shop.DTO.PrimaryCommodyComment;
-import bbs.shop.entity.TCommodyComment;
+import bbs.shop.entity.BaseCommodyComment;
+import bbs.shop.entity.PrimaryCommodyComment;
 import bbs.shop.enuma.CommentType;
-import bbs.shop.mapper.TCommodyCommentMapper;
+import bbs.shop.mybatis.entity.TCommodyComment;
+import bbs.shop.mybatis.mapper.TCommodyCommentMapper;
 
 @Component
 public class CommodyCommentDAO {

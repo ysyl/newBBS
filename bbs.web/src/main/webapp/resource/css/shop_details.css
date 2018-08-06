@@ -1,0 +1,138 @@
+.commody-bar-wrap {
+  position: relative;
+}
+.commody-bar {
+  padding: 10px 10px;
+  border-left: 1px solid #ddd;
+  margin-left: 215px;
+}
+.report {
+  line-height: 60px;
+  float: right;
+}
+.commody-bar li {
+  height: 40px;
+  min-width: 100px;
+  font-size: 12px;
+  border-right: 1px solid #ddd;
+  margin-right: 10px;
+  padding-right: 10px;
+  text-align: center;
+}
+.commody-bar .title {
+  line-height: 20px;
+}
+
+.commody-main-container {
+  padding: 0px;
+}
+
+.commody-bar-user-info {
+  position: absolute;
+  left: 0px;
+  height: 60px;
+  width: 230px;
+  padding: 0px 18px;
+}
+
+.commody-main-container {
+  height: 1000px;
+}
+.col-sub {
+  height: inherit;
+  padding: 0px;
+}
+.col-sub .commody-carousel {
+  margin-bottom: 20px;
+}
+.commody-album-list-item {
+  text-align: center;
+}
+.commody-album-list img {
+  display: inline!important;
+  height: 350px;
+}
+
+.commody-album-list-wrap {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #eee;
+}
+
+.commody-thumb-list {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: 1px solid #eee;
+}
+.commody-thumb-list-item {
+  text-align: center;
+}
+.commody-thumb-list img {
+  display: inline!important;
+  height: 80px;
+}
+.col-main {
+  height: inherit;
+}
+
+.commody-desc .tab-panel {
+  padding: 20px 10px;
+}
+
+.commody-property {
+  font-size: 15px;
+}
+.commody-property .price-info {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.commody-property>div {
+  margin: 16px 0px;
+}
+
+.commody-property .name {
+}
+
+.buy-now {
+  margin-top: 20px;
+}
+.buy-now .btn {
+  width: 100%;
+  line-height: 30px;
+}
+.primary-comment-wrap {
+  border-bottom: 1px solid #eee;
+}
+
+.primary-comment-list>li {
+    border: 1px solid #eee;
+    box-shadow: 5px 5px 20px #eee;
+    padding: 15px 0px;
+    width: 100%;
+    overflow-x: hidden;
+    margin-bottom: 20px;
+}
+
+.primary-comment-user-info,
+.reply-comment-user-info {
+  text-align: center;
+}
+.primary-comment-user-info>img {
+  width: 80px;
+  border-radius: 100%;
+}
+.reply-comment-user-info>img {
+  width: 60px;
+  border-radius: 100%;
+}
+
+.reply-comment-list {
+  margin-top: 25px;
+}
+.reply-comment-list>li {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+  padding-left: 50px;
+}

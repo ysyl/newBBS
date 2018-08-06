@@ -2,7 +2,7 @@ package bbs.subscriptionsystem.notice.entity;
 
 import java.util.Date;
 
-import bbs.shop.DTO.Commody;
+import bbs.shop.entity.Commody;
 
 public class CommodyTrendNotice extends ShopTrendNotice {
 

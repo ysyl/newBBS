@@ -214,7 +214,7 @@ $(document).ready(function () {
 		  return userTrendNoticeTemplate;
 	  }
   }
-  
-  let noticePanel = new NoticePanel($("#notice-panel-toggle"),$("#notice-menu-content"), $("#new-notice-remind"), $("#trend"));
-  console.log(JSON.stringify(noticePanel));
+  if (isAuthenticated) {
+	  let noticePanel = new NoticePanel($("#notice-panel-toggle"),$("#notice-menu-content"), $("#new-notice-remind"), $("#trend"));
+  }
 })

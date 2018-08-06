@@ -7,7 +7,5 @@ public interface BbsSecurityService {
 
 	void register(BbsUserForm form);
 
-	void getCurrentUid();
-
 	UserPrincipal getUserPrincipal(String username);
 }

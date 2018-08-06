@@ -288,7 +288,7 @@
   <resultMap id="CommentActionResultMap" type="bbs.subscriptionsystem.action.entity.CommodyCommentAction">
     <id column="id" jdbcType="BIGINT" property="id" /> 
     <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
-    <association javaType="bbs.shop.DTO.Commody" property="commody">
+    <association javaType="bbs.shop.entity.Commody" property="commody">
         <id column="commody_id" property="id" />
         <result column="commody_title" property="title" />
     </association>
@@ -296,7 +296,7 @@
        <id column="user_id" property="id" /> 
        <result column="user_nickname" property="nickname" />
     </association>
-    <association javaType="bbs.shop.DTO.BaseCommodyComment" property="comment">
+    <association javaType="bbs.shop.entity.BaseCommodyComment" property="comment">
         <id column="commody_comment_id" property="id" />
         <result column="commody_comment_content" property="content" />
     </association>

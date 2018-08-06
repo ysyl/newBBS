@@ -42,7 +42,7 @@
 <body>
 	<%@ include file="/resource/jsp_component/topbar.jsp"%>
 
-	<ol class="breadcrumb forum-breadcrumb">
+	<ol class="breadcrumb forum-breadcrumb container">
 		<li><a href="<c:url value="/" />">Home</a></li>
 		<li class="active">${forum.forumName}</li>
 	</ol>

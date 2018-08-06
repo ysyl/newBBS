@@ -22,7 +22,7 @@
 </head>
 <body>
     <div class="container">
-        <form class="form-login" action="<c:url value="/register" />" method="post">
+        <form class="form-login" action="<c:url value="/principal/register" />" method="post">
             <div class="form-group">
                 <label for="username">用户名</label>
                 <input type="text" class="form-control" placeholder="username" name="username" />

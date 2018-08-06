@@ -1,7 +1,7 @@
 package bbs.subscriptionsystem.action.entity;
 
-import bbs.shop.DTO.BaseCommodyComment;
-import bbs.shop.DTO.Commody;
+import bbs.shop.entity.BaseCommodyComment;
+import bbs.shop.entity.Commody;
 import bbs.usercenter.userprofile.DTO.UserProfile;
 
 public class CommodyCommentAction extends CommodyTrendAction {

@@ -404,7 +404,7 @@
             </association>
        </case>
        <case resultType="bbs.usercenter.collection.DAO.entity.CommodyCollection" value="COMMODY">
-            <association javaType="bbs.shop.DTO.Commody" property="commody">
+            <association javaType="bbs.shop.entity.Commody" property="commody">
                 <id column="commody_id" property="id" />
                 <result column="commody_title" property="title" />
             </association>

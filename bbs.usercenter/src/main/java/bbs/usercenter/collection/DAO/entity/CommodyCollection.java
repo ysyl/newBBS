@@ -1,6 +1,6 @@
 package bbs.usercenter.collection.DAO.entity;
 
-import bbs.shop.DTO.Commody;
+import bbs.shop.entity.Commody;
 
 public class CommodyCollection extends BaseCollection {
 

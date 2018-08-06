@@ -461,12 +461,12 @@
         </association>
        </case> 
        <case resultType="bbs.subscriptionsystem.subscription.entity.CommodySubscription" value="COMMODY">
-            <association javaType="bbs.shop.DTO.Commody" property="target">
+            <association javaType="bbs.shop.entity.Commody" property="target">
                 <id column="commody_id" property="id" />
             </association>
        </case>
        <case resultType="bbs.subscriptionsystem.subscription.entity.CommodyCommentSubscription" value="COMMODY_COMMENT">
-            <association javaType="bbs.shop.DTO.BaseCommodyComment" property="target">
+            <association javaType="bbs.shop.entity.BaseCommodyComment" property="target">
                 <id column="commody_comment_id" property="id" />
             </association>
        </case>

@@ -7,13 +7,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class PubCommodyForm implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String title;
 	
 	private String description;
 	
+	private Integer price;
+	
 	private List<MultipartFile> imgFile;
 	
 	private int commodyClassificationId;
+	
+	private List<Integer> subClassList;
 
 	public int getCommodyClassificationId() {
 		return commodyClassificationId;
@@ -46,4 +55,21 @@ public class PubCommodyForm implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public List<Integer> getSubClassList() {
+		return subClassList;
+	}
+
+	public void setSubClassList(List<Integer> subClassList) {
+		this.subClassList = subClassList;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
 }

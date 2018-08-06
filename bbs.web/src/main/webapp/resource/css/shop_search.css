@@ -1,0 +1,164 @@
+a,
+a:hover,
+a:visited,
+a:link {
+  text-decoration: none;
+  color: #444;
+}
+
+.btn-group {
+  border-radius: 15px;
+}
+.btn-group .btn:first-child {
+  border-top-left-radius: 15px!important;
+  border-bottom-left-radius: 15px!important;
+}
+.btn-group .btn:last-child {
+  border-top-right-radius: 15px!important;
+  border-bottom-right-radius: 15px!important;
+}
+
+.crumb-container {
+    padding: 0;
+}
+
+.crumb-prefix {
+
+}
+
+.catelog-filter-wrap {
+  padding: 20px 100px;
+  border: 1px solid #eee;
+  box-shadow: 5px 5px 20px #f4f4f4;
+  margin-bottom: 15px;
+}
+
+.catalog-tag a {
+  line-height: 30px;
+  border-radius: 2px;
+  padding: 0 10px;
+  display: inline-block;
+  transition: all 0.4s;
+}
+
+.catalog-tag a:hover {
+  background-color: #E7F4D9;
+}
+.search-filter-container {
+  margin-bottom: 15px;
+}
+.search-keywords {
+  line-height: 30px;
+  font-size: 20px;
+}
+
+.search-filter-tool {
+  float:right;
+}
+
+.price-btn {
+  padding-right: 30px;
+}
+.price-btn.active {
+}
+.price-btn.active.asc .glyphicon-chevron-up {
+  color: #ffda44;
+}
+.price-btn.active.dsc .glyphicon-chevron-down {
+  color: #ffda44;
+}
+.price-btn .glyphicon {
+  color: #888;
+}
+.price-btn .glyphicon-chevron-up {
+  position: absolute;
+  right: 12px;
+  top: 4px;
+}
+.price-btn .glyphicon-chevron-down {
+  position: absolute;
+  right: 12px;
+  top: 14px;
+}
+
+.search-result-list-wrap {
+  min-height: 300px;
+  padding: 0;
+}
+.search-result-list {
+  list-style: none;
+  padding-left: 0px;
+}
+.search-result-list .result-list-item {
+  display: block;
+  min-height: 150px;
+  box-shadow: 5px 5px 20px #eee;
+  border: 1px solid #eee;
+  background-color: #fff;
+  padding: 20px 30px;
+  margin-bottom: 15px;
+}
+.commody-info {
+  width: 80%;
+  padding-right: 10px;
+  border-right: 1px solid #eee;
+  float: left;
+}
+
+.commody-info .price-num {
+  color: #f40;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.commody-info-title {
+  margin: 0;
+}
+
+.commody-info-price {
+  line-height: 30px;
+}
+
+.commody-info img {
+  width: 200px;
+  border: 1px solid #eee;
+  float: left;
+  margin-right: 20px;
+}
+
+.commody-info-description {
+  height: 32px;
+  margin-bottom: 25px;
+  font-size: 13px;
+  overflow-y: hidden;
+}
+
+.commody-info-pub-time {
+  font-size: 12px;
+  margin: 0;
+}
+
+.user-info {
+  width: 20%;
+  float: left;
+  height: inherit;
+  padding-left: 15px;
+}
+.user-info img {
+  width: 60px;
+  border-radius: 100%;
+  padding: 2px;
+  border: 1px solid #eee;
+  float: left;
+  margin-right: 10px;
+}
+.user-info .user-nickname {
+  margin-top: 6px;
+}
+.user-info .user-location {}
+.more-commody {
+  position: relative;
+  color: #f5d633!important;
+  top: 30px;
+  left: 20px;
+}

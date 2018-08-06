@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import bbs.shop.mapper.TCommodyCommentMapper;
+import bbs.shop.mybatis.mapper.TCommodyCommentMapper;
 import bbs.subscriptionsystem.action.entity.BaseAction;
 import bbs.subscriptionsystem.action.entity.CommodyCommentAction;
 import bbs.subscriptionsystem.entity.TCommodyCommentAction;

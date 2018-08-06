@@ -2,8 +2,8 @@ package bbs.subscriptionsystem.notice.entity;
 
 import java.util.Date;
 
-import bbs.shop.DTO.BaseCommodyComment;
-import bbs.shop.DTO.Commody;
+import bbs.shop.entity.BaseCommodyComment;
+import bbs.shop.entity.Commody;
 import bbs.subscriptionsystem.action.entity.CommodyCommentAction;
 import bbs.usercenter.userprofile.DTO.UserProfile;
 

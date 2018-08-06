@@ -3,27 +3,29 @@
 <generatorConfiguration>
   <context id="context1">
     <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mydb" driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
-    <javaModelGenerator targetPackage="bbs.shop.entity" targetProject="bbs.shop" />
-    <sqlMapGenerator targetPackage="bbs.shop.mapper" targetProject="bbs.shop" />
-    <javaClientGenerator targetPackage="bbs.shop.mapper" targetProject="bbs.shop" type="XMLMAPPER" />
+    <javaModelGenerator targetPackage="bbs.shop.mybatis.entity" targetProject="bbs.shop" />
+    <sqlMapGenerator targetPackage="bbs.shop.mybatis.mapper" targetProject="bbs.shop" />
+    <javaClientGenerator targetPackage="bbs.shop.mybatis.mapper" targetProject="bbs.shop" type="XMLMAPPER" />
 
     <table schema="mydb" tableName="t_commody" >
       <generatedKey column="id" sqlStatement="MySql" identity="true" />
     </table>
-    <table schema="mydb" tableName="t_commody_classification" >
+    <table schema="mydb" tableName="t_classification" domainObjectName="TCommodyClassification" >
       <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_subclass" domainObjectName="TSubClass" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_keyword" domainObjectName="TKeyword" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_user_perference" domainObjectName="TUserPerference" >
     </table>
     <table schema="mydb" tableName="t_commody_comment" >
       <generatedKey column="id" sqlStatement="MySql" identity="true" />
       <columnOverride column="comment_type" javaType="bbs.shop.enuma.CommentType"
         typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
        />
-    </table>
-    <table schema="mydb" tableName="t_commody_recommend" >
-      <generatedKey column="id" sqlStatement="MySql" identity="true" />
-      <columnOverride column="recommend_type" javaType="bbs.shop.enuma.RecommendType"
-        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
-      ></columnOverride>
     </table>
     <table schema="mydb" tableName="t_commody_img" >
       <generatedKey column="id" sqlStatement="MySql" identity="true" />

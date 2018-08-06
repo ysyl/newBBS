@@ -13,8 +13,11 @@
 <script type="text/javascript">
 let isAuthenticated = false;
 <sec:authorize access="isAuthenticated()">
-isAuthenticated = true;
+isAuthenticated = true;    
 </sec:authorize>
+
+let contextPath = "<c:out value="${pageContext.servletContext.contextPath}" />";
+
 //用户名，用于拼接订阅链接
 let username = "<sec:authentication property="name" />";
 //ajax拉取所有通知的url
