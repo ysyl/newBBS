@@ -96,4 +96,20 @@ public class CollectController {
 		return "SUCCESS";
 	}
 	
+	@PostMapping("/commody/{commodyId}")
+	@ResponseBody
+	public String collectCommody(@PathVariable("commodyId") Long commodyId) throws HasNotLoginException {
+		long uid = authenticationFacede.getUserId();
+		userCenterService.collectCommody(uid, commodyId);
+		return "SUCCESS";
+	}
+	
+	@DeleteMapping("/commody/{commodyId}")
+	@ResponseBody
+	public String uncollectCommody(@PathVariable("commodyId") long commodyId) throws HasNotLoginException {
+		long uid = authenticationFacede.getUserId();
+		userCenterService.uncollectCommody(uid, commodyId);
+		return "SUCCESS";
+	}
+	
 }

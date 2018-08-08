@@ -61,7 +61,7 @@
 			<sec:authorize access="isAuthenticated()">
 				<div class="navbar-right" id="user-avatar">
 					<img id="nav-bar-user-avatar" class="rounded-circle"
-						src="<c:url value="/resource/upload/img/${currentUser.avatar }" />" />
+						src="<c:url value="/resource/img/${currentUser.avatar }" />" />
 					<a href="<c:url value="/usercenter/user/${currentUser.id }" />">${currentUser.nickname }</a>
 				</div>
 			</sec:authorize>

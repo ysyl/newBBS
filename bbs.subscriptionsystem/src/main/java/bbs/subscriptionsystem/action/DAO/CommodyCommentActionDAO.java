@@ -65,4 +65,14 @@ public class CommodyCommentActionDAO {
 		return mapper.selectAllByCommentIdAfterLastReadTime(commentId, lastReadTime);
 	}
 
+	public Integer getCommodyActionCountByIdAfterLastReadTime(Long commodyId, Date lastReadTime) {
+		// TODO Auto-generated method stub
+		return mapper.countByCommodyIdAfterLastReadTime(commodyId, lastReadTime);
+	}
+
+	public Integer countCommentActionByCommentIdAfterLastReadTime(Long commentId, Date lastReadTime) {
+		// TODO Auto-generated method stub
+		return mapper.countByCommentIdAfterLastReadTime(commentId, lastReadTime);
+	}
+
 }

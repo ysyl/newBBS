@@ -8,11 +8,12 @@
 <div class="panel panel-default shop-commody-classification-panel">
 	<div class="panel-heading">
 		<!-- 取出Classification -->
-		<span>${classification.name }</span> <a href="<c:url value="/shop/search/commody/classification/${classification.id }" />" class="pull-right">更多</a>
+		<span>${classification.name }</span> <a href="<c:url 
+		  value="/shop/commody/search/total?search_type=CLASSIFICATION&classification_id=${classification.id }" />" class="pull-right">更多</a>
 		
 	</div>
 	<div class="panel-body commody-row">
-		<c:forEach var="commody" items="${commodyList }">
+		<c:forEach var="commody" items="${commodyList.subList(0, 4) }">
 			<div class="commody-card">
 				<div class="commody-card-body">
 					<div class="commody-card-display">
@@ -25,13 +26,15 @@
 				<div class="commody-card-header clearfix">
 					<h4 class="commody-title"><a href="<c:url value="/shop/commody/${commody.id }" />">${commody.title }</a></h4>
 					<p>
-						${commody.description.substring(0, commody.description.length() > 9?9:commody.description.length())}<span class="time">//todo 5分钟前</span> 
+						${commody.description.substring(0, commody.description.length() > 9?9:commody.description.length())}<span class="time">${dateUtils.getShortTime(commody.pubTime) }</span> 
 					</p>
 				</div>
 				<div class="commody-card-footer">留言：${commody.replies }</div>
+                <a href="javascript:void(0)" class="commody-collect-btn-wrap" data-commody-id = "<c:out value="${commody.id }" />">
 				<div class="commody-collect-btn">
 					<span class="glyphicon glyphicon-heart"></span>
 				</div>
+				</a>
 			</div>
 		</c:forEach>
 	</div>

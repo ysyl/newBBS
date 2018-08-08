@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import bbs.helper.utils.MyLogger;
 import bbs.shop.DAO.KeywordDAO;
@@ -18,6 +19,7 @@ import bbs.shop.keyword.extractor.KeywordExtractor;
 
 @Aspect
 @Component
+@Transactional
 public class UserPerferenceMonitor {
 	
 	private KeywordExtractor keywordExtractor;  
@@ -31,7 +33,7 @@ public class UserPerferenceMonitor {
 		this.userPerferenceDAO = userPerferenceDAO;
 	}
 
-	@Pointcut("execution(* bbs.forum.service.BbsService.search(..)) "
+	@Pointcut("execution(* bbs.shop.service.ShopService.searchByKeyword(..)) "
 			+ "&& args(uid, titleKeyword)")
 	public void searchPointcut(Long uid, String titleKeyword) {};
 	
@@ -42,6 +44,7 @@ public class UserPerferenceMonitor {
 	@AfterReturning(pointcut = "searchPointcut(uid, titleKeyword)")
 	public void monitorSearch(Long uid, String titleKeyword) {
 		if (uid == null) return;
+		MyLogger.infoln(this.getClass(), "搜索商品时对关键词进行分词并添加到关键词表和用户喜好表");
 		Set<Keyword> keywords = keywordExtractor.seg(titleKeyword);
 		for (Keyword keyword : keywords) {
 			try {

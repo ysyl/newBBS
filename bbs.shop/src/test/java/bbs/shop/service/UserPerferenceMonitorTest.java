@@ -1,5 +1,7 @@
 package bbs.shop.service;
 
+import static org.junit.Assert.assertNotNull;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,18 @@ public class UserPerferenceMonitorTest extends BaseTest {
 		
 		MyLogger.infoln(this.getClass(), "让匿名用户获取商品");
 		shopService.getCommody(null, sampleCommodyId);
+	}
+	
+	@Test 
+	public void testSearchMonitor() {
+		MyLogger.infoln(this.getClass(), "让一个用户搜索，然后log他的兴趣爱好");
+		long VERRICKT_ID = 1L;
+		String keywordContent = "测试用的关键词";
+		
+		shopService.searchByKeyword(VERRICKT_ID, keywordContent);
+		UserPerference up = shopService.getUserPerference(VERRICKT_ID);
+		assertNotNull(up);
+		MyLogger.infoln(this.getClass(), "获取从搜索中提取的关键词： " + up.getKeywordStatisticList());
+
 	}
 }

@@ -35,7 +35,8 @@
 						class="sr-only">(current)</span></a></li>
 				<li><a href="#">积分商城</a></li>
 				<li><a href="<c:url value="/shop/index" />">交易区</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
+				<li class="dropdown">
+				    <a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" id="notice-panel-toggle">通知<span
 						class="badge" id="new-notice-remind"></span><span class="caret"></span></a>
 					<ul class="dropdown-menu notice-menu" id="notice-menu">
@@ -53,13 +54,14 @@
 							<div class="tab-panel" id="friend"></div>
 							<div class="tab-panel" id="focus"></div>
 						</div>
-					</ul> </a></li>
+					</ul> </a>
+			     </li>
 			</ul>
 			<!-- 未登录用户显示登录按键和注册按键，目测先跳转登录和注册页面 -->
 			<sec:authorize access="isAuthenticated()">
 				<div class="navbar-right" id="user-avatar">
 					<img id="nav-bar-user-avatar" class="rounded-circle"
-						src="<c:url value="/resource/upload/img/${currentUser.avatar }" />" />
+						src="<c:url value="/resource/img/${currentUser.avatar }" />" />
 					<a href="<c:url value="/usercenter/user/${currentUser.id }" />">${currentUser.nickname }</a>
 				</div>
 			</sec:authorize>

@@ -11,12 +11,12 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">交易区 </a>
+			<a class="navbar-brand" href="<c:url value="/shop/index" />">交易区 </a>
 		</div>
 		<div class="collapse navbar-collapse" id="shop-navbar-collapse">
 			<ul class="nav navbar-nav">
 				<c:forEach var="classification" items="${classInfo}">
-					<li><a href="#">${classification.name }</a></li>
+					<li><a href="<c:url value="/shop/commody/search/total?search_type=CLASSIFICATION&classification_id=${classification.id }" />">${classification.name }</a></li>
 				</c:forEach>
 			</ul>
 		</div>

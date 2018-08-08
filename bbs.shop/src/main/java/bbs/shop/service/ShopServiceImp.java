@@ -163,4 +163,10 @@ public class ShopServiceImp implements ShopService {
 		return subClassDAO.getSubClass(subClassId);
 	}
 
+	@Override
+	public List<Commody> getAllCommodyBySellerId(long userId) {
+		// TODO Auto-generated method stub
+		return commodyDAO.getCommodyBySellerId(userId);
+	}
+
 }

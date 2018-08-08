@@ -163,5 +163,10 @@ public class ShopServiceTest extends BaseTest {
 		assertTrue(commodyByKeyword.size() > 0);
 		List<Commody> commodyByKeyword1 = shopService.searchByKeyword(1L, "闪灵");
 		assertTrue(commodyByKeyword1.size() > 0);
+		List<Commody> commodyByUserId = shopService.getAllCommodyBySellerId(1L);
+		assertTrue(commodyByUserId.size() > 0);
+		for (Commody commody : commodyByUserId) {
+			assertEquals((Long)1l, commody.getUser().getId());
+		}
 	}
 }

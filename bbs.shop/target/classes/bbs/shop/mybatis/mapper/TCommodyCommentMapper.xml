@@ -377,6 +377,7 @@
     <association javaType="bbs.forum.DTO.User" property="user">
         <id column="user_id" property="id" />  
         <result column="user_nickname" property="nickname" />  
+        <result column="user_avatar" property="avatar" />  
     </association>
     <association javaType="bbs.shop.entity.Commody" property="commody">
         <id column="commody_id" property="id" /> 
@@ -388,15 +389,25 @@
          <association javaType="bbs.forum.DTO.User" property="user">
                     <id column="reply_comment_user_id" property="id" />
                     <result column="reply_comment_user_nickname" property="nickname" />
+                    <result column="reply_comment_user_avatar" property="avatar" />
+         </association>
+         <association property="replyTargetComment" javaType="bbs.shop.entity.ReplyCommodyComment">
+            <association property="user" javaType="bbs.forum.DTO.User">
+                <id column="reply_target_comment_user_id" property="id" /> 
+                <result column="reply_target_comment_user_nickname" property="nickname" /> 
+            </association> 
          </association>
     </collection> 
   </resultMap>
   
     <sql id="primary_comment_dto_column_list">
     pcm.id as id, pcm.pub_time as pub_time, pcm.content as content, pcm.commody_id as commody_id,
-    pcm.user_id as user_id, u.nickname as user_nickname, 
+    pcm.user_id as user_id, u.nickname as user_nickname, u.avatar as user_avatar,
     rcm.id as reply_comment_id, rcm.content as reply_comment_content, rcm.pub_time as reply_comment_pub_time,
-    rcmu.id as reply_comment_user_id, rcmu.nickname as reply_comment_user_nickname
+    rcmu.id as reply_comment_user_id, rcmu.nickname as reply_comment_user_nickname,
+    rcmu.avatar as reply_comment_user_avatar,
+    reply_target_comment_user.id as reply_target_comment_user_id, 
+    reply_target_comment_user.nickname as reply_target_comment_user_nickname
   </sql>
   <sql id="selectPrimaryCommentSql">
     select <include refid="primary_comment_dto_column_list" />
@@ -408,6 +419,10 @@
             on pcm.id = rcm.belong_comment_id
         left join t_user_profile rcmu 
             on rcm.user_id = rcmu.id
+        left join t_commody_comment reply_target_comment 
+            on rcm.reply_comment_id = reply_target_comment.id
+        left join t_user_profile reply_target_comment_user
+            on reply_target_comment.user_id = reply_target_comment_user.id
   </sql>
   
   <select id="selectPrimaryCommentById" resultMap="PrimaryCommentResultMap">
@@ -417,6 +432,7 @@
   
   <select id="selectAllPrimaryCommentByCommodyId" resultMap="PrimaryCommentResultMap">
     <include refid="selectPrimaryCommentSql" />
-    where pcm.commody_id = #{commodyId} and pcm.comment_type = 0;
+    where pcm.commody_id = #{commodyId} and pcm.comment_type = 0
+    order by pcm.pub_time asc
   </select>
 </mapper>

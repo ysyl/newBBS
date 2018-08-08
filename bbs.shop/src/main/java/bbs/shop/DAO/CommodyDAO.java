@@ -110,6 +110,10 @@ public class CommodyDAO {
 		return tCommodyMapper.selectCommodyById(commodyId);
 	}
 	
+	public List<Commody> getCommodyBySellerId(Long userId) {
+		return tCommodyMapper.selectCommodyByUserId(userId);
+	}
+	
 	public List<Commody> search(String titleKey) {
 		return tCommodyMapper.searchCommodyByTitleKey(titleKey);
 	}

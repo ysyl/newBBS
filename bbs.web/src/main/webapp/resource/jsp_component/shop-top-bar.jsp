@@ -16,7 +16,7 @@
 		<div class="collapse navbar-collapse" id="shop-navbar-collapse">
 			<ul class="nav navbar-nav">
 				<c:forEach var="classification" items="${classInfo}">
-					<li><a href="<c:url value="/shop/search/commody/classification/${classification.id }" />">${classification.name }</a></li>
+					<li><a href="<c:url value="/shop/commody/search/total?search_type=CLASSIFICATION&classification_id=${classification.id }" />">${classification.name }</a></li>
 				</c:forEach>
 			</ul>
 		</div>

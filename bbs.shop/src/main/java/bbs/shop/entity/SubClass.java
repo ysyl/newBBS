@@ -40,5 +40,16 @@ public class SubClass implements Serializable {
 		// TODO Auto-generated method stub
 		return obj.hashCode() == this.hashCode();
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "{"
+				+ "id:"
+				+ this.id
+				+ ", name:"
+				+ "\"" + this.name + "\""
+				+ "}";
+	}
 	
 }

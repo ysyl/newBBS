@@ -20,6 +20,8 @@ public interface ShopService {
 	Long saveCommody(Long uid, String title, String description, Integer price, List<String> imgFileNames, Integer commodyClassificationId, List<Integer> subClassList  ); 
 
 	Commody getCommody(Long uid, Long commodyId); 
+	
+	List<Commody> getAllCommodyBySellerId(long userId);
 
 	void updateCommody(Long commodyId, String title, String description,Integer price, List<String> imgFileNames, int commodyClassificationId, List<Integer> subClassIdList);
 

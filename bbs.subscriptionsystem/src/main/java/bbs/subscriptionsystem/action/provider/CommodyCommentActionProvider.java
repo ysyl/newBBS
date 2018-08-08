@@ -60,6 +60,18 @@ public class CommodyCommentActionProvider implements ActionProvider {
 		return commentActionDAO.getAllCommentActionByCommodyIdAfterLastReadTime(commodyId, lastReadTime);
 	}	
 	
+	private Integer getActionCountByCommodySubscription(CommodySubscription subscription) {
+		Long commodyId = subscription.getTarget().getId();
+		Date lastReadTime = subscription.getLastReadTime();
+		return commentActionDAO.getCommodyActionCountByIdAfterLastReadTime(commodyId, lastReadTime);
+	}
+	
+	private Integer getActionCountByCommodyCommentSubscription(CommodyCommentSubscription subscription) {
+		Long commentId = subscription.getTarget().getId();
+		Date lastReadTime = subscription.getLastReadTime();
+		return commentActionDAO.countCommentActionByCommentIdAfterLastReadTime(commentId, lastReadTime);
+	}
+	
 	private List<? extends BaseAction> getAllActionByCommodyCommentSubscription(CommodyCommentSubscription subscription) {
 		// TODO Auto-generated method stub
 		Long commentId = subscription.getTarget().getId();

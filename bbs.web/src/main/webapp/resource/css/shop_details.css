@@ -101,6 +101,10 @@
   width: 100%;
   line-height: 30px;
 }
+#comment .row {
+  margin-left: 0!important;
+  margin-right: 0!important;
+}
 .primary-comment-wrap {
   border-bottom: 1px solid #eee;
 }
@@ -127,6 +131,11 @@
   border-radius: 100%;
 }
 
+p.primary-comment-content,
+p.reply-comment-content {
+	padding-right: 60px;
+}
+
 .reply-comment-list {
   margin-top: 25px;
 }
@@ -135,4 +144,13 @@
   border-bottom: 1px solid #eee;
   margin-bottom: 20px;
   padding-left: 50px;
+}
+
+.pub-commodycomment-btn {
+	float: right;
+	margin-top: -60px;
+}
+.primary-comment-content-reply-btn,
+.reply-comment-content-reply-btn {
+	float: right;
 }

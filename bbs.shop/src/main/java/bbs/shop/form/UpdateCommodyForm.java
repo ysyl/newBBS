@@ -21,6 +21,8 @@ public class UpdateCommodyForm implements Serializable {
 	private List<MultipartFile> imgFiles;
 	
 	private Integer classificationId;
+	
+	private Integer price;
 
 	public String getTitle() {
 		return title;
@@ -61,6 +63,14 @@ public class UpdateCommodyForm implements Serializable {
 
 	public void setSubClassList(List<Integer> subClassList) {
 		this.subClassList = subClassList;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
 	}
 
 }

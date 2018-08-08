@@ -53,7 +53,15 @@ public class CommodyClassification implements Serializable {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return name;
+		//前台需要传递classification，转换的string需要包含subClasses
+		return "{"
+				+ "id:"
+				+ this.id
+				+ ", name:"
+				+ "\""+this.name + "\""
+				+ ", subClasses:"
+				+ this.subClasses
+				+ "}";
 	}
 
 	@Override

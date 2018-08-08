@@ -60,3 +60,7 @@
 #avatar-display {
   width: 200px;
 }
+
+#collection .nav-pills {
+	margin-bottom: 15px;
+}

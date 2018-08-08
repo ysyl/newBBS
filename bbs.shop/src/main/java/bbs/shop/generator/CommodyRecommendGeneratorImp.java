@@ -45,8 +45,8 @@ public class CommodyRecommendGeneratorImp implements CommodyRecommendGenerator {
 			for (CommodyClassification classification : classifications) {
 				List<Commody> recommendCommodys = commodyDAO.getHotCommodyByClassifitionId(classification.getId());
 				commodyClassHotRecommendResultMap.put(classification, recommendCommodys);
-			return commodyClassHotRecommendResultMap;
 			}
+			return commodyClassHotRecommendResultMap;
 		}
 		classifications = classDAO.getAllClassification();
 		commodyClassHotRecommendResultMap = new LinkedHashMap<>(); 

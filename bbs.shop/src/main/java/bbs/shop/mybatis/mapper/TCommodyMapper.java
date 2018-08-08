@@ -95,4 +95,6 @@ public interface TCommodyMapper {
 	List<Commody> searchCommodyBySubClassId(long subClassId);
 
 	List<Commody> searchCommodyByKeyword(String titleKeyword);
+
+	List<Commody> selectCommodyByUserId(Long userId);
 }

@@ -8,7 +8,7 @@
 	<div class="col-md-3 user-details">
 		<div class="thumbnail">
 			<img class="user_avatar"
-				src="<c:url value="/resource/upload/img/${post.author.avatar }" />"
+				src="<c:url value="/resource/img/${post.author.avatar }" />"
 				alt="user_avatar" />
 			<div class="caption">
 				<a href="<c:url value="/usercenter/user/${post.author.id }" />"><h4>${post.author.nickname }</h4></a>

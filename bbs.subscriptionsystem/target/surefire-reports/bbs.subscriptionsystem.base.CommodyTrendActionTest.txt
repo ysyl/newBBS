@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: bbs.subscriptionsystem.base.CommodyTrendActionTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 35.125 s - in bbs.subscriptionsystem.base.CommodyTrendActionTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 33.406 s - in bbs.subscriptionsystem.base.CommodyTrendActionTest

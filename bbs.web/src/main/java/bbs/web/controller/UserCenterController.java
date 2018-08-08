@@ -14,18 +14,24 @@ import bbs.forum.DTO.Topic;
 import bbs.forum.DTO.User;
 import bbs.forum.service.BbsService;
 import bbs.helper.utils.MyLogger;
+import bbs.usercenter.collection.DAO.entity.CommodyCollection;
+import bbs.usercenter.service.UserCenterService;
 
 @Controller
 @RequestMapping("/usercenter")
 public class UserCenterController {
 	
 	private BbsService bbsService;
+	
+	private UserCenterService userCenterService;
 
 	@Autowired
-	public UserCenterController(BbsService bbsService) {
+	public UserCenterController(BbsService bbsService, UserCenterService userCenterService) {
 		super();
 		this.bbsService = bbsService;
+		this.userCenterService = userCenterService;
 	}
+
 
 
 	@GetMapping("/user/{userId}")
@@ -34,9 +40,12 @@ public class UserCenterController {
 		//temp
 		PageParam pageParam = new PageParam(0, 20);
 		List<Topic> topics = bbsService.getTopicListByUid(userId, pageParam);
+		List<CommodyCollection> commodyCollections = userCenterService.getAllCommodyCollectionByUserId(userId);
 		MyLogger.info(topics.size() + " \n\n\n");
 		model.addAttribute("user", user);
 		model.addAttribute("topics", topics);
+		model.addAttribute("commodyCollections", commodyCollections);
 		return "usercenter";
 	}
+	
 }

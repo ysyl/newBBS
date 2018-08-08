@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: bbs.furom.serviceImp.BaseTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.673 s - in bbs.furom.serviceImp.BaseTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.203 s - in bbs.furom.serviceImp.BaseTest

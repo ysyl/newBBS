@@ -459,7 +459,12 @@
 		<include refid="selectCommodySql" />
 		where c.classification_id = #{classification_id}
 		order by c.views, c.pub_time
-		limit 0, 5
+	</select>
+	<select id="selectCommodyByUserId"
+		resultMap="CommodyResultMap">
+		<include refid="selectCommodySql" />
+		where c.user_id = #{userId}
+		order by c.pub_time
 	</select>
 	<select id="searchCommodyByKeyword"
 		parameterType="bbs.shop.entity.Keyword" resultMap="CommodyResultMap">
