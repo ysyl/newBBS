@@ -18,6 +18,8 @@ import bbs.forum.service.BbsService;
 import bbs.helper.utils.MyLogger;
 import bbs.security.utils.HasNotLoginException;
 import bbs.security.utils.IAuthenticationFacade;
+import bbs.shop.service.ShopService;
+import bbs.usercenter.service.UserCenterService;
 
 //用于检测用户当前访问和要收藏的对象是不是自己已经订阅的，如果是，则取消方法调用
 @Component
@@ -25,13 +27,20 @@ public class OwnChecker {
 	
 	private BbsService bbsService;
 	
+	private ShopService shopService;
+	
 	private IAuthenticationFacade authenticationFacade;
+	
+	private UserCenterService userCenterService;
 
 	@Autowired
-	public OwnChecker(BbsService bbsService, IAuthenticationFacade authenticationFacade) {
+	public OwnChecker(BbsService bbsService, ShopService shopService, IAuthenticationFacade authenticationFacade,
+			UserCenterService userCenterService) {
 		super();
 		this.bbsService = bbsService;
+		this.shopService = shopService;
 		this.authenticationFacade = authenticationFacade;
+		this.userCenterService = userCenterService;
 	}
 
 	public Map<Long, Boolean> checkPostListOwnStatus(List<Post> postList) {
@@ -76,15 +85,16 @@ public class OwnChecker {
 		return result;
 	}
 	
-	public boolean isMe(long followingId) {
-		if (authenticationFacade.isAuthenticated()) {
-			return false;
-		}
+	public boolean isCollectedCommody(long commodyId) {
+		Long uid;
 		try {
-			return followingId == authenticationFacade.getUserId();
+			uid = authenticationFacade.getUserId();
 		} catch (HasNotLoginException e) {
 			// TODO Auto-generated catch block
 			return false;
-		} 
+		}
+		boolean result = userCenterService.isCollectedCommody(uid, commodyId);
+		MyLogger.info(this.getClass(), "是我的收藏吗？" + result);
+		return result;
 	}
 }

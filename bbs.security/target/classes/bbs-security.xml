@@ -22,16 +22,23 @@
 	<http pattern="${cssUrl}" security="none" />
 	<http pattern="${jsUrl}" security="none" />
 	<http use-expressions="true">
+		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="${forumUrl}" access="permitAll" />
 		<intercept-url pattern="${loginUrl}"
 			access="isAnonymous()" />
 		<intercept-url pattern="${usercenterUrl}" method="GET"
+			access="permitAll" />
+		<intercept-url pattern="${shopUrl}" method="GET"
 			access="permitAll" />
 		<intercept-url pattern="${registerUrl}"
 			access="isAnonymous()" />
 			<!-- 更新用户资料 -->
 		<intercept-url pattern="/upload/userprofile/{userId}"
 			access="isAuthenticated() and @principalChecker.isMeByUid(#userId)" />
+		<intercept-url pattern="/upload/*"
+			access="isAuthenticated()" />
+		<intercept-url pattern="/*"
+			access="isAuthenticated()" />
 		<!-- <intercept-url pattern="/**" -->
 		<!-- access="isAuthenticated()" /> -->
 		<form-login login-page="${loginUrl}" default-target-url="/"/>

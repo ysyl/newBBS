@@ -112,3 +112,19 @@ a:hover {
 	border-radius: 100%;
 }
 
+.logout-btn-wrap {
+	padding: 10px;
+	background-color: #fff;
+	text-align: center;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	box-sizing: border-box;
+	visibility: hidden;
+	position: absolute;
+	margin-left: 10px;
+	z-index:100;
+}
+#user-avatar:hover .logout-btn-wrap {
+	visibility: visible;
+}
+

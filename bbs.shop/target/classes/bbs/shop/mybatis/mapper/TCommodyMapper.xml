@@ -488,4 +488,6 @@
 		set replies = replies + 1
 		where id = #{commodyId}
 	</update>
+	
+	
 </mapper>

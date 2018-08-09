@@ -104,10 +104,19 @@
 			</div>
 			<div class="col-md-3" id="shop-control-group-wrap">
 				<div id="shop-control-group">
-					<button class="btn btn-default shop-control" data-toggle="modal" data-target="#pub-commody">发布商品</button> 
-					<a
-						href="<c:url value="/usercenter/user/${currentUser.id }?active_panel=collection&active_collection_panel=commodyCollection" />"
-						class="btn btn-default shop-control">我的收藏</a>
+					<sec:authorize access="isAuthenticated()">
+						<a class="btn btn-default shop-control" data-toggle="modal"
+							data-target="#pub-commody">发布商品</a>
+						<a
+							href="<c:url value="/usercenter/user/${currentUser.id }?active_panel=collection&active_collection_panel=commodyCollection" />"
+							class="btn btn-default shop-control">我的收藏</a>
+					</sec:authorize>
+					<sec:authorize access="isAnonymous()">
+						<a class="btn btn-default shop-control"
+							href="<c:url value="/login" />"> 发布商品</a>
+						<a href="<c:url value="/login" />"
+							class="btn btn-default shop-control">我的收藏</a>
+					</sec:authorize>
 				</div>
 			</div>
 
@@ -116,11 +125,19 @@
 		<div class="container-fluent row" id="shop-recommend-container">
 			<div class="you-may-like col-md-3">
 				<div class="you-may-like-user clearfix">
-					<img
-						src="<c:url value="/resource/img/${currentUser.avatar }" />" />
-					<p>
-						Hi, <span>${currentUser.nickname }</span>
-					</p>
+					<sec:authorize access="isAuthenticated()">
+						<img src="<c:url value="/resource/img/${currentUser.avatar }" />" />
+						<p>
+							Hi, <span>${currentUser.nickname }</span>
+						</p>
+					</sec:authorize>
+					<sec:authorize access="isAnonymous()">
+						<img src="<c:url value="/resource/img/default-avatar.png" />" />
+						<p>
+							Hi, <span>游客</span>
+						</p>
+					</sec:authorize>
+
 					<p class="you-may-like-p">你可能感兴趣</p>
 				</div>
 				<div class="you-may-like-tag">
@@ -214,31 +231,42 @@
 					<h4 class="modal-title">发布商品</h4>
 				</div>
 				<div class="modal-body">
-				    <form enctype="multipart/form-data" id="pub-commody-form" class="pub-commody-form" method="post" action="<c:url value="/upload/commody" />">
-				        <label for="title">商品名：</label><input type="text" name="title" class="form-control" /> 
-				        <br />
-				        <label for="description">商品描述：</label><input type="text" name="description" class="form-control" /> 
-				        <br />
-				        <label for="imgFile">商品图片：</label><input type="file" name="imgFile" multiple type="image/*"  /> 
-				        <br />
-				        <label for="price">商品价格：</label><input type="text" name="price" class="form-control" /> 
-				        <br />
-				        <label for="commodyClassificationId">商品分类：</label>
-				        <select name="commodyClassificationId" class="form-control">
-				            <c:forEach var="classification" items="${classInfo }">
-				                <option value="${classification.id }">${classification.name }</option> 
-				            </c:forEach>
-				        </select> 
-				        <br/>
-				        <label for="subClassList">商品子类：</label>
-				        <select multiple name="subClassList" class="form-control" >
-				             
-				        </select>
-				    </form>
+					<form enctype="multipart/form-data" id="pub-commody-form"
+						class="pub-commody-form" method="post"
+						action="<c:url value="/upload/commody" />">
+						<label for="title">商品名：</label>
+						<input type="text" name="title"
+							class="form-control" 
+							required/> <br /> 
+						<label for="description">商品描述：</label><input
+							type="text" 
+						    required	
+							name="description" class="form-control" /> <br /> <label
+							for="imgFile">商品图片：</label>
+						<input type="file" name="imgFile"
+							multiple type="image/*" /> <br /> 
+						<label for="price">商品价格：</label><input
+							type="text" 
+							pattern="\d{1,}"
+							required
+							name="price" class="form-control" /> <br /> 
+						<label
+							for="commodyClassificationId">商品分类：</label> 
+						<select
+							name="commodyClassificationId" class="form-control">
+							<c:forEach var="classification" items="${classInfo }">
+								<option value="${classification.id }">${classification.name }</option>
+							</c:forEach>
+						</select> <br /> <label for="subClassList">商品子类：</label> <select multiple
+							name="subClassList" class="form-control">
+
+						</select>
+					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="submit" form="pub-commody-form" class="btn btn-primary">发布商品</button> 
+					<button type="submit" form="pub-commody-form"
+						class="btn btn-primary">发布商品</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -249,7 +277,7 @@
 	<script type="text/javascript"
 		src="<c:url value="/resource/js/commody-collect-btn.js" />"></script>
 	<script type="text/javascript">
-    	let classInfo = ${classInfo};
+		let classInfo = ${classInfo}; 
 	</script>
 	<script type="text/javascript"
 		src="<c:url value="/resource/js/pub-commody-modal.js" />"></script>

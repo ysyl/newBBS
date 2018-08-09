@@ -5,6 +5,8 @@ import bbs.shop.entity.Keyword;
 import bbs.shop.mybatis.entity.TCommody;
 import bbs.shop.mybatis.entity.TCommodyExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface TCommodyMapper {
@@ -97,4 +99,6 @@ public interface TCommodyMapper {
 	List<Commody> searchCommodyByKeyword(String titleKeyword);
 
 	List<Commody> selectCommodyByUserId(Long userId);
+
+	List<Long> selectCommodyIdByUidInCommodyIdList(Long uid, List<Long> commodyIdList);
 }

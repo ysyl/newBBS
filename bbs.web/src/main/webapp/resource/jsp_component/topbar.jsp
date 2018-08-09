@@ -63,6 +63,9 @@
 					<img id="nav-bar-user-avatar" class="rounded-circle"
 						src="<c:url value="/resource/img/${currentUser.avatar }" />" />
 					<a href="<c:url value="/usercenter/user/${currentUser.id }" />">${currentUser.nickname }</a>
+					<div class="logout-btn-wrap">
+				        <a href="<c:url value="/logout" />" class="btn btn-danger">登出</a>	
+					</div>
 				</div>
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()">

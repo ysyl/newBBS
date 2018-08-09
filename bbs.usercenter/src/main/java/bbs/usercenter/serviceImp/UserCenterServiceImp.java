@@ -1,6 +1,7 @@
 package bbs.usercenter.serviceImp;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -208,6 +209,36 @@ public class UserCenterServiceImp implements UserCenterService {
 	public void uncollectCommody(long uid, long commodyId) {
 		// TODO Auto-generated method stub
 		collectionDAO.removeCommodyCollection(uid, commodyId);
+	}
+
+	@Override
+	public boolean isCollectedCommody(Long uid, long commodyId) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("检测单个商品收藏状态功能暂未支持");
+	}
+
+	@Override
+	public Map<Long, Boolean> isCollectedCommodyList(Long uid, List<Long> commodyIdList) {
+		// TODO Auto-generated method stub
+		return collectionDAO.isCollectedCommodyList(uid, commodyIdList);
+	}
+
+	@Override
+	public boolean isCollectedPost(Long uid, Long postId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCollectedTopic(Long uid, Long topicId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCollectedUser(Long uid, Long followingId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

@@ -92,5 +92,11 @@ public class SimpSubscriptionService implements SubscriptionService {
 		subscriptionDAO.saveCommodyCommentSubscription(uid, commentId);
 	}
 
+	@Override
+	public void unsubscribeCommody(long uid, long commodyId) {
+		// TODO Auto-generated method stub
+		subscriptionDAO.removeCommodySubscription(uid, commodyId);
+	}
+
 
 }

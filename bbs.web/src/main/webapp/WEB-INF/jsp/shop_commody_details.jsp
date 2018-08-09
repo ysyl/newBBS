@@ -68,7 +68,12 @@
 					</p>
 				</li>
 			</ul>
-			<a href="#" class="report">举报</a>
+			<sec:authorize access="isAuthenticated() and @principalChecker.isMeByUid(${commody.user.id })">
+			   <a href="javascript:void(0)" class="put-commody-btn">编辑</a>
+			</sec:authorize>
+			<sec:authorize access="!@principalChecker.isMeByUid(${commody.user.id })">
+			   <a href="javascript:void(0)" class="report">举报</a>
+            </sec:authorize>
 		</div>
 
 		<div class="commody-main-container container">
@@ -103,9 +108,10 @@
 					<div class="tab-content">
 						<div id="description" class="tab-panel active">${commody.description }</div>
 						<div id="comment" class="tab-panel">
-							<button type="button"
+							<a type="button"
+							    href="javascription:void(0)"
 								class="btn btn-primary pub-commodycomment-btn"
-								>发表回复</button>
+								>发表回复</a>
 							<ul id="comment-list" class="primary-comment-list">
 
 							</ul>
@@ -129,12 +135,69 @@
 							非全新</span>
 					</div>
 					<div class="buy-now">
-						<button type="button" class="btn btn-primary">立即购买</button>
+					   <sec:authorize access="isAuthenticated()">
+    						<a href="#" type="button" class="btn btn-primary">立即购买</a>
+					   </sec:authorize>
+					   <sec:authorize access="isAnonymous()">
+    						<a href="<c:url value="/login" />" type="button" class="btn btn-primary">立即购买</a>
+					   </sec:authorize>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<div id="put-commody-modal" class="modal fade" tabindex="-2" role="dialog">
+	   <div class="modal-dialog modal-lg" role="ducument">
+	       <div class="modal-content">
+	           <div class="modal-header">
+	              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                   <span>&times;</span>
+	              </button> 
+	           </div>
+	           <div class="modal-body">
+	               <form id="put-commody-form" enctype="multipart/form-data" 
+	                   action="<c:url value="/upload/commody/put/${commody.id }" />" method="Post">
+	                   <input type="hidden" name="_method" value="put" />
+	                   <label for="title">商品标题</label>
+	                   <input type="text" class="form-control" name="title" 
+	                       required
+	                       value="${commody.title }"  />
+                        <br />
+	                   <label for="description">商品描述</label>
+	                   <input type="text" class="form-control" 
+	                       name="description" 
+	                       required 
+	                       value="${commody.description }"  />
+                        <br />
+	                   <label for="imgFiles">商品图片：</label>
+	                   <input type="file" name="imgFiles" multiple type="image/*"  /> 
+                        <br />
+                        <label for="price">商品价格：</label>
+                        <input type="text" name="price" class="form-control"
+                            pattern="\d{1,}" /> 
+                        <br />
+                        <label for="classificationId">商品分类：</label>
+                        <select name="classificationId" class="form-control">
+                            <c:forEach var="classification" items="${classInfo }">
+                                <option value="${classification.id }">${classification.name }</option> 
+                            </c:forEach>
+                        </select> 
+                        <br/>
+                        <label for="subClassList">商品子类：</label>
+                        <select multiple name="subClassList" class="form-control">
+                        
+                        </select> 
+	               </form> 
+	           </div>
+	           <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                   <button type="submit" form="put-commody-form" class="btn btn-primary">更新商品</button>  
+	           </div>
+	       </div>
+	   </div>
+	</div>
+	
 	<div id="pub-commodycomment-modal" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -148,14 +211,19 @@
 				<div class="modal-body">
 				    <form id="pub-commodycomment-form" class="pub-commodycomment-form" method="post">
 				        <label for="content">评论内容: </label>   
-				        <input type="text" name="content" class="form-control" />
-				        <input type="hidden" name="belongPrimaryCommentId" class="form-control" />
-				        <input type="hidden" name="replyTargetCommentId" class="form-control" />
+				        <input type="text" name="content" class="form-control" required />
+				        <input type="hidden" name="belongPrimaryCommentId" class="form-control" pattern="\d{1,}" />
+				        <input type="hidden" name="replyTargetCommentId" class="form-control" pattern="\d{1,}"/>
 				    </form>	
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="submit" form="pub-commodycomment-form" class="btn btn-primary">发布评论</button>
+        		     <sec:authorize access="isAuthenticated()">
+					   <button type="submit" form="pub-commodycomment-form" class="btn btn-primary">发布评论</button>
+        		     </sec:authorize>
+				     <sec:authorize access="isAnonymous()">
+				        <a href="<c:url value="/login" />" class="btn btn-primary">发布评论</a>
+				     </sec:authorize>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -188,11 +256,15 @@
 	</script>
 	<script>
 		let commodyId = "<c:out value="${commody.id}" />";
+		let classInfo = ${classInfo};
 	</script>
 	<script type="text/javascript"
 		src="<c:url value="/resource/js/commody-comment-panel.js" />"></script>
+	<script type="text/javascript"
+		src="<c:url value="/resource/js/put-commody-modal.js" />"></script>
 	<script>
 		let commentPanel = new CommentPanel();
+		let putCommodyModal = new PutCommodyModal($("#put-commody-modal"), $(".put-commody-btn"));
 	</script>
 </body>
 </html>

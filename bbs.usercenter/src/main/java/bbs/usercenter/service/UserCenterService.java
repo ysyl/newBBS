@@ -10,6 +10,7 @@ import bbs.usercenter.form.PubUserProfileForm;
 import bbs.usercenter.userprofile.DTO.UserProfile;
 
 import java.util.List;
+import java.util.Map;
 
 import bbs.form.utils.*;
 import bbs.forum.DTO.*;
@@ -65,6 +66,16 @@ public interface UserCenterService {
 	void uncollectCommody(long uid, long commodyId);
 
 	void updateUserProfile(Long uid, String avatarFilename, String nickname, Sex sex);
+
+	boolean isCollectedCommody(Long uid, long commodyId);
+	
+	boolean isCollectedPost(Long uid, Long postId);
+
+	boolean isCollectedTopic(Long uid, Long topicId);
+
+	boolean isCollectedUser(Long uid, Long followingId);
+
+	Map<Long, Boolean> isCollectedCommodyList(Long uid, List<Long> commodyIdList);
 	
 	
 	

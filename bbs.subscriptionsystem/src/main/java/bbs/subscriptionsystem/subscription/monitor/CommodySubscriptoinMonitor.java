@@ -29,6 +29,10 @@ public class CommodySubscriptoinMonitor {
 	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.collectCommody(..))"
 			+ " && args(uid, commodyId)")
 	public void collectCommody(long uid, long commodyId) {}
+
+	@Pointcut("execution(* bbs.usercenter.service.UserCenterService.uncollectCommody(..))"
+			+ " && args(uid, commodyId)")
+	public void uncollectCommody(long uid, long commodyId) {}
 	
 	@AfterReturning(pointcut = "pubCommody(uid, title, description, price,imgFileNames, commodyClassificationId, subClassList)", returning="commodyId")
 	public void monitorPubCommody(long uid, String title, String description, Integer price, List<String> imgFileNames, Integer commodyClassificationId, List<Integer> subClassList, long commodyId) {
@@ -38,6 +42,11 @@ public class CommodySubscriptoinMonitor {
 	@AfterReturning(pointcut = "collectCommody(uid, commodyId)")
 	public void monitorCollectCommody(long uid, long commodyId) {
 		subService.subscribeCommody(uid, commodyId);
+	}
+	
+	@AfterReturning(pointcut = "uncollectCommody(uid, commodyId)")
+	public void monitorUnCollectCommody(long uid, long commodyId) {
+		subService.unsubscribeCommody(uid, commodyId);
 	}
 
 }

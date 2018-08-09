@@ -43,4 +43,6 @@ public interface SubscriptionService {
 
 	public void subscribeCommodyComment(Long uid, long commentId);
 
+	public void unsubscribeCommody(long uid, long commodyId);
+
 }

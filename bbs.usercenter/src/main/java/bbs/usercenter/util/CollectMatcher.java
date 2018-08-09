@@ -28,7 +28,7 @@ public class CollectMatcher {
 	private List<TopicCollection> topicCollections;
 
 	private List<FollowingCollection> followingCollections;
-
+	
 	@Autowired
 	public CollectMatcher(UserCenterService userCenterService) {
 		super();
@@ -103,5 +103,9 @@ public class CollectMatcher {
 			}
 		}
 		return result;
+	}
+	
+	public Map<Long, Boolean> checkCommodyListIsCollected(Long uid, List<Long> commodyIdList) {
+		return userCenterService.isCollectedCommodyList(uid, commodyIdList); 
 	}
 }

@@ -86,3 +86,7 @@ a:hover {
   bottom: 99px;
   right: 15px;
 }
+.commody-collect-btn.collected {
+	background-color: #eee;
+    color: #eee;
+}

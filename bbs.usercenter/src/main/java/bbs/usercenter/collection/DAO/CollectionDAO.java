@@ -1,6 +1,8 @@
 package bbs.usercenter.collection.DAO;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -8,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 import bbs.form.utils.PageParam;
+import bbs.helper.utils.MyLogger;
 import bbs.usercenter.collection.DAO.entity.CommodyCollection;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
 import bbs.usercenter.collection.DAO.entity.ForumCollection;
@@ -126,6 +129,15 @@ public class CollectionDAO {
 	
 	public void removeCommodyCollection(long uid, long commodyId) {
 		tCollectionMapper.deleteByUidAndTargetId(uid, commodyId, CollectionType.COMMODY);
+	}
+
+	public Map<Long, Boolean> isCollectedCommodyList(Long uid, List<Long> commodyIdList) {
+		// TODO Auto-generated method stub
+		List<Long> commodyIdListInterset = tCollectionMapper.selectCollectedCommodyIdByUidInCommodyIdList(uid, commodyIdList);
+		MyLogger.infoln(this.getClass(), "获取已收藏的商品Id交集" + commodyIdListInterset);
+		Map<Long, Boolean> resultMap = commodyIdList.parallelStream()
+				.collect(Collectors.toMap(Long::valueOf, commodyIdListInterset::contains));
+		return resultMap;
 	}
 
 }

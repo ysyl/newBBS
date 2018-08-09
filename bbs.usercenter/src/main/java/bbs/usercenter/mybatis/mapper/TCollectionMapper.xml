@@ -612,4 +612,17 @@
 		jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler})
 		)
 	</delete>
+	
+	<!-- 选出交集 -->
+    <select id="selectCollectedCommodyIdByUidInCommodyIdList" resultType="long">
+       select cl.commody_id 
+       from t_collection cl
+       where cl.user_id = #{userId} and cl.collection_type = 4
+           and cl.commody_id in 
+           <foreach collection="commodyIdList" item="commodyId" 
+               separator="," open="(" close=")"
+           >
+                #{commodyId, jdbcType=BIGINT}
+           </foreach>
+    </select>
 </mapper>

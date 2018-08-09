@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import bbs.helper.utils.MyLogger;
 import bbs.security.service.BbsSecurityService;
 import bbs.security.utils.HasNotLoginException;
 import bbs.security.utils.IAuthenticationFacade;
+import bbs.security.utils.PrincipalChecker;
 import bbs.shop.entity.Commody;
 import bbs.shop.entity.CommodyClassification;
 import bbs.shop.entity.Keyword;
@@ -28,6 +30,7 @@ import bbs.shop.entity.PrimaryCommodyComment;
 import bbs.shop.entity.SubClass;
 import bbs.shop.entity.UserPerference;
 import bbs.shop.service.ShopService;
+import bbs.usercenter.service.UserCenterService;
 import bbs.web.enuma.OrderType;
 import bbs.web.enuma.SearchType;
 import bbs.web.utils.DateUtils;
@@ -43,14 +46,21 @@ public class ShopController {
 	private BbsService bbsService;
 
 	private DateUtils dateUtils;
+	
+	private PrincipalChecker principalChecker;
+	
+	private UserCenterService userCenterService;
 
+	@Autowired
 	public ShopController(ShopService shopService, IAuthenticationFacade authenticationFacade, BbsService bbsService,
-			DateUtils dateUtils) {
+			DateUtils dateUtils, PrincipalChecker principalChecker, UserCenterService userCenterService) {
 		super();
 		this.shopService = shopService;
 		this.authenticationFacade = authenticationFacade;
 		this.bbsService = bbsService;
 		this.dateUtils = dateUtils;
+		this.principalChecker = principalChecker;
+		this.userCenterService = userCenterService;
 	}
 
 	@GetMapping("/index")
@@ -76,12 +86,18 @@ public class ShopController {
 		}
 		List<Entry<CommodyClassification, List<Commody>>> entryList = new ArrayList<>(
 				recommendCommodyResultMap.entrySet());
+		
+		//商品收藏情况
+		List<Long> commodyIdList = commodyList.parallelStream().map(commody -> commody.getId()).collect(Collectors.toList());
+		Map<Long, Boolean> commodyCollectedSituation = userCenterService.isCollectedCommodyList(uid, commodyIdList);
 
 		model.addAttribute("classInfo", classInfo);
 		model.addAttribute("youMayLikeCommodyList", commodyList);
 		model.addAttribute("recommendCommodyResultMap", recommendCommodyResultMap);
 		model.addAttribute("recommendCommodyResultMapEntryList", entryList);
 		model.addAttribute("dateUtils", dateUtils);
+		model.addAttribute("commodyCollectedSituation", commodyCollectedSituation);
+		model.addAttribute("principalChecker", principalChecker);
 		return "shop_index";
 	}
 
@@ -123,7 +139,7 @@ public class ShopController {
 			searchCommodyList = shopService.searchByClassificationId(uid, classificationId);
 			subClassList = classification.getSubClasses();
 
-			subClassList.parallelStream()
+			subClassList.stream()
 			.forEach( subClassItem -> subClassCommodyStatistic.put(subClassItem, 0));
 
 //			for (Commody commody : searchCommodyList) {
@@ -139,7 +155,7 @@ public class ShopController {
 //				}
 //			}
 			
-			searchCommodyList.parallelStream()
+			searchCommodyList.stream()
 			.flatMap( commody -> commody.getSubClassList().parallelStream() )
 			.filter( subClassItem -> subClassCommodyStatistic.containsKey(subClassItem))
 			.forEach( subClassItem -> {
@@ -248,6 +264,7 @@ public class ShopController {
 		model.addAttribute("commody", commody);
 		model.addAttribute("classInfo", classInfo);
 		model.addAttribute("dateUtils", dateUtils);
+		model.addAttribute("principalChecker", principalChecker);
 		return "shop_commody_details";
 	}
 

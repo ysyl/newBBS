@@ -31,6 +31,7 @@ public class PrincipalChecker {
 			// TODO Auto-generated catch block
 			return false;
 		}
+		MyLogger.infoln(this.getClass(), "是本人吗：" + (uid == myUid));
 		return uid == myUid;
 	}
 

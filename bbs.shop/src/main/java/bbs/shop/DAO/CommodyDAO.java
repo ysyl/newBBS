@@ -1,7 +1,11 @@
 package bbs.shop.DAO;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -76,6 +80,7 @@ public class CommodyDAO {
 		entity.setTitle(title);
 		entity.setId(commodyId);
 		entity.setPrice(price);
+		entity.setLastModifiedTime(new Date());
 		
 		//更新图片前先删除相关的img
 		imgDAO.deleteByCommodyId(commodyId);

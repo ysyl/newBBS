@@ -544,6 +544,7 @@
         or (post_id = #{targetId} and subscription_type =  #{subscriptionType, javaType=bbs.subscriptionsystem.enuma.SubscriptionType, jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler} )
         or (forum_id = #{targetId} and subscription_type =  #{subscriptionType, javaType=bbs.subscriptionsystem.enuma.SubscriptionType, jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler} )
         or (following_id = #{targetId} and subscription_type =  #{subscriptionType, javaType=bbs.subscriptionsystem.enuma.SubscriptionType, jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler} )
+        or (commody_id = #{targetId} and subscription_type =  #{subscriptionType, javaType=bbs.subscriptionsystem.enuma.SubscriptionType, jdbcType=TINYINT,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler} )
    )
   </delete>
   <select id="countSubscriptionByUidAndTargetIdAndType" resultType="int">

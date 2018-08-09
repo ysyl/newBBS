@@ -186,5 +186,10 @@ public class SubscriptionDAO {
 		
 	}
 
+	public void removeCommodySubscription(long uid, long commodyId) {
+		// TODO Auto-generated method stub
+		mapper.deleteByUidAndTargetId(uid, commodyId, SubscriptionType.COMMODY);
+	}
+
 	
 }

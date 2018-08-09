@@ -53,7 +53,7 @@ public class PostController {
 	private IAuthenticationFacade authenticationFacade;
 	
 	private ShopService shopService;
-
+	
 	// public void pubPost(HttpServletRequest req, HttpServletResponse res,
 	// @RequestParam("imgFile") MultipartFile imgFile) throws
 	// UnsupportedEncodingException {
@@ -146,12 +146,13 @@ public class PostController {
 	}
 	
 	//更新商品
-	@PutMapping("/commody/{commodyId}")
+	@PostMapping("/commody/put/{commodyId}")
 	public String putCommody(@PathVariable("commodyId") long commodyId, 
 			UpdateCommodyForm form,
 			HttpServletRequest req
 			) throws IllegalStateException, IOException, HasNotLoginException {
 		Long uid = authenticationFacade.getUserId();
+		MyLogger.infoln(this.getClass(), "收到的form" + form.toString());
 		List<String> imgFileNames = new ArrayList<>();
 		
 		for (MultipartFile imgFile : form.getImgFiles()) {

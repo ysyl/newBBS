@@ -156,29 +156,7 @@
 								<c:forEach var="commodyCollection"
 									items="${commodyCollections }">
 									<c:set var="commody" value="${commodyCollection.commody }" />
-									<div class="commody-card">
-										<div class="commody-card-body">
-											<div class="commody-card-display">
-												<img src="<c:url value="/resource/img/${commody.commodyImgList.get(0).fileName }" />" />
-											</div>
-											<div class="commody-card-price">
-												<span class="price-icon">￥</span><span class="price">${commody.price }</span>
-											</div>
-										</div>
-										<div class="commody-card-header clearfix">
-											<h4 class="commody-title">
-												<a href="<c:url value="/shop/commody/${commody.id }" />">${commody.title }</a>
-											</h4>
-											<p>
-												${commody.description.substring(0, commody.description.length()>9?9:commody.description.length()) }
-												<span class="time">//todo 5分钟前</span>
-											</p>
-										</div>
-										<div class="commody-card-footer">留言：${commody.replies }</div>
-										<div class="commody-collect-btn">
-											<span class="glyphicon glyphicon-heart"></span>
-										</div>
-									</div>
+								    <%@ include file="/resource/jsp_component/commody-card.jsp" %>	
 								</c:forEach>
 							</div>
 						</div>
@@ -217,6 +195,9 @@
 			</div>
 		</div>
 	</div>
+	<!-- 收藏按键绑定 -->
+	<script type="text/javascript"
+        src="<c:url value="/resource/js/commody-collect-btn.js" />"></script>
 	<!-- 取出请求中的数据，根据数据判定显示的panel -->
 	<script type="text/javascript">
     let activePanel = "<c:out value="${param.active_panel}" />";
