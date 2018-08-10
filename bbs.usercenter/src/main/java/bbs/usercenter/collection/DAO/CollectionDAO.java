@@ -133,10 +133,54 @@ public class CollectionDAO {
 
 	public Map<Long, Boolean> isCollectedCommodyList(Long uid, List<Long> commodyIdList) {
 		// TODO Auto-generated method stub
-		List<Long> commodyIdListInterset = tCollectionMapper.selectCollectedCommodyIdByUidInCommodyIdList(uid, commodyIdList);
-		MyLogger.infoln(this.getClass(), "获取已收藏的商品Id交集" + commodyIdListInterset);
-		Map<Long, Boolean> resultMap = commodyIdList.parallelStream()
-				.collect(Collectors.toMap(Long::valueOf, commodyIdListInterset::contains));
+		return this.isCollectedSomethingList(uid, commodyIdList, CollectionType.COMMODY);
+	}
+
+	public Map<Long, Boolean> isCollectedTopicList(Long uid, List<Long> topicIdList) {
+		// TODO Auto-generated method stub
+		return this.isCollectedSomethingList(uid, topicIdList, CollectionType.TOPIC);
+	}
+
+	public Map<Long, Boolean> isCollectedPostList(Long uid, List<Long> postIdList) {
+		// TODO Auto-generated method stub
+		return this.isCollectedSomethingList(uid, postIdList, CollectionType.POST);
+	}
+
+	public Map<Long, Boolean> isCollectedUserList(Long uid, List<Long> userIdList) {
+		// TODO Auto-generated method stub
+		return this.isCollectedSomethingList(uid, userIdList, CollectionType.FOLLOWING);
+
+	}
+
+	public boolean isCollectedCommodyList(Long uid, long commodyId) {
+		// TODO Auto-generated method stub
+		return tCollectionMapper.selectCollectionByUidAndTargetIdAndType(uid, commodyId, CollectionType.COMMODY)!=null;
+	}
+
+	public boolean isCollectedPost(Long uid, Long postId) {
+		// TODO Auto-generated method stub
+		return tCollectionMapper.selectCollectionByUidAndTargetIdAndType(uid, postId, CollectionType.POST) != null;
+	}
+
+	public boolean isCollectedTopic(Long uid, Long topicId) {
+		// TODO Auto-generated method stub
+		return tCollectionMapper.selectCollectionByUidAndTargetIdAndType(uid, topicId, CollectionType.TOPIC) != null;
+	}
+
+	public boolean isCollectedUser(Long uid, Long followingId) {
+		// TODO Auto-generated method stub
+		return tCollectionMapper.selectCollectionByUidAndTargetIdAndType(uid, followingId, CollectionType.FOLLOWING)!=null;
+	}
+
+	
+	private Map<Long, Boolean> isCollectedSomethingList(Long uid, List<Long> someThingIdList, CollectionType collectionType) {
+		List<Long> commodyIdListInterset = tCollectionMapper.selectCollectedTargetIdByUidInTargetIdList(uid, someThingIdList, collectionType);
+		MyLogger.infoln(this.getClass(), "获取传入的要匹配的something Id List" + someThingIdList);
+		MyLogger.infoln(this.getClass(), "获取已收藏的something Id交集" + commodyIdListInterset);
+		Map<Long, Boolean> resultMap = null;
+		//当someThingIdList中有重复的值时，toMap会出错，这时候需要传进第三个函数，明确遇到重复key时的行为
+		resultMap = someThingIdList.stream()
+				.collect(Collectors.toMap( item -> item, commodyIdListInterset::contains, (a, b)->a));
 		return resultMap;
 	}
 

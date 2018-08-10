@@ -292,13 +292,28 @@
         <id column="commody_id" property="id" />
         <result column="commody_title" property="title" />
     </association>
-    <association javaType="bbs.usercenter.userprofile.DTO.UserProfile" property="user">
+    <association javaType="bbs.forum.DTO.User" property="user">
        <id column="user_id" property="id" /> 
        <result column="user_nickname" property="nickname" />
     </association>
     <association javaType="bbs.shop.entity.BaseCommodyComment" property="comment">
         <id column="commody_comment_id" property="id" />
         <result column="commody_comment_content" property="content" />
+        <discriminator column="comment_type" 
+            javaType="bbs.shop.enuma.CommentType"
+            typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+        >
+            <case value="PRIMARY" resultType="bbs.shop.entity.PrimaryCommodyComment">
+            </case>
+            <case value="REPLY" resultType="bbs.shop.entity.ReplyCommodyComment">
+                <association property="replyTargetComment" javaType="bbs.shop.entity.ReplyCommodyComment">
+                    <id column="reply_target_comment_id" property="id" />
+                </association> 
+                <association property="belongPrimaryComment" javaType="bbs.shop.entity.PrimaryCommodyComment">
+                    <id column="belong_primary_comment_id" property="id" />
+                </association> 
+            </case>
+        </discriminator>
     </association>
   </resultMap>
   
@@ -306,7 +321,9 @@
     cca.id as id, cca.pub_time as pub_time,
     cca.commody_id as commody_id, c.title as commody_title,
     cca.comment_id as commody_comment_id, cc.content as commody_comment_content,
-    cca.user_id as user_id, u.nickname as user_nickname 
+    cca.user_id as user_id, u.nickname as user_nickname,
+    cc.reply_comment_id as reply_target_comment_id, cc.belong_comment_id as belong_primary_comment_id,
+    cc.comment_type as comment_type
   </sql>
   <sql id="selectCommentActionSql">
     select <include refid="comment_dto_column_list" />
@@ -345,5 +362,16 @@
         inner join t_commody_comment cc
             on cca.comment_id = cc.id
     where cca.commody_id = #{commodyId} and cca.pub_time &gt; #{lastReadTime}
+  </select>
+  <select id="countByCommentIdAfterLastReadTime" resultType="int">
+    select count(cca.id)
+    from t_commody_comment_action cca
+        inner join t_user_profile u
+            on cca.user_id = u.id
+        inner join t_commody c
+            on cca.commody_id = c.id
+        inner join t_commody_comment cc
+            on cca.comment_id = cc.id
+    where cca.comment_id = #{commentId} and cca.pub_time &gt; #{lastReadTime} 
   </select>
 </mapper>

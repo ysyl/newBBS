@@ -61,5 +61,13 @@ public abstract class UserTrendAction<T> extends BbsTrendAction implements Seria
 		return result;
 	}
 
+	//一个UserTrendAction由User, targetType, actionType, target标记
+	//target需要覆盖hashCode方法
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return this.getClass().getName().hashCode() + this.getId().hashCode();
+	}
+
 
 }

@@ -2,6 +2,7 @@ package bbs.forum.DTO;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Random;
 
 public class Topic implements Serializable {
 
@@ -107,5 +108,12 @@ public class Topic implements Serializable {
 
 	public void setForum(Forum forum) {
 		this.forum = forum;
+	}
+
+	//一个Topic由id, pubTime, user唯一标记
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return new Random(this.getClass().getName().hashCode() + this.id.hashCode()).nextInt(Integer.MAX_VALUE);
 	}
 }

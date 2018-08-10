@@ -9,7 +9,7 @@ import bbs.subscriptionsystem.action.entity.AbstractCollectAction;
 import bbs.subscriptionsystem.action.entity.AbstractPubAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 
-public class UserTrendNotice extends BbsTrendNotice  {
+public class UserTrendNotice extends BaseNotice  {
 	
 	/**
 	 * 
@@ -31,7 +31,7 @@ public class UserTrendNotice extends BbsTrendNotice  {
 	private Date pubTime;
 
 	public UserTrendNotice(UserTrendAction<?> action) {
-		super(action.getPubTime(), TrendNoticeType.UserTrendNotice);
+		super(action.hashCode(), action.getPubTime(), NoticeType.USER_TREND_NOTICE);
 		this.nickname = action.getUser().getNickname();
 		this.userId = action.getUser().getId();
 		this.setPubTime(action.getPubTime());

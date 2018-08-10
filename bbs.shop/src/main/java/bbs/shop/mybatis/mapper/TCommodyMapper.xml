@@ -380,6 +380,7 @@
 				property="nickname" />
 			<result column="user_avatar" jdbcType="BIGINT"
 				property="avatar" />
+			<result column="user_register_time" property="registerTime" />
 		</association>
 
 		<association
@@ -410,6 +411,7 @@
 		pub_time, c.last_modified_time as last_modified_time,
 		c.views as views, c.replies as replies, c.price as price,
 		c.user_id as user_id, u.nickname as user_nickname, u.avatar as user_avatar,
+		u.register_time as user_register_time,
 		c.classification_id as classification_id, clazz.name as
 		classification_name, clazz.logo_filename as
 		classification_logo_filename,
@@ -458,7 +460,7 @@
 		resultMap="CommodyResultMap">
 		<include refid="selectCommodySql" />
 		where c.classification_id = #{classification_id}
-		order by c.views, c.pub_time
+		order by c.views desc, c.pub_time desc
 	</select>
 	<select id="selectCommodyByUserId"
 		resultMap="CommodyResultMap">

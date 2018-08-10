@@ -88,7 +88,7 @@ public class ShopController {
 				recommendCommodyResultMap.entrySet());
 		
 		//商品收藏情况
-		List<Long> commodyIdList = commodyList.parallelStream().map(commody -> commody.getId()).collect(Collectors.toList());
+		List<Long> commodyIdList = commodyList.stream().map(commody -> commody.getId()).collect(Collectors.toList());
 		Map<Long, Boolean> commodyCollectedSituation = userCenterService.isCollectedCommodyList(uid, commodyIdList);
 
 		model.addAttribute("classInfo", classInfo);
@@ -156,7 +156,7 @@ public class ShopController {
 //			}
 			
 			searchCommodyList.stream()
-			.flatMap( commody -> commody.getSubClassList().parallelStream() )
+			.flatMap( commody -> commody.getSubClassList().stream() )
 			.filter( subClassItem -> subClassCommodyStatistic.containsKey(subClassItem))
 			.forEach( subClassItem -> {
 				Integer commodyNum = subClassCommodyStatistic.get(subClassItem);
@@ -179,7 +179,7 @@ public class ShopController {
 				// 统计搜索到的商品的关键词
 				MyLogger.infoln(this.getClass(), "进行关键词与商品数量统计");
 				
-				commody.getKeywordList().parallelStream()
+				commody.getKeywordList().stream()
 				.forEach( keywordItem -> {
 					if (searchCommodyKeywordStatisticMap.containsKey(keywordItem)) {
 						Integer commodyBelongKeywordNum = searchCommodyKeywordStatisticMap.get(keywordItem);

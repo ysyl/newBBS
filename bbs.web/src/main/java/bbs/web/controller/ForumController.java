@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -33,7 +34,6 @@ import bbs.subscriptionsystem.notice.service.NoticeService;
 import bbs.subscriptionsystem.notice.utils.NoticeBuilder;
 import bbs.subscriptionsystem.service.SubscribedActionService;
 import bbs.usercenter.service.UserCenterService;
-import bbs.usercenter.util.CollectMatcher;
 import bbs.web.utils.OwnChecker;
 import security.core.DTO.CustomUser;
 
@@ -46,8 +46,6 @@ public class ForumController {
 	private SubscribedActionService subService;
 	
 	private UserCenterService userCenterService;
-	
-	private CollectMatcher collectMatcher;
 	
 	private NoticeService noticeService;
 	
@@ -71,20 +69,16 @@ public class ForumController {
 
 	@Autowired
 	public ForumController(BbsService bbsService, SubscribedActionService subService,
-			UserCenterService userCenterService, CollectMatcher collectMatcher, NoticeService noticeService,
-			OwnChecker ownChecker, IAuthenticationFacade authenticationFacade) {
+			UserCenterService userCenterService, NoticeService noticeService, OwnChecker ownChecker,
+			IAuthenticationFacade authenticationFacade) {
 		super();
 		this.bbsService = bbsService;
 		this.subService = subService;
 		this.userCenterService = userCenterService;
-		this.collectMatcher = collectMatcher;
 		this.noticeService = noticeService;
 		this.ownChecker = ownChecker;
 		this.authenticationFacade = authenticationFacade;
 	}
-
-
-
 	@GetMapping("/forum/{forumId}")
 	public String forum(@PathVariable("forumId") int forumId, 
 			@RequestParam(value="pageNo", defaultValue="0") int pageNo, Model model) {
@@ -105,22 +99,30 @@ public class ForumController {
 
 		PageParam pageParam = new PageParam(pageNo, 20);
 		Topic topic = bbsService.getTopic(topicId);
-		List<Post> posts = bbsService.getPostList(topicId, pageParam);
+		List<Post> postList = bbsService.getPostList(topicId, pageParam);
+		List<Long> postIdList = postList.stream()
+				.map(post->post.getId())
+				.collect(Collectors.toList());
+		List<Long> userIdList = postList.stream()
+				.map(post->post.getAuthor().getId())
+				.collect(Collectors.toList());
+		//页面中回复的收藏情况
 		Map<Long, Boolean> postCollectStatus = new HashMap<>();
+		//页面中用户的收藏情况
 		Map<Long, Boolean> userCollectStatus = new HashMap<>(); 
 		Boolean isTopicCollected = false;
 		Map<Long, Boolean> postOwnStatus = new HashMap<>();
 		Boolean isMyTopic = false;
 		try {
 			uid = authenticationFacade.getUserId();
-			postCollectStatus = collectMatcher.checkPostCollectStatus(posts, uid);
-			userCollectStatus = collectMatcher.checkUserCollectStatus(posts, uid);
-			isTopicCollected = collectMatcher.checkTopicIsCollected(topicId);
-			postOwnStatus = ownChecker.checkPostListOwnStatus(posts);
+			postCollectStatus = userCenterService.isCollectedPostList(uid, postIdList);
+			userCollectStatus = userCenterService.isCollectedUserList(uid, userIdList);
+			isTopicCollected = userCenterService.isCollectedTopic(uid, topicId);
+			postOwnStatus = ownChecker.checkPostListOwnStatus(postList);
 			isMyTopic	= ownChecker.isMyTopic(topicId);
 		} catch (HasNotLoginException e) {
 			// TODO Auto-generated catch block
-			for (Post post : posts) {
+			for (Post post : postList) {
 				postCollectStatus.put(post.getId(), false);
 				userCollectStatus.put(post.getId(), false);
 				postOwnStatus.put(post.getId(), false);
@@ -131,12 +133,11 @@ public class ForumController {
 		MyLogger.info("\n\n user收藏情况：" + userCollectStatus);
 		
 		model.addAttribute("topic", topic);
-		model.addAttribute("posts", posts);
+		model.addAttribute("posts", postList);
 		model.addAttribute("postCollectionStatus", postCollectStatus);
 		model.addAttribute("userCollectionStatus", userCollectStatus);
 		model.addAttribute("postOwnStatus", postOwnStatus);
 		model.addAttribute("isMyTopic", isMyTopic);
-		model.addAttribute("collectMatcher", collectMatcher);
 		model.addAttribute("isTopicCollected", isTopicCollected);
 		return "topic";
 	}

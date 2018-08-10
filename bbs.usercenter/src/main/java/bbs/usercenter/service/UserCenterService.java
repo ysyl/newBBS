@@ -76,6 +76,12 @@ public interface UserCenterService {
 	boolean isCollectedUser(Long uid, Long followingId);
 
 	Map<Long, Boolean> isCollectedCommodyList(Long uid, List<Long> commodyIdList);
+
+	Map<Long, Boolean> isCollectedTopicList(Long uid, List<Long> topicIdList);
+
+	Map<Long, Boolean> isCollectedPostList(Long uid, List<Long> postIdList);
+
+	Map<Long, Boolean> isCollectedUserList(Long uid, List<Long> userIdList);
 	
 	
 	

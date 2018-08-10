@@ -98,3 +98,11 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
+
+<script type="text/javascript"
+	src="<c:url value="/resource/js/NoticePanel.js" />"></script>
+<script>
+if (isAuthenticated) {
+    let noticePanel = new NoticePanel($("#notice-panel-toggle"),$("#notice-menu-content"), $("#new-notice-remind"), $("#trend"));
+}
+</script>

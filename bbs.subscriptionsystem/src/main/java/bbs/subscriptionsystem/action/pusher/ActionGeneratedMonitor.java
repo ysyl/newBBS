@@ -45,6 +45,12 @@ public class ActionGeneratedMonitor {
 			+ "&& args(managerId, forumId, announceId)")
 	private void forumTrendActionGenerated(long managerId, long forumId, long announceId) {}
 	
+	@Pointcut("execution(* bbs.subscriptionsystem.action.manager.ActionManager.addCommodyCommentAction(..))"
+			+ "&& args(uid, commentId, commodyId)")
+	private void commodyCommentActionGenerated(long uid, long commentId, long commodyId) {}
+
+	//
+	
 //	@AfterReturning( pointcut="userTrendActionGenerated(actionType, targetType, uid, targetId)", 
 //			returning="userTrendActionId")
 //	public void pushUserTrendActionToUser(UserTrendActionType actionType, UserTrendActionTargetType targetType,
@@ -75,6 +81,12 @@ public class ActionGeneratedMonitor {
 			long uid, long targetId, long userTrendActionId) {
 		MyLogger.info("监控到User trend发布");
 		actionPusher.pushUserTrendAction(userTrendActionId);
+	}
+	
+	@AfterReturning( pointcut="commodyCommentActionGenerated(uid, commentId, commodyId)", returning="commodyCommentActionId")
+	public void pushCommodyCommentAction(long uid, long commentId, long commodyId, long commodyCommentActionId) {
+		MyLogger.info("监控到Commody comment发布");
+		actionPusher.pushCommodyCommentAction(commodyCommentActionId);
 	}
 	
 }

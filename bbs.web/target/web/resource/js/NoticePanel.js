@@ -1,4 +1,3 @@
-$(document).ready(function () {
   class NoticePanel {
 
 	  constructor(noticePanelToggleBtn, noticePanel, newNoticeRemindElement, 
@@ -9,9 +8,16 @@ $(document).ready(function () {
 		 this.newNoticeRemindElement = newNoticeRemindElement;
 		 this.ws = null;
 		 this.client = null;
-		 this.ajaxNotices = [];
-		 this.wsNotices = [];
-		 this.notices = [];
+		 this.forumTrendNoticeSet = []; 
+		 this.shopTrendNoticeSet = []; 
+		 this.userTrendNoticeSet = []; 
+		 this.beFollowedNoticeSet = []; 
+		 
+		 this.forumTrendNoticesHtml = null;
+		 this.shopTrendNoticesHtml = null;
+		 this.userTrendNoticesHtml = null;
+		 this.beFollowedTrendNoticesHtml = null;
+		 
 		 // 如果不是第一次打开，则不触发ajax，改成直接显示websocket推送的动作，并用stomp发送刷新订阅时间的请求
 		 this.firstOpen = true;
 		 this.noticeCount = 0;
@@ -23,6 +29,34 @@ $(document).ready(function () {
 		 
 
 	  }
+	  
+	  addToForumTrendNoticeSet(notice) {
+		  let isContains = this.forumTrendNoticeSet.some( item => item.id === notice.id)
+		  if (!isContains) {
+			  this.forumTrendNoticeSet.push(notice);
+		  }
+	  }
+
+	  addToShopTrendNoticeSet(notice) {
+		  let isContains = this.shopTrendNoticeSet.some( item => item.id === notice.id)
+		  if (!isContains) {
+			  this.shopTrendNoticeSet.push(notice);
+		  }
+	  }
+
+	  addToUserTrendNoticeSet(notice) {
+		  let isContains = this.userTrendNoticeSet.some( item => item.id === notice.id)
+		  if (!isContains) {
+			  this.userTrendNoticeSet.push(notice);
+		  }
+	  }
+
+	  addToBeFollowedTrendNoticeSet(notice) {
+		  let isContains = this.beFollowedTrendNoticeSet.some( item => item.id === notice.id)
+		  if (!isContains) {
+			  this.beFollowedNoticeSet.push(notice);
+		  }
+	  }
 	 
 	  // 每次设置通知数量时，改变视图
 	  setNoticeCount(noticeCount) {
@@ -30,23 +64,64 @@ $(document).ready(function () {
 		 this.displayNoticeCount();
 	  }
 	  
-	  setAjaxNotices(ajaxNotices) {
-		  this.ajaxNotices = ajaxNotices;
-		  this.setNotices(this.ajaxNotices.concat(this.notices));
+	  addToNoticeSet(notice) {
+		  switch(notice.noticeType) {
+		  case "FORUM_TREND_NOTICE":
+			  this.addToForumTrendNoticeSet(notice); 
+//			  this.setForumTrendNoticeHtml();
+			  break;
+		  case "SHOP_TREND_NOTICE":
+			  this.addToShopTrendNoticeSet(notice);
+//			  this.setShopTrendNoticeHtml();
+			  break;
+		  case "USER_TREND_NOTICE":
+			  this.addToUserTrendNoticeSet(notice);
+//			  this.setUserTrendNoticeHtml();
+			  break;
+		  case "BEFOLLOWED_NOTICE":
+			  this.addToBeFollowedNoticeSet(notice);
+//			  this.setBeFollowingNoticeHtml();
+			  break;
+		  }
+		  this.logNoticeSet();
 	  }
 	  
-	  addWsNotice(wsNotice) {
-		  this.wsNotices.push(wsNotice);
-		  this.setNotices(this.notices.concat(this.wsNotices.slice(this.wsNotices.length - 1)))
+	  logNoticeSet() {
+		  console.log("forum " + JSON.stringify(Array.from(this.forumTrendNoticeSet)))
+		  console.log("shop " + JSON.stringify(Array.from(this.shopTrendNoticeSet)))
+		  console.log("user " + JSON.stringify(Array.from(this.userTrendNoticeSet)))
+		  console.log("beFollowing " + JSON.stringify(Array.from(this.beFollowedNoticeSet)))
 	  }
-	  
-	  setNotices(notices) {
-		  this.notices = notices;
-		  this.freshNoticesHtml();
+
+	  addAllToNoticeSet(noticeList) {
+		  noticeList.forEach( notice => {
+			  switch(notice.noticeType) {
+			  case "FORUM_TREND_NOTICE":
+				  this.addToForumTrendNoticeSet(notice); 
+//				  this.setForumTrendNoticeHtml();
+				  break;
+			  case "SHOP_TREND_NOTICE":
+				  this.addToShopTrendNoticeSet(notice);
+//				  this.setShopTrendNoticeHtml();
+				  break;
+			  case "USER_TREND_NOTICE":
+				  this.addToUserTrendNoticeSet(notice);
+//				  this.setUserTrendNoticeHtml();
+				  break;
+			  case "BEFOLLOWED_NOTICE":
+				  this.addToBeFollowedNoticeSet(notice);
+//				  this.setBeFollowingNoticeHtml();
+				  break;;
+			  };
+		  })
+		  this.logNoticeSet();
 	  }
 	  
 	  clearNotice() {
-		  this.setNotices([]);
+		  this.forumTrendNoticeSet = new Set(); 
+		  this.shopTrendNoticeSet = new Set(); 
+		  this.userTrendNoticeSet = new Set(); 
+		  this.beFollowedNoticeSet = new Set(); ;
 		  this.freshNoticeHtml();
 	  }
 	  
@@ -89,7 +164,7 @@ $(document).ready(function () {
 	  receiveTrendNotice(frame) {
 		  this.setNoticeCount(this.noticeCount + 1);
 		  let stompMessage = JSON.parse(frame.body);
-		  this.addWsNotice(stompMessage);
+		  this.addToNoticeSet(stompMessage);
 	  }
 	  
 	  handleClick() {
@@ -111,11 +186,6 @@ $(document).ready(function () {
 			 url:  ajaxFreshLastReadTimeUrl,
 		  })
 	  }
-
-	  
-	  stompFreshLastReadTime() {
-		  this.client.send(stompFreshLastReadTimeUrl, () => {});
-	  }
 	  
 	  displayNoticeCount() {
 		  this.newNoticeRemindElement.html(this.noticeCount);
@@ -126,30 +196,21 @@ $(document).ready(function () {
 		 $.ajax({
 			 url: pullNoticesUrl,
 			 success: noticeResult => { 
-				 this.setAjaxNotices(noticeResult.trend); 
+				 this.addAllToNoticeSet(noticeResult.shop); 
 				 this.contextPath = noticeResult.contextPath;
 				 }, 
 			 failure: e => { console.log(e.message) },
 		 }) 
 	  }
 	  
-	  freshNoticesHtml() {
-		  let resultHtmls = this.notices.map((notice, index) => this.createAbstractNoticeTemplate(notice));
-		 console.log(`ajaxNotices size: ${this.ajaxNotices.length}
-				 wsNotices size: ${this.wsNotices.length}
-				 resultHtmls size : ${resultHtmls.length}
-		 `);
-		  this.trendNoticeDisplayPanel.html(resultHtmls.reverse());
-	  }
-	  
 	  
 	  createAbstractNoticeTemplate(notice) {
 		  let resultTemplate = '';
-		 switch(notice.trendNoticeType) {
-		 case "TopicTrendNotice":
+		 switch(notice.noticeType) {
+		 case "FORUM_TREND_NOTICE":
 			 resultTemplate = this.createTopicTrendNotice(notice); 
 			 break;
-		 case "PostTrendNotice":
+		 case "SHOP_TREND_NOTICE":
 			 resultTemplate = this.createPostTrendNotice(notice);
 			 break;
 		 case "UserTrendNotice":
@@ -214,7 +275,5 @@ $(document).ready(function () {
 		  return userTrendNoticeTemplate;
 	  }
   }
-  if (isAuthenticated) {
-	  let noticePanel = new NoticePanel($("#notice-panel-toggle"),$("#notice-menu-content"), $("#new-notice-remind"), $("#trend"));
-  }
-})
+  
+

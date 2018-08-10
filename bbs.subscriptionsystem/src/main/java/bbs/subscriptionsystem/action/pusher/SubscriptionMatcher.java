@@ -2,20 +2,29 @@ package bbs.subscriptionsystem.action.pusher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bbs.helper.utils.MyLogger;
+import bbs.shop.entity.PrimaryCommodyComment;
+import bbs.shop.entity.ReplyCommodyComment;
+import bbs.subscriptionsystem.action.entity.AbstractCollectAction;
 import bbs.subscriptionsystem.action.entity.BaseAction;
 import bbs.subscriptionsystem.action.entity.BbsTrendAction;
 import bbs.subscriptionsystem.action.entity.BeFollowedAction;
 import bbs.subscriptionsystem.action.entity.CollectUserAction;
+import bbs.subscriptionsystem.action.entity.CommodyCommentAction;
+import bbs.subscriptionsystem.action.entity.CommodyTrendAction;
 import bbs.subscriptionsystem.action.entity.ForumTrendAction;
 import bbs.subscriptionsystem.action.entity.PostTrendAction;
+import bbs.subscriptionsystem.action.entity.ShopTrendAction;
 import bbs.subscriptionsystem.action.entity.TopicTrendAction;
 import bbs.subscriptionsystem.action.entity.UserTrendAction;
 import bbs.subscriptionsystem.subscription.entity.BaseSubscription;
 import bbs.subscriptionsystem.subscription.entity.BeFollowedSubscription;
+import bbs.subscriptionsystem.subscription.entity.CommodyCommentSubscription;
+import bbs.subscriptionsystem.subscription.entity.CommodySubscription;
 import bbs.subscriptionsystem.subscription.entity.FollowingSubscription;
 import bbs.subscriptionsystem.subscription.entity.ForumSubscription;
 import bbs.subscriptionsystem.subscription.entity.PostSubscription;
@@ -35,6 +44,10 @@ public class SubscriptionMatcher {
 	
 	private List<BeFollowedSubscription> beFollowedSubscriptions = new ArrayList<>();
 	
+	private List<CommodySubscription> commodySubscriptions = new ArrayList<>();
+
+	private List<CommodyCommentSubscription> commodyCommentSubscriptions = new ArrayList<>();
+	
 	private String username = null;
 
 	public SubscriptionMatcher(String username, List<BaseSubscription<?>> subscriptions) {
@@ -49,12 +62,16 @@ public class SubscriptionMatcher {
 		MyLogger.info("\n\n\n刷新之前的post订阅情况 ： "+this.postSubscriptions.size());
 		MyLogger.info("\n\n\n刷新之前的following订阅情况 ： "+this.followingSubscriptions.size());
 		MyLogger.info("\n\n\n刷新之前的beFollowing订阅情况 ： "+this.beFollowedSubscriptions.size());
+		MyLogger.info("\n\n\n刷新之前的Commody订阅情况 ： "+this.commodySubscriptions.size());
+		MyLogger.info("\n\n\n刷新之前的CommodyComment订阅情况 ： "+this.commodyCommentSubscriptions.size());
 		this.subscriptions = subscriptions;
 		this.topicSubscriptions.clear();
 		this.forumSubscriptions.clear();
 		this.postSubscriptions.clear();
 		this.followingSubscriptions.clear();
 		this.beFollowedSubscriptions.clear();
+		this.commodySubscriptions.clear();
+		this.commodyCommentSubscriptions.clear();
 		for (BaseSubscription<?> subscription : subscriptions) {
 			if (subscription instanceof ForumSubscription) {
 				forumSubscriptions.add((ForumSubscription) subscription);
@@ -71,36 +88,83 @@ public class SubscriptionMatcher {
 			else if (subscription instanceof BeFollowedSubscription) {
 				beFollowedSubscriptions.add((BeFollowedSubscription) subscription);
 			}
+			else if (subscription instanceof CommodySubscription) {
+				commodySubscriptions.add((CommodySubscription) subscription);
+			}
+			else if (subscription instanceof CommodyCommentSubscription) {
+				commodyCommentSubscriptions.add((CommodyCommentSubscription) subscription);
+			}
 		}
 				MyLogger.info("\n\n\n刷新后的forum订阅情况 ： "+this.forumSubscriptions.size());
 				MyLogger.info("\n\n\n刷新后的topic订阅情况 ： "+this.topicSubscriptions.size());
 				MyLogger.info("\n\n\n刷新后的post订阅情况 ： "+this.postSubscriptions.size());
 				MyLogger.info("\n\n\n刷新后的following订阅情况 ： "+this.followingSubscriptions.size());
 				MyLogger.info("\n\n\n刷新后的beFollowing订阅情况 ： "+this.beFollowedSubscriptions.size());
+				MyLogger.info("\n\n\n刷新后的Commody订阅情况 ： "+this.commodySubscriptions.size());
+				MyLogger.info("\n\n\n刷新后的CommodyComment订阅情况 ： "+this.commodyCommentSubscriptions.size());
 	}
 
-	boolean match(BaseAction action) {
-		boolean isMatch = false;
+	Map<String, BaseAction> match(Map<String, BaseAction> actionMap) {
+		BaseAction action = actionMap.get("raw");
 		if (action instanceof ForumTrendAction) {
-			isMatch = matchForumTrendAction((ForumTrendAction) action);
+			if (matchForumTrendAction((ForumTrendAction) action))
+				this.putActionToMap(actionMap, action);
 		}
 		else if (action instanceof TopicTrendAction) {
-			isMatch = matchTopicTrendAction((TopicTrendAction) action);
+			if (matchTopicTrendAction((TopicTrendAction) action)) 
+				this.putActionToMap(actionMap, action);
 		}
 		else if (action instanceof PostTrendAction) {
-			isMatch = matchPostTrendAction((PostTrendAction) action);
+			if (matchPostTrendAction((PostTrendAction) action))
+				this.putActionToMap(actionMap, action);
 		}
 		else if (action instanceof UserTrendAction) {
-			isMatch = matchUserTrendAction((UserTrendAction<?>)action);
+		//UserTrendAction中的CollectionAction单独判断
+			if (action instanceof AbstractCollectAction) {
+		//判断是否是关注自己的Action
+				if (action instanceof CollectUserAction) {
+					BeFollowedAction beFollowedAction = new BeFollowedAction((CollectUserAction) action);
+					if (matchBeFollowedAction(beFollowedAction))
+						this.putActionToMap(actionMap, beFollowedAction);
+				}
+			}
+		//判断是否是自己关注的用户发布的Action
+			if (matchUserTrendAction((UserTrendAction<?>)action))
+				this.putActionToMap(actionMap, action);
 		}
-		else if (action instanceof BeFollowedAction) {
-			isMatch = matchBeFollowedAction((BeFollowedAction) action);
+		else if (action instanceof ShopTrendAction) {
+			if (action instanceof CommodyTrendAction) {
+				if(action instanceof CommodyCommentAction) {
+					if(matchAction((CommodyCommentAction) action))
+						this.putActionToMap(actionMap, action);
+				}
+			}
 		}
-		MyLogger.info(action.getClass().getSimpleName() + "在 Matcher.match 中的匹配结果" + isMatch);
-		return isMatch;
+		MyLogger.info(action.getClass().getSimpleName() + "在 Matcher.match 中的匹配结果" + actionMap.get("new") != null);
+		return actionMap;
+	}
+	
+	private void putActionToMap(Map<String, BaseAction> actionMap, BaseAction action) {
+		actionMap.put("new", action);
 	}
 	
 	
+	private boolean matchAction(CommodyCommentAction action) {
+		// TODO Auto-generated method stub
+		//commodySubscription 和 commodyCommentSubscription皆可以收到CommodyCommentAction
+		for(CommodySubscription commodySubscription : commodySubscriptions) {
+			return commodySubscription.getTarget().getId() == action.getCommody().getId();
+		}
+		for (CommodyCommentSubscription commentSubscription : commodyCommentSubscriptions) {
+			//如果action中包含的评论不是Primary，那么一定不符合
+			//因为订阅一个PrimaryComment后，收到的一定是楼中楼回复
+			if (!(action.getComment() instanceof ReplyCommodyComment)) break;
+			return commentSubscription.getTarget().getId()
+					.equals( ((ReplyCommodyComment) action.getComment()).getReplyTargetComment().getId());
+		}
+		return false;
+	}
+
 	private boolean matchBeFollowedAction(BeFollowedAction action) {
 		// TODO Auto-generated method stub
 		BeFollowedSubscription subscription = beFollowedSubscriptions.get(0);

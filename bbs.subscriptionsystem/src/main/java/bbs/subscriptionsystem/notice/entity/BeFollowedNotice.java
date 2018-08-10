@@ -20,7 +20,7 @@ public class BeFollowedNotice extends BaseNotice {
 	}
 
 	public BeFollowedNotice(BeFollowedAction action) {
-		super(action.getPubTime());
+		super(action.hashCode(), action.getPubTime(), NoticeType.BEFOLLOWED_NOTICE);
 		this.follower = action.getFollower();
 		// TODO Auto-generated constructor stub
 	}

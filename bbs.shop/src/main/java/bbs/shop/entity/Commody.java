@@ -148,5 +148,12 @@ public class Commody implements Serializable {
 		this.price = price;
 	}
 	
+	//一个commody由id user pubTim标记
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return (int) this.id + user.hashCode() + pubTime.hashCode();
+	}
+	
 	
 }

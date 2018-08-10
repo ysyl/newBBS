@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -22,6 +23,7 @@ import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import bbs.form.utils.PageParam;
 import bbs.forum.DTO.Post;
 import bbs.forum.service.BbsService;
+import bbs.helper.utils.MyLogger;
 import bbs.shop.service.ShopService;
 import bbs.usercenter.collection.DAO.entity.CommodyCollection;
 import bbs.usercenter.collection.DAO.entity.FollowingCollection;
@@ -29,7 +31,6 @@ import bbs.usercenter.collection.DAO.entity.ForumCollection;
 import bbs.usercenter.collection.DAO.entity.PostCollection;
 import bbs.usercenter.collection.DAO.entity.TopicCollection;
 import bbs.usercenter.exception.RepetitiveCollectException;
-import bbs.usercenter.util.CollectMatcher;
 
 @Transactional
 @Rollback
@@ -41,8 +42,6 @@ public class UserServiceTest extends BaseTest {
 	@Autowired
 	BbsService bbsService;
 	
-	@Autowired
-	CollectMatcher collectMatcher;
 	
 	@Autowired
 	ShopService shopService;
@@ -105,9 +104,12 @@ public class UserServiceTest extends BaseTest {
 		
 		logger.info("删除收藏");
 		userCenterService.uncollectPost(uid, postId);
-		List<Post> postList2 = new ArrayList<>(Arrays.asList(bbsService.getPost(postId)));
-		Map<Long, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(postList2, uid);
-		assertFalse(postCollectStatus.get(postList2.get(0).getId()));
+		List<Long> postIdList = new ArrayList<>(Arrays.asList(bbsService.getPost(postId))).parallelStream()
+				.map( post -> post.getId())
+				.collect(Collectors.toList());
+		Map<Long, Boolean> postCollectStatus = userCenterService.isCollectedPostList(uid, postIdList);
+		MyLogger.infoln("postCollectStatus : " + postCollectStatus);
+		assertFalse(postCollectStatus.get(postId));
 	}
 	
 	//测试非法输入
@@ -134,8 +136,10 @@ public class UserServiceTest extends BaseTest {
 		long collectedPostId = 1L;
 		userCenterService.collectPost(userId, collectedPostId);
 		PageParam pageParam = new PageParam(0, 20);
-		List<Post> postList= bbsService.getPostList(1L, pageParam);
-		Map<Long, Boolean> collectStatusMap = collectMatcher.checkPostCollectStatus(postList, userId);
+		List<Long> postIdList= bbsService.getPostList(1L, pageParam).parallelStream()
+				.map( post -> post.getId())
+				.collect(Collectors.toList());
+		Map<Long, Boolean> collectStatusMap = userCenterService.isCollectedPostList(userId, postIdList);
 		for (Entry<Long, Boolean> entry : collectStatusMap.entrySet()) {
 			if (entry.getKey().equals(collectedPostId)) {
 				assertTrue(entry.getValue());
@@ -149,12 +153,12 @@ public class UserServiceTest extends BaseTest {
 		Long verricktId = 1L;
 		Long topicId = 1L;
 		Long postId = 1L;
-		List<Post> postList = bbsService.getPostList(topicId, new PageParam(0, 20));
-		//手动初始化collectMatcher 实际中登陆时初始化
-		collectMatcher.freshCollections(verricktId);
-		Map<Long, Boolean> postCollectStatus = collectMatcher.checkPostCollectStatus(postList, verricktId);
+		List<Long> postIdList = bbsService.getPostList(topicId, new PageParam(0, 20)).parallelStream()
+				.map( post -> post.getId())
+				.collect(Collectors.toList());
+		Map<Long, Boolean> postCollectStatus = userCenterService.isCollectedPostList(verricktId, postIdList);
 		userCenterService.collectPost(verricktId, postId);
-		Map<Long, Boolean> postCollectStatusAfter = collectMatcher.checkPostCollectStatus(postList, verricktId);
+		Map<Long, Boolean> postCollectStatusAfter = userCenterService.isCollectedPostList(verricktId, postIdList);
 		Post post = null;
 		Boolean beforeStatus = false;
 		Boolean afterStatus = null;

@@ -41,9 +41,15 @@ public class CommodyCommentActionProvider implements ActionProvider {
 	@Override
 	public Integer getActionCountBySubscription(BaseSubscription<?> subscription) {
 		// TODO Auto-generated method stub
-		Long commodyId = ((CommodySubscription) subscription).getTarget().getId();
-		Date lastReadTime = subscription.getLastReadTime();
-		return commentActionDAO.countCommentActionByCommodyIdAfterLastReadTime(commodyId, lastReadTime);
+		if (!support((Class<? extends BaseSubscription<?>>) subscription.getClass())) throw new IllegalArgumentException();
+		
+		if (subscription instanceof CommodySubscription) {
+			return this.getActionCountByCommodySubscription((CommodySubscription) subscription);
+		} 
+		else if (subscription instanceof CommodyCommentSubscription) {
+			return this.getActionCountByCommodyCommentSubscription((CommodyCommentSubscription) subscription);
+		}
+		throw new IllegalArgumentException();
 	}
 
 	@Override

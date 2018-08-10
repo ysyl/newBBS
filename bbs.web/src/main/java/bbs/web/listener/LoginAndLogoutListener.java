@@ -22,13 +22,10 @@ import bbs.security.utils.HasNotLoginException;
 import bbs.security.utils.IAuthenticationFacade;
 import bbs.subscriptionsystem.notice.service.NoticeService;
 import bbs.usercenter.userprofile.DTO.UserProfile;
-import bbs.usercenter.util.CollectMatcher;
 import security.core.DTO.UserPrincipal;
 
 @Component
 public class LoginAndLogoutListener implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
-
-	private CollectMatcher collectMatcher;
 
 	private IAuthenticationFacade authenticationFacade;
 
@@ -43,11 +40,9 @@ public class LoginAndLogoutListener implements ApplicationListener<InteractiveAu
 	public static final String NOTICE_COUNT_NAME = "initNoticeCount";
 
 	@Autowired
-	public LoginAndLogoutListener(CollectMatcher collectMatcher, IAuthenticationFacade authenticationFacade,
-			HttpSession session, BbsSecurityService bbsSecurityService, BbsService bbsService,
-			NoticeService noticeService) {
+	public LoginAndLogoutListener(IAuthenticationFacade authenticationFacade, HttpSession session,
+			BbsSecurityService bbsSecurityService, BbsService bbsService, NoticeService noticeService) {
 		super();
-		this.collectMatcher = collectMatcher;
 		this.authenticationFacade = authenticationFacade;
 		this.session = session;
 		this.bbsSecurityService = bbsSecurityService;
@@ -61,7 +56,6 @@ public class LoginAndLogoutListener implements ApplicationListener<InteractiveAu
 		MyLogger.info("\n\n\n登录成功\n\n\n");
 		this.addUserToSession();
 		this.initNoticeStatus(session);
-		collectMatcher.freshCollections(((UserPrincipal) session.getAttribute("userPrincipal")).getId());
 	}
 
 	private void addUserToSession() {

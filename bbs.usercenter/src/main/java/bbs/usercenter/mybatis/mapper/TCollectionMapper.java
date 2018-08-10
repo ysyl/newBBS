@@ -84,9 +84,10 @@ public interface TCollectionMapper {
 
 	BaseCollection selectCollectionByUidAndTargetIdAndType(@Param("userId") long uid, 
 			@Param("targetId") long targetId,
-			@Param("collectionType") CollectionType forum,@Param("pageParam") PageParam pageParam);
+			@Param("collectionType") CollectionType collectionType);
 
 	void deleteByUidAndTargetId(@Param("userId")Long uid,@Param("targetId") long targetId, @Param("collectionType") CollectionType collectionType);
 
-	List<Long> selectCollectedCommodyIdByUidInCommodyIdList(@Param("userId")Long uid,@Param("commodyIdList") List<Long> commodyIdList);
+	List<Long> selectCollectedTargetIdByUidInTargetIdList(@Param("userId")Long uid,@Param("targetIdList") List<Long> targetIdList,
+			@Param("collectionType") CollectionType collectionType);
 }

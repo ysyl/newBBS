@@ -259,6 +259,7 @@
     <id column="user_id" jdbcType="BIGINT" />
     <association javaType="bbs.forum.DTO.User" property="user">
         <id column="user_id" jdbcType="BIGINT" property="id" />
+        <result column="user_register_time" property="registerTime" />
     </association>
     <collection ofType="bbs.shop.entity.KeywordStatistic" property="keywordStatisticList" javaType="ArrayList">
         <id column="keyword_id" />
@@ -272,7 +273,7 @@
   
   <sql id="dto_column_list">
     up.frequency as frequency,
-    up.user_id as user_id,
+    up.user_id as user_id, u.register_time as user_register_time,
     k.id as keyword_id, k.value as keyword_content
   </sql>
   <sql id="selectUserPerferenceSql">

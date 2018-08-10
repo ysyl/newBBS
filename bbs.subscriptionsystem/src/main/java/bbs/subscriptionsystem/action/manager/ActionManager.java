@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import bbs.forum.form.PubPostForm;
 import bbs.helper.utils.MyLogger;
+import bbs.subscriptionsystem.action.DAO.CommodyCommentActionDAO;
 import bbs.subscriptionsystem.action.DAO.ForumTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.PostTrendActionDAO;
 import bbs.subscriptionsystem.action.DAO.TopicTrendActionDAO;
@@ -30,21 +31,24 @@ public class ActionManager {
 	private PostTrendActionDAO postTrendActionDAO;
 	
 	private ForumTrendActionDAO forumTrendActionDAO;
+	
+	private CommodyCommentActionDAO commodyCommentActionDAO;
 
 	private List<ActionProvider> actionProviders;
 
 	@Autowired
 	public ActionManager(TopicTrendActionDAO topicTrendActionDAO, UserTrendActionDAO userTrendActionDAO,
 			PostTrendActionDAO postTrendActionDAO, ForumTrendActionDAO forumTrendActionDAO,
-			List<ActionProvider> actionProviders) {
+			CommodyCommentActionDAO commodyCommentActionDAO, List<ActionProvider> actionProviders) {
 		super();
 		this.topicTrendActionDAO = topicTrendActionDAO;
 		this.userTrendActionDAO = userTrendActionDAO;
 		this.postTrendActionDAO = postTrendActionDAO;
 		this.forumTrendActionDAO = forumTrendActionDAO;
+		this.commodyCommentActionDAO = commodyCommentActionDAO;
 		this.actionProviders = actionProviders;
 	}
-	
+
 	public Long addUserTrendAction(UserTrendActionType actionType, UserTrendActionTargetType targetType,
 			long uid, long targetId) {
 		return userTrendActionDAO.saveUserTrendAction(actionType, targetType, uid, targetId);
@@ -62,6 +66,10 @@ public class ActionManager {
 	
 	public Long addForumTrendAction(long managerId, int forumId, int announceId) {
 		return forumTrendActionDAO.saveForumTrendAction(managerId, forumId, announceId);
+	}
+	
+	public Long addCommodyCommentAction(long uid, long commentId, long commodyId) {
+		return commodyCommentActionDAO.save(uid, commentId, commodyId);
 	}
 	
 	public List<? extends BaseAction> getAllActionBySubscription(BaseSubscription<?> subscription) {

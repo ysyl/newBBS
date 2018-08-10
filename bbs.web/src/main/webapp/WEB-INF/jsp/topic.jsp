@@ -38,6 +38,7 @@
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<%@ include file="/resource/jsp_component/common-script.jsp" %>
     
 </head>
 <body>
@@ -80,9 +81,6 @@
 			</div>
 			
     <%@ include file="/resource/jsp_component/bbs-post-editor.jsp"%>
-
-    <%@ include file="/resource/jsp_component/common-script.jsp" %>
-	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 	
 	
 	<script type="text/javascript">

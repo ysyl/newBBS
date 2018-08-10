@@ -401,6 +401,7 @@
 		<association javaType="bbs.forum.DTO.User" property="user">
 			<id column="user_id" property="id" />
 			<result column="user_nickname" property="nickname" />
+			<result column="user_register_time" property="registerTime" />
 		</association>
 		<discriminator column="collection_type"
 			javaType="bbs.usercenter.enuma.CollectionType"
@@ -412,6 +413,7 @@
 					property="following">
 					<id column="following_id" property="id" />
 					<result column="following_nickname" property="nickname" />
+					<result column="following_register_time" property="registerTime" />
 				</association>
 			</case>
 			<case
@@ -472,13 +474,13 @@
 	<sql id="dto-column-list">
 		c.id as id, c.collection_type as collection_type,
 		c.user_id
-		as user_id, u.nickname as user_nickname,
+		as user_id, u.nickname as user_nickname, u.register_time as user_register_time,
 		c.forum_id as forum_id,
 		f.forum_name as forum_name,
 		c.post_id as post_id, p.content as
 		post_content,
 		c.topic_id as topic_id, t.title as topic_title,
-		c.following_id as following_id, fo.nickname as following_nickname,
+		c.following_id as following_id, fo.nickname as following_nickname, fo.register_time as following_register_time,
 		c.commody_id as commody_id, cm.title as commody_title, cm.description
 		as
 		commody_description, cm.pub_time as commody_pub_time,
@@ -614,15 +616,54 @@
 	</delete>
 	
 	<!-- 选出交集 -->
-    <select id="selectCollectedCommodyIdByUidInCommodyIdList" resultType="long">
-       select cl.commody_id 
+	<select id="selectCollectedTargetIdByUidInTargetIdList" resultType="long">
+       select 
+       <choose>
+            <when test='collectionType.name().equals("FORUM")'>
+                cl.forum_id 
+            </when> 
+            <when test='collectionType.name().equals("TOPIC")'>
+                cl.topic_id 
+            </when> 
+            <when test='collectionType.name().equals("POST")'>
+                cl.post_id
+            </when> 
+            <when test='collectionType.name().equals("FOLLOWING")'>
+                cl.following_id
+            </when> 
+            <when test='collectionType.name().equals("COMMODY")'>
+                cl.commody_id
+            </when> 
+       </choose>
        from t_collection cl
-       where cl.user_id = #{userId} and cl.collection_type = 4
-           and cl.commody_id in 
-           <foreach collection="commodyIdList" item="commodyId" 
+       where cl.user_id = #{userId} 
+       <choose>
+            <when test='collectionType.name().equals("FORUM")'>
+                and cl.collection_type = 0
+                and cl.forum_id 
+            </when> 
+            <when test='collectionType.name().equals("TOPIC")'>
+                and cl.collection_type = 1
+                and cl.topic_id 
+            </when> 
+            <when test='collectionType.name().equals("POST")'>
+                and cl.collection_type = 2
+                and cl.post_id 
+            </when> 
+            <when test='collectionType.name().equals("FOLLOWING")'>
+                and cl.collection_type = 3
+                and cl.following_id
+            </when> 
+            <when test='collectionType.name().equals("COMMODY")'>
+                and cl.collection_type = 4
+                and cl.commody_id 
+            </when> 
+       </choose>
+       in 
+           <foreach collection="targetIdList" item="targetId" 
                separator="," open="(" close=")"
            >
-                #{commodyId, jdbcType=BIGINT}
+                #{targetId, jdbcType=BIGINT}
            </foreach>
     </select>
 </mapper>

@@ -1,6 +1,8 @@
 package bbs.forum.DTO;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Random;
 
 import bbs.forum.enuma.Sex;
 
@@ -19,6 +21,8 @@ public class User implements Serializable {
 	private Long followingAmount;
 	
 	private String avatar;
+	
+	private Date registerTime;
 
 	public Long getTopicAmount() {
 		return topicAmount;
@@ -82,5 +86,20 @@ public class User implements Serializable {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+
+	//一个用户由其id和创建日期标记
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return new Random(this.getClass().getName().hashCode() + this.id).nextInt(Integer.MAX_VALUE);
+	}
+
+	public Date getRegisterTime() {
+		return registerTime;
+	}
+
+	public void setRegisterTime(Date registerTime) {
+		this.registerTime = registerTime;
 	}
 }

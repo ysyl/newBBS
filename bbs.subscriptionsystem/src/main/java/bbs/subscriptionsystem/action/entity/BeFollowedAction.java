@@ -44,4 +44,11 @@ public class BeFollowedAction extends BaseAction {
 	public void setFollowingUser(User followingUser) {
 		this.followingUser = followingUser;
 	}
+
+	//BeFollowingAction 由 follower followingUser标记
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return this.getClass().getName().hashCode() + this.rawAction.hashCode();
+	}
 }

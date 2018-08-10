@@ -104,6 +104,7 @@
 			</div>
 			<div class="col-md-3" id="shop-control-group-wrap">
 				<div id="shop-control-group">
+				<!-- 判断登录情况生成对应的按键 -->
 					<sec:authorize access="isAuthenticated()">
 						<a class="btn btn-default shop-control" data-toggle="modal"
 							data-target="#pub-commody">发布商品</a>

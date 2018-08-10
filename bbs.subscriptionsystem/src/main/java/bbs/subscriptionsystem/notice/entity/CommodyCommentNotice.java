@@ -2,10 +2,10 @@ package bbs.subscriptionsystem.notice.entity;
 
 import java.util.Date;
 
+import bbs.forum.DTO.User;
 import bbs.shop.entity.BaseCommodyComment;
 import bbs.shop.entity.Commody;
 import bbs.subscriptionsystem.action.entity.CommodyCommentAction;
-import bbs.usercenter.userprofile.DTO.UserProfile;
 
 public class CommodyCommentNotice extends CommodyTrendNotice {
 
@@ -15,12 +15,12 @@ public class CommodyCommentNotice extends CommodyTrendNotice {
 	private static final long serialVersionUID = 1L;
 
 	public CommodyCommentNotice(CommodyCommentAction action) {
-		super(action.getPubTime(), action.getCommody());
+		super(action.hashCode(), action.getPubTime(), action.getCommody());
 		this.comment = action.getComment();
-		this.user = action.getUser();
+		this.setUser(action.getUser());
 	}
 
-	private UserProfile user;
+	private User user;
 	
 	private BaseCommodyComment comment;
 
@@ -32,12 +32,12 @@ public class CommodyCommentNotice extends CommodyTrendNotice {
 		this.comment = comment;
 	}
 
-	public UserProfile getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(UserProfile user) {
+	public void setUser(User user) {
 		this.user = user;
-	}	
+	}
 
 }

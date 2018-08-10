@@ -214,7 +214,7 @@ public class UserCenterServiceImp implements UserCenterService {
 	@Override
 	public boolean isCollectedCommody(Long uid, long commodyId) {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("检测单个商品收藏状态功能暂未支持");
+		return collectionDAO.isCollectedCommodyList(uid, commodyId);
 	}
 
 	@Override
@@ -226,19 +226,37 @@ public class UserCenterServiceImp implements UserCenterService {
 	@Override
 	public boolean isCollectedPost(Long uid, Long postId) {
 		// TODO Auto-generated method stub
-		return false;
+		return collectionDAO.isCollectedPost(uid, postId);
 	}
 
 	@Override
 	public boolean isCollectedTopic(Long uid, Long topicId) {
 		// TODO Auto-generated method stub
-		return false;
+		return collectionDAO.isCollectedTopic(uid, topicId);
 	}
 
 	@Override
 	public boolean isCollectedUser(Long uid, Long followingId) {
 		// TODO Auto-generated method stub
-		return false;
+		return collectionDAO.isCollectedUser(uid, followingId);
+	}
+
+	@Override
+	public Map<Long, Boolean> isCollectedTopicList(Long uid, List<Long> topicIdList) {
+		// TODO Auto-generated method stub
+		return collectionDAO.isCollectedTopicList(uid, topicIdList);
+	}
+
+	@Override
+	public Map<Long, Boolean> isCollectedPostList(Long uid, List<Long> postIdList) {
+		// TODO Auto-generated method stub
+		return collectionDAO.isCollectedPostList(uid, postIdList);
+	}
+
+	@Override
+	public Map<Long, Boolean> isCollectedUserList(Long uid, List<Long> userIdList) {
+		// TODO Auto-generated method stub
+		return collectionDAO.isCollectedUserList(uid, userIdList);
 	}
 
 

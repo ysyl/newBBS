@@ -46,7 +46,7 @@ public class PostTrendNotice extends BbsTrendNotice {
 	}
 
 	public PostTrendNotice(PostTrendAction action) {
-		super(action.getPubTime(), TrendNoticeType.PostTrendNotice);
+		super(action.hashCode(), action.getPubTime(), NoticeType.FORUM_TREND_NOTICE);
 		this.postDigest = action.getTargetPost().getContent();
 		this.postId = action.getTargetPost().getId();
 		this.topicId = action.getTopic().getId();

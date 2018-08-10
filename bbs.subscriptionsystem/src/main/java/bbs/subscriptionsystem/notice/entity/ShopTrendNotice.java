@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class ShopTrendNotice extends BaseNotice {
 
-	public ShopTrendNotice(Date pubTime) {
-		super(pubTime);
+	public ShopTrendNotice(int id, Date pubTime) {
+		super(id, pubTime, NoticeType.SHOP_TREND_NOTICE);
 		// TODO Auto-generated constructor stub
 	}
 

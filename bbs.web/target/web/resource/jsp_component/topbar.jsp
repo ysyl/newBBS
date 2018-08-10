@@ -98,3 +98,8 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
+<script>
+if (isAuthenticated) {
+    let noticePanel = new NoticePanel($("#notice-panel-toggle"),$("#notice-menu-content"), $("#new-notice-remind"), $("#trend"));
+}
+</script>

@@ -33,6 +33,4 @@ let stompFreshLastReadTimeUrl = "/app/fresh";
 let ajaxFreshLastReadTimeUrl = "<c:url value="/notice/trend/freshLastReadTime" />"
 </script>
 
-<script type="text/javascript"
-	src="<c:url value="/resource/jsp_component/notice-stomp.js" />"></script>
 <script src="<c:url value="/resource/jsp_component/searchSelector.js" />"></script>

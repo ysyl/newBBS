@@ -4,7 +4,7 @@ public class ReplyCommodyComment extends BaseCommodyComment {
 
 	private ReplyCommodyComment replyTargetComment;
 	
-	private PrimaryCommodyComment primaryCommodyComment;
+	private PrimaryCommodyComment belongPrimaryComment;
 
 	public ReplyCommodyComment getReplyTargetComment() {
 		return replyTargetComment;
@@ -14,12 +14,12 @@ public class ReplyCommodyComment extends BaseCommodyComment {
 		this.replyTargetComment = replyTargetComment;
 	}
 
-	public PrimaryCommodyComment getPrimaryCommodyComment() {
-		return primaryCommodyComment;
+	public PrimaryCommodyComment getBelongPrimaryComment() {
+		return belongPrimaryComment;
 	}
 
-	public void setPrimaryCommodyComment(PrimaryCommodyComment primaryCommodyComment) {
-		this.primaryCommodyComment = primaryCommodyComment;
+	public void setBelongPrimaryComment(PrimaryCommodyComment belongPrimaryComment) {
+		this.belongPrimaryComment = belongPrimaryComment;
 	}
 
 }

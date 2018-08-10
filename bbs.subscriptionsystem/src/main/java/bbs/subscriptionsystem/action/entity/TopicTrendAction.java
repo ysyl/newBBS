@@ -43,6 +43,12 @@ public class TopicTrendAction extends BbsTrendAction implements Serializable {
 	public void setTopic(Topic topic) {
 		this.topic = topic;
 	}
+	//一个TopicTrendAction 由user，post和topic标记
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return this.getClass().getName().hashCode() + this.getId().hashCode();
+	}
 	
 	
 

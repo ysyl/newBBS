@@ -49,7 +49,7 @@ public class UserCenterController {
 		List<CommodyCollection> commodyCollections = userCenterService.getAllCommodyCollectionByUserId(userId);
 		Map<Long, Boolean> commodyCollectedSituation = new HashMap<>();
 
-		List<Long> commodyIdList = commodyCollections.parallelStream().map( collection -> collection.getCommody().getId())
+		List<Long> commodyIdList = commodyCollections.stream().map( collection -> collection.getCommody().getId())
 				.collect(Collectors.toList());
 		if (commodyIdList != null && !commodyIdList.isEmpty())
 			commodyCollectedSituation = userCenterService.isCollectedCommodyList(user.getId(), commodyIdList);

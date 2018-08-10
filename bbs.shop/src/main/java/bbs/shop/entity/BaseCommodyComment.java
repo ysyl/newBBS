@@ -56,4 +56,11 @@ public class BaseCommodyComment implements Serializable {
 	public void setPubTime(Date pubTime) {
 		this.pubTime = pubTime;
 	}
+
+	//一个comment由user，commody, id标记
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return  id.hashCode() + user.hashCode() + commody.hashCode();
+	}
 }

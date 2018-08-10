@@ -12,7 +12,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import bbs.helper.utils.MyLogger;
-import bbs.usercenter.util.CollectMatcher;
 
 @Transactional
 @Rollback

@@ -10,17 +10,18 @@ import bbs.helper.utils.MyLogger;
 import bbs.shop.form.PubPrimaryCommodyCommentForm;
 import bbs.shop.form.PubReplyCommodyCommentForm;
 import bbs.subscriptionsystem.action.DAO.CommodyCommentActionDAO;
+import bbs.subscriptionsystem.action.manager.ActionManager;
 
 @Aspect
 @Component
 public class CommodyCommentActionMonitor {
 	
-	private CommodyCommentActionDAO actionDAO;
+	private ActionManager actionManager;
 
 	@Autowired
-	public CommodyCommentActionMonitor(CommodyCommentActionDAO actionDAO) {
+	public CommodyCommentActionMonitor(ActionManager actionManager) {
 		super();
-		this.actionDAO = actionDAO;
+		this.actionManager = actionManager;
 	}
 
 	@Pointcut("execution(* bbs.shop.service.ShopService.savePrimaryComment(..))"
@@ -35,13 +36,13 @@ public class CommodyCommentActionMonitor {
 	public void monitorPubPrimaryComment(Long uid, Long commodyId ,PubPrimaryCommodyCommentForm commentForm,
 			long commentId) {
 		MyLogger.infoln(this.getClass(), "插入Commody Comment Action");
-		actionDAO.save(uid, commentId, commodyId);
+		actionManager.addCommodyCommentAction(uid, commentId, commodyId);
 	}
 	
 	@AfterReturning(pointcut="pubReplyCommodyComment(uid, commodyId, replyCommentForm)", returning="commentId")
 	public void monitorPubReplyComment(Long uid, Long commodyId , PubReplyCommodyCommentForm replyCommentForm,
 			long commentId) {
 		MyLogger.info(this.getClass(), "插入Commody Comment Action");
-		actionDAO.save(uid, commentId, commodyId);
+		actionManager.addCommodyCommentAction(uid, commentId, commodyId);
 	}
 }

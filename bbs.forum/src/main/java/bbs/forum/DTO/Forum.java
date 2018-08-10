@@ -1,6 +1,7 @@
 package bbs.forum.DTO;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class Forum implements Serializable {
 	
@@ -33,4 +34,12 @@ public class Forum implements Serializable {
    public String toString() {
 	   return "Forum: " + this.forumName;
    }
+
+
+//Forum取由id决定的随机值
+@Override
+public int hashCode() {
+	// TODO Auto-generated method stub
+	return new Random(id).nextInt(Integer.MAX_VALUE);
+}
 }

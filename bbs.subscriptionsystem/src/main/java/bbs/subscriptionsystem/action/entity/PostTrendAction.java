@@ -45,4 +45,10 @@ public class PostTrendAction extends BbsTrendAction {
 	public void setTopic(Topic topic) {
 		this.topic = topic;
 	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return this.getClass().getName().hashCode() + this.getId().hashCode();
+	}
 }

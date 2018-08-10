@@ -11,8 +11,8 @@ public class CommodyTrendNotice extends ShopTrendNotice {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CommodyTrendNotice(Date pubTime, Commody commody) {
-		super(pubTime);
+	public CommodyTrendNotice(int id, Date pubTime, Commody commody) {
+		super(id, pubTime);
 		this.commody = commody;
 		// TODO Auto-generated constructor stub
 	}

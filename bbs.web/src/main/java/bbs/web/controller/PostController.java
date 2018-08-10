@@ -100,7 +100,7 @@ public class PostController {
 		}
 		userCenterService.updateUserProfile(uid, avatarName, updateUserProfileForm.getNickname(), updateUserProfileForm.getSex());
 
-		return "redirect:/user/" + uid;
+		return "redirect:/usercenter/user/" + uid;
 	}
 
 	public PostController(BbsService bbsService, UserCenterService userCenterService, UploadUtils bbsImgUtils,
@@ -118,7 +118,7 @@ public class PostController {
 			throws HasNotLoginException {
 		Long uid = authenticationFacade.getUserId();
 		bbsService.savePost(uid, topicId, pubPostForm);
-		return "redirect:/topic/" + topicId;
+		return "redirect:/forum/topic/" + topicId;
 	}
 
 	@PostMapping("/topic/{forumId}")
@@ -127,7 +127,7 @@ public class PostController {
 		pubTopicForm.setForumId(forumId);
 		bbsService.saveTopic(authenticationFacade.getUserId(), pubTopicForm);
 
-		return "redirect:/forum/" + forumId;
+		return "redirect:/forum/forum/" + forumId;
 	}
 	
 	@PostMapping("/commody")

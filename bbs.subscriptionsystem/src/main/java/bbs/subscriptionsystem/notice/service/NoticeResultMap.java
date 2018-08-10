@@ -7,12 +7,15 @@ import bbs.subscriptionsystem.notice.entity.BaseNotice;
 import bbs.subscriptionsystem.notice.entity.BbsTrendNotice;
 import bbs.subscriptionsystem.notice.entity.BeFollowedNotice;
 import bbs.subscriptionsystem.notice.entity.ShopTrendNotice;
+import bbs.subscriptionsystem.notice.entity.UserTrendNotice;
 
 public class NoticeResultMap {
 	
-	private List<BbsTrendNotice> trend = new ArrayList<>();
+	private List<BbsTrendNotice> forum = new ArrayList<>();
 	
 	private List<BeFollowedNotice> beFollowed = new ArrayList<>();
+
+	private List<UserTrendNotice> user = new ArrayList<>();
 	
 	private List<ShopTrendNotice> shop = new ArrayList<>();
 
@@ -24,14 +27,6 @@ public class NoticeResultMap {
 		this.shop = shop;
 	}
 
-	public List<BbsTrendNotice> getTrend() {
-		return trend;
-	}
-
-	public void setTrend(List<BbsTrendNotice> trend) {
-		this.trend = trend;
-	}
-
 	public List<BeFollowedNotice> getBeFollowed() {
 		return beFollowed;
 	}
@@ -40,11 +35,30 @@ public class NoticeResultMap {
 		this.beFollowed = beFollowed;
 	}
 
+	public List<BbsTrendNotice> getForum() {
+		return forum;
+	}
+
+	public void setForum(List<BbsTrendNotice> forum) {
+		this.forum = forum;
+	}
+
+	public List<UserTrendNotice> getUser() {
+		return user;
+	}
+
+	public void setUser(List<UserTrendNotice> user) {
+		this.user = user;
+	}
+
 	public NoticeResultMap(List<? extends BaseNotice> noticeList) {
 		super();
 		for (BaseNotice baseNotice : noticeList) {
+			if (baseNotice instanceof UserTrendNotice) {
+				this.user.add((UserTrendNotice) baseNotice);
+			}
 			if (baseNotice instanceof BbsTrendNotice) {
-				this.trend.add((BbsTrendNotice) baseNotice);
+				this.forum.add((BbsTrendNotice) baseNotice);
 			}
 			else if (baseNotice instanceof BeFollowedNotice) {
 				this.beFollowed.add((BeFollowedNotice) baseNotice);
