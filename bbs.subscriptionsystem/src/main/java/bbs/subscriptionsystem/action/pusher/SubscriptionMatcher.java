@@ -124,8 +124,11 @@ public class SubscriptionMatcher {
 		//判断是否是关注自己的Action
 				if (action instanceof CollectUserAction) {
 					BeFollowedAction beFollowedAction = new BeFollowedAction((CollectUserAction) action);
-					if (matchBeFollowedAction(beFollowedAction))
+					if (matchBeFollowedAction(beFollowedAction)) {
 						this.putActionToMap(actionMap, beFollowedAction);
+					//此处必须返回，否则下面会覆盖。
+						return actionMap;
+					}
 				}
 			}
 		//判断是否是自己关注的用户发布的Action
@@ -145,6 +148,7 @@ public class SubscriptionMatcher {
 	}
 	
 	private void putActionToMap(Map<String, BaseAction> actionMap, BaseAction action) {
+		MyLogger.infoln(this.getClass(), "插入action: " + action.getClass().getSimpleName());
 		actionMap.put("new", action);
 	}
 	
@@ -167,9 +171,11 @@ public class SubscriptionMatcher {
 
 	private boolean matchBeFollowedAction(BeFollowedAction action) {
 		// TODO Auto-generated method stub
+		MyLogger.infoln(this.getClass(), "检测到BeFollowedAction");
 		BeFollowedSubscription subscription = beFollowedSubscriptions.get(0);
 		if (action.getFollowingUser().getId().equals(subscription.getUser().getId()))
 			return true;
+		MyLogger.infoln(this.getClass(), "BeFollowedAction 没有匹配");
 		return false;
 	}
 

@@ -1,5 +1,7 @@
 package bbs.subscriptionsystem.action.entity;
 
+import java.util.Date;
+
 import bbs.forum.DTO.User;
 
 public class BeFollowedAction extends BaseAction {
@@ -32,6 +34,7 @@ public class BeFollowedAction extends BaseAction {
 	}
 
 	public BeFollowedAction(CollectUserAction collectUserAction) {
+		this.setPubTime(new Date());
 		this.follower = collectUserAction.getUser();
 		this.followingUser = collectUserAction.getTarget();
 		this.rawAction = collectUserAction;

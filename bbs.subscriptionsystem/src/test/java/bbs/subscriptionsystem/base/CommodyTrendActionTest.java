@@ -58,7 +58,7 @@ public class CommodyTrendActionTest extends BaseTest {
 		for(ShopTrendNotice sNotice : noticeList1) {
 			boolean isCommentNotice = sNotice instanceof CommodyCommentNotice;
 			assertTrue(isCommentNotice);
-			String content = ((CommodyCommentNotice) sNotice).getComment().getContent();
+			String content = ((CommodyCommentNotice) sNotice).getCommentContent();
 			assertEquals("primaryComment content", content);
 		}
 	}
@@ -95,9 +95,9 @@ public class CommodyTrendActionTest extends BaseTest {
 		for(ShopTrendNotice sNotice : noticeList2) {
 			boolean isCommentNotice = sNotice instanceof CommodyCommentNotice;
 			assertTrue(isCommentNotice);
-			String content = ((CommodyCommentNotice) sNotice).getComment().getContent();
+			String content = ((CommodyCommentNotice) sNotice).getCommentContent();
 			assertEquals("new commody primaryComment content", content);
-			assertEquals(ZHOU_ID, ((CommodyCommentNotice) sNotice).getUser().getId());
+			assertEquals(ZHOU_ID, ((CommodyCommentNotice) sNotice).getUserId());
 		}
 
 
@@ -129,13 +129,13 @@ public class CommodyTrendActionTest extends BaseTest {
 
 		List<CommodyCommentNotice> notices2 = (List<CommodyCommentNotice>) noticeService.getNoticeByUid(ZHOU_ID).getShop();
 		assertEquals(1, notices2.size());
-		assertEquals("reply reply commody comment", notices2.get(0).getComment().getContent());
+		assertEquals("reply reply commody comment", notices2.get(0).getCommentContent());
 		
 		
 		List<CommodyCommentNotice> notices1 = (List<CommodyCommentNotice>) noticeService.getNoticeByUid(VERRICKT_ID).getShop();
 		assertEquals(2, notices1.size());
 		
-		assertEquals(JAY_ID, notices1.get(0).getUser().getId());
-		assertEquals(ZHOU_ID, notices1.get(1).getUser().getId());
+		assertEquals(JAY_ID, notices1.get(0).getUserId());
+		assertEquals(ZHOU_ID, notices1.get(1).getUserId());
 	}
 }

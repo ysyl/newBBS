@@ -21,7 +21,7 @@ public class TopicTrendNotice extends BbsTrendNotice  {
 	private Long repostId; 
 
 	public TopicTrendNotice(TopicTrendAction action) {
-		super(action.hashCode(), action.getPubTime(), NoticeType.FORUM_TREND_NOTICE);
+		super(action.hashCode(), action.getPubTime(), NoticeType.FORUM_TREND_NOTICE, ForumTrendNoticeType.TOPIC);
 		this.topicTitle = action.getTopic().getTitle();
 		this.topicId = action.getTopic().getId();
 		this.pubTime = action.getPubTime();

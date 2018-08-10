@@ -11,20 +11,31 @@ public class CommodyTrendNotice extends ShopTrendNotice {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CommodyTrendNotice(int id, Date pubTime, Commody commody) {
-		super(id, pubTime);
-		this.commody = commody;
+	public CommodyTrendNotice(int id, Date pubTime, String commodyTitle, Long commodyId, ShopTrendNoticeType shopTrendNoticeType) {
+		super(id, pubTime, shopTrendNoticeType);
 		// TODO Auto-generated constructor stub
+		this.commodyTitle = commodyTitle;
+		this.commodyId = commodyId;
 	}
 	
-	private Commody commody;
+	private String commodyTitle;
+	
+	private Long commodyId;
 
-	public Commody getCommody() {
-		return commody;
+	public String getCommodyTitle() {
+		return commodyTitle;
 	}
 
-	public void setCommody(Commody commody) {
-		this.commody = commody;
+	public void setCommodyTitle(String commodyTitle) {
+		this.commodyTitle = commodyTitle;
+	}
+
+	public Long getCommodyId() {
+		return commodyId;
+	}
+
+	public void setCommodyId(Long commodyId) {
+		this.commodyId = commodyId;
 	}
 
 }

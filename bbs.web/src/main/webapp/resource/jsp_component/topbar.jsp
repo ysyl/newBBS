@@ -35,48 +35,49 @@
 						class="sr-only">(current)</span></a></li>
 				<li><a href="#">积分商城</a></li>
 				<li><a href="<c:url value="/shop/index" />">交易区</a></li>
-				<li class="dropdown">
-				    <a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" id="notice-panel-toggle">通知<span
+				<li class="dropdown"><a href="javascript:void(0)"
+					class="dropdown-toggle" data-toggle="collapse"
+					data-target="#notice-menu" id="notice-panel-toggle">通知<span
 						class="badge" id="new-notice-remind"></span><span class="caret"></span></a>
-					<ul class="dropdown-menu notice-menu" id="notice-menu">
+					<ul class="notice-menu collapse" id="notice-menu">
 						<ul class="nav nav-pills">
-							<li><a href="#trend" data-toggle="pill">动态</a></li>
-							<li><a href="#friend" data-toggle="pill">好友消息</a></li>
-							<li><a href="#focus" data-toggle="pill">关注信息</a></li>
+							<li class="active"><a href="#forum-trend-notice"
+								data-toggle="pill"> 论坛 <span class="badge"></span>
+							</a></li>
+							<li><a href="#shop-trend-notice" data-toggle="pill">商店<span
+									class="badge"></span></a></li>
+							<li><a href="#user-trend-notice" data-toggle="pill">好友<span
+									class="badge"></span></a></li>
+							<li><a href="#befollowed-notice" data-toggle="pill">关注<span
+									class="badge"></span></a></li>
 						</ul>
 						<div class="tab-content" id="notice-menu-content">
-							<div class="tab-panel active" id="trend">
-								<%-- 							<c:forEach var = "trendNotice" items="${noticeMap.get('trend') }"> --%>
-								<%-- 						      <%@ include file="/resource/jsp_component/notice-list-item.jsp" %>	 --%>
-								<%-- 							</c:forEach> --%>
-							</div>
-							<div class="tab-panel" id="friend"></div>
-							<div class="tab-panel" id="focus"></div>
+							<div class="tab-panel active" id="forum-trend-notice"></div>
+							<div class="tab-panel" id="shop-trend-notice"></div>
+							<div class="tab-panel" id="user-trend-notice"></div>
+							<div class="tab-panel" id="befollowed-notice"></div>
 						</div>
-					</ul> </a>
-			     </li>
+					</ul> </a></li>
 			</ul>
 			<!-- 未登录用户显示登录按键和注册按键，目测先跳转登录和注册页面 -->
 			<sec:authorize access="isAuthenticated()">
 				<div class="navbar-right" id="user-avatar">
 					<img id="nav-bar-user-avatar" class="rounded-circle"
-						src="<c:url value="/resource/img/${currentUser.avatar }" />" />
-					<a href="<c:url value="/usercenter/user/${currentUser.id }" />">${currentUser.nickname }</a>
+						src="<c:url value="/resource/img/${currentUser.avatar }" />" /> <a
+						href="<c:url value="/usercenter/user/${currentUser.id }" />">${currentUser.nickname }</a>
 					<div class="logout-btn-wrap">
-				        <a href="<c:url value="/logout" />" class="btn btn-danger">登出</a>	
+						<a href="<c:url value="/logout" />" class="btn btn-danger">登出</a>
 					</div>
 				</div>
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()">
-			<div class="navbar-right" id="login-register-btn-group">
-		          <a href="<c:url value="/login" />" class="btn btn-primary">登录</a>	
-		          <a href="<c:url value="/register" />" class="btn btn-primary">注册</a>	
-			</div>
+				<div class="navbar-right" id="login-register-btn-group">
+					<a href="<c:url value="/login" />" class="btn btn-primary">登录</a> <a
+						href="<c:url value="/register" />" class="btn btn-primary">注册</a>
+				</div>
 			</sec:authorize>
-			<form class="navbar-form navbar-right"
-			     id="select-searcher"
-				action="" method="get">
+			<form class="navbar-form navbar-right" id="select-searcher" action=""
+				method="get">
 				<div class="form-group search-form">
 					<div class="input-group">
 						<input type="text" name="keyword"
@@ -102,7 +103,9 @@
 <script type="text/javascript"
 	src="<c:url value="/resource/js/NoticePanel.js" />"></script>
 <script>
-if (isAuthenticated) {
-    let noticePanel = new NoticePanel($("#notice-panel-toggle"),$("#notice-menu-content"), $("#new-notice-remind"), $("#trend"));
-}
+	if (isAuthenticated) {
+		let noticePanel = new NoticePanel($("#notice-panel-toggle"),
+				$("#notice-menu"), $("#notice-menu-content"),
+				$("#new-notice-remind"));
+	}
 </script>

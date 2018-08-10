@@ -1,13 +1,15 @@
   class NoticePanel {
 
-	  constructor(noticePanelToggleBtn, noticePanel, newNoticeRemindElement, 
-			  trendNoticeDisplayPanel) {
+	  constructor(noticePanelToggleBtn, noticePanelWrap,noticePanel, newNoticeRemindElement) {
+
 		 this.noticePanelToggleBtn = noticePanelToggleBtn;
+		 this.noticePanelWrap = noticePanelWrap;
 		 this.noticePanel = noticePanel; 
-		 this.trendNoticeDisplayPanel = trendNoticeDisplayPanel;
 		 this.newNoticeRemindElement = newNoticeRemindElement;
+
 		 this.ws = null;
 		 this.client = null;
+
 		 this.forumTrendNoticeSet = []; 
 		 this.shopTrendNoticeSet = []; 
 		 this.userTrendNoticeSet = []; 
@@ -18,6 +20,16 @@
 		 this.userTrendNoticesHtml = null;
 		 this.beFollowedTrendNoticesHtml = null;
 		 
+		 this.forumTrendNoticePanel = $("#forum-trend-notice");
+		 this.shopTrendNoticePanel = $("#shop-trend-notice");
+		 this.userTrendNoticePanel = $("#user-trend-notice");
+		 this.beFollowedTrendNoticePanel = $("#befollowed-notice");
+		 
+		 this.forumTrendNoticeBadge = $("[href='#forum-trend-notice'] .badge");
+		 this.shopTrendNoticeBadge = $("[href='#shop-trend-notice'] .badge");
+		 this.userTrendNoticeBadge = $("[href='#user-trend-notice'] .badge");
+		 this.beFollowedNoticeBadge = $("[href='#befollowed-notice'] .badge");
+		 
 		 // 如果不是第一次打开，则不触发ajax，改成直接显示websocket推送的动作，并用stomp发送刷新订阅时间的请求
 		 this.firstOpen = true;
 		 this.noticeCount = 0;
@@ -27,7 +39,9 @@
 		 
 		 this.init();
 		 
-
+	  }
+	  
+	  display() {
 	  }
 	  
 	  addToForumTrendNoticeSet(notice) {
@@ -128,10 +142,10 @@
 	  }
 	  
 	  freshHtml() {
-		  this.freshForumTrendNoticeHtml();
-		  this.freshShopTrendNoticeHtml();
-		  this.freshUserTrendNoticeHtml();
-		  this.freshBeFollowedNoticeHtml();
+		  this.freshForumTrendNoticesHtml();
+		  this.freshShopTrendNoticesHtml();
+		  this.freshUserTrendNoticesHtml();
+		  this.freshBeFollowedNoticesHtml();
 	  }
 	  
 	  
@@ -154,6 +168,8 @@
 			 }) 
 		  
 	  }
+	  
+	  
 	  connect (connectUrl) {
 		 this.ws = new SockJS(connectUrl); 
 		 this.client = webstomp.over(this.ws);
@@ -176,7 +192,8 @@
 		  this.addToNoticeSet(stompMessage);
 	  }
 	  
-	  handleClick() {
+	  handleClick(e) {
+		  this.display();
 		  if(this.firstOpen) {
 			  console.log("第一次打开,执行ajax");
 			  this.setNoticeCount(0);
@@ -216,61 +233,138 @@
 		 }) 
 	  }
 	  
-	  freshForumTrendNotice() {
+	  freshForumTrendNoticesHtml() {
 		  
+		  //todo 现在未做公告，因此此函数待定
+		 let getForumTrendNoticeHtml = notice => {
+			 return `
+			 			<div class="post-item clearfix">
+                          <div class="post-item-content">
+                            	你关注的论坛：<a href="#">${notice}</a> 收到了<a href='#'>5</a>条回复
+                          </div>
+                        </div>
+
+			 `;
+		 }
+		  let getTopicTrendNoticeHtml = topicTrendNotice => {
+			  return `
+			  			<div class="post-item clearfix">
+                          <div class="post-item-content">
+                            你关注的主题：<a href="#">${topicTrendNotice.topicTitle}</a> 
+                           	收到了1条
+                           		<a href="${contextPath}/forum/topic/${topicTrendNotice.topicId}">新回复</a>
+                          </div>
+                        </div>
+
+			  `;
+		  }
+		  let getPostTrendNoticeHtml = postTrendNotice => {
+			  return `
+			  			<div class="post-item clearfix">
+                          <div class="post-item-content">
+                            你关注的回复：<a href="${contextPath}/forum/topic/${postTrendNotice.topicId}">${postTrendNotice.postDigest}</a> 
+                           	收到了1条
+                           		<a href="${contextPath}/forum/topic/${postTrendNotice.topicId}">
+                           			新回复
+                           		</a>
+                          </div>
+                        </div> 
+			  `;
+		 }
+		  
+		 this.forumTrendNoticesHtml = this.forumTrendNoticeSet.map( forumNotice => {
+			  switch(forumNotice.forumTrendNoticeType) {
+				  case "FORUM":
+					  return getForumTrendNoticeHtml(forumNotice);
+				  case "TOPIC":
+					  return getTopicTrendNoticeHtml(forumNotice);
+				  case "POST":
+					  return getPostTrendNoticeHtml(forumNotice);
+			  }
+		  });
+		 
+		 this.forumTrendNoticePanel.html(this.forumTrendNoticesHtml);
+		 this.forumTrendNoticeBadge.html(this.forumTrendNoticeSet.length?this.forumTrendNoticeSet.length:'');
 	  }
 
-	  createTopicTrendNotice(notice) {
-		  console.log("notice topicTitle : "+notice.topicTitle);
-		  let topicTrendNoticeTemplate = 
-			  `
+	  freshBeFollowedNoticesHtml() {
+		  let getBeFollowedNoticeHtml = beFollowedNotice => {
+			  return `
 			  <div class="post-item clearfix">
-                          <a class="post-item-avatar" href="${contextPath}/${}"><img src="./avatar.png"></a>
                           <div class="post-item-content">
-                            <h1><a class="nav-link" href="#">trend</a></h1>
-                            <p>
-                              <a class="author" href="#">verrickt</a>
-                              发起了问题 • 1 人关注 • 0 个回复 • 693 次浏览 • 2018-04-03 14:38
-                            </p>
+			  				用户:
+                            	<a href="${contextPath}/usercenter/${beFollowedNotice.userId}">
+			  						${beFollowedNotice.nickname}</a> 
+			  					关注了你
                           </div>
-              </div>
-				`;
-		  return topicTrendNoticeTemplate;
+                        </div> 
+			  `;
+		  }
+		  
+		  this.beFollowedNoticesHtml = this
+		  		.beFollowedNoticeSet.map( notice => getBeFollowedNoticeHtml(notice));
+
+		 this.beFollowedTrendNoticePanel.html(this.beFollowedNoticesHtml);
+		 this.beFollowedNoticeBadge.html(this.beFollowedNoticeSet.length?this.beFollowedNoticeSet.length:'');
+	  }
+		 
+	  freshUserTrendNoticesHtml() {
+		  let getUserTrendNoticeHtml = userTrendNotice => {
+			  return `
+			  			<div class="post-item clearfix">
+                          <div class="post-item-content">
+                            你关注的用户：
+                            	<a href="${contextPath}/usercenter/${userTrendNotice.userId}">
+			  						${userTrendNotice.nickname}</a> 
+			  					${userTrendNotice.actionType}
+			  					一个
+                           		<a href="${contextPath}/forum/topic/${userTrendNotice.topicId}">
+                           			新${userTrendNotice.targetType}
+                           		</a>
+                          </div>
+                        </div> 
+			  `;
+		  }
+
+		  this.userTrendNoticesHtml = this.userTrendNoticeSet.map( notice => 
+		  		getUserTrendNoticeHtml(notice));
+		  
+		  this.userTrendNoticePanel.html(this.userTrendNoticesHtml);
+		  this.userTrendNoticeBadge.html(this.userTrendNoticeSet.length?this.userTrendNoticeSet.length:'');
 	  }
 	  
-	  createPostTrendNotice(notice) {
-		  let postTrendNoticeTemplate = `
-		  <div class="post-item clearfix">
-	<div class="post-item-content">
-		<p>
-		  <a class="notice-post-digest"
-					href="/topic/${notice.topicId }">${notice.postDigest }</a>
-				<span>收到了一条</span>
-				<a href="/topic/${notice.topicId }">新回复</a>
-		</p>
-	</div>
-</div>
-		  `;
-		  return postTrendNoticeTemplate;
-	  }
-	  
-	  createUserTrendNotice(notice) {
-		  let userTrendNoticeTemplate = `
-		  <div class="post-item clearfix">
-	<div class="post-item-content">
-		<p>
-		  <a class="author" href="#">isUserTrendNotice</a>
-				<span>${notice.pubTime }</span>
-				<span>${notice.actionType }</span>
-				<span>${notice.targetType }</span>
-				<a href="">${notice.targetDigest }</a>
-				<span>${notice.pubTime }</span>
-		</p>
-	</div>
-</div>
-		  `;
-		  return userTrendNoticeTemplate;
-	  }
+	  freshShopTrendNoticesHtml() {
+		  
+		  let getCommodyCommentNoticeHtml = commodyCommentNotice => {
+			  return `
+			  			<div class="post-item clearfix">
+                          <div class="post-item-content">
+                            商品：
+			  				<a href="${contextPath}/shop/commody/${commodyCommentNotice.commodyId}">
+			  				${commodyCommentNotice.commodyTitle}
+			  				</a>
+                           	收到了1条
+                           		<a href="${contextPath}/shop/commody/${commodyCommentNotice.commodyId}">
+                           			新留言
+                           		</a>
+                          </div>
+                        </div> 
+			  `;
+		  }
+		  
+		  this.shopTrendNoticesHtml = this.shopTrendNoticeSet.map( shopTrendNotice => {
+			  switch(shopTrendNotice.shopTrendNoticeType) {
+				  case "COMMODY_COMMENT":
+					  return getCommodyCommentNoticeHtml(shopTrendNotice);
+				  default:
+					  console.log("错误，不匹配的shop通知类型")
+					  break;
+			  }
+		  });
+		  
+		  this.shopTrendNoticePanel.html(this.shopTrendNoticesHtml);
+		  this.shopTrendNoticeBadge.html(this.shopTrendNoticeSet.length?this.shopTrendNoticeSet.length:'');
+	}
   }
   
 

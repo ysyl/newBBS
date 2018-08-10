@@ -15,29 +15,52 @@ public class CommodyCommentNotice extends CommodyTrendNotice {
 	private static final long serialVersionUID = 1L;
 
 	public CommodyCommentNotice(CommodyCommentAction action) {
-		super(action.hashCode(), action.getPubTime(), action.getCommody());
-		this.comment = action.getComment();
-		this.setUser(action.getUser());
+		super(action.hashCode(), action.getPubTime(), action.getCommody().getTitle(), action.getCommody().getId(),
+				ShopTrendNoticeType.COMMODY_COMMENT);
+		this.nickname = action.getUser().getNickname();
+		this.userId = action.getUser().getId();
+		this.commentId = action.getComment().getId();
+		this.commentContent = action.getComment().getContent();
 	}
 
-	private User user;
+	private String nickname;
 	
-	private BaseCommodyComment comment;
+	private Long userId;
+	
+	private Long commentId;
+	
+	private String commentContent;
 
-	public BaseCommodyComment getComment() {
-		return comment;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setComment(BaseCommodyComment comment) {
-		this.comment = comment;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
-	public User getUser() {
-		return user;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Long getCommentId() {
+		return commentId;
+	}
+
+	public void setCommentId(Long commentId) {
+		this.commentId = commentId;
+	}
+
+	public String getCommentContent() {
+		return commentContent;
+	}
+
+	public void setCommentContent(String commentContent) {
+		this.commentContent = commentContent;
 	}
 
 }
