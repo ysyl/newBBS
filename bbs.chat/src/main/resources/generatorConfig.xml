@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mydb" driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
+    <javaModelGenerator targetPackage="bbs.chat.mybatis.entity" targetProject="bbs.chat" />
+    <sqlMapGenerator targetPackage="bbs.chat.mybatis.mapper" targetProject="bbs.chat" />
+    <javaClientGenerator targetPackage="bbs.chat.mybatis.mapper" targetProject="bbs.chat" type="XMLMAPPER" />
+
+    <table schema="mydb" tableName="t_message" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+    </table>
+    <table schema="mydb" tableName="t_chat" domainObjectName="TChat" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true" />
+      <columnOverride column="chat_type" javaType="bbs.chat.enuma.ChatType"
+        typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+       />
+    </table>
+  </context>
+</generatorConfiguration>

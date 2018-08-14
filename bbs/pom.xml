@@ -19,6 +19,7 @@
 		<module>../total</module>
 
 		<module>../bbs.shop</module>
+		<module>../bbs.chat</module>
 	</modules>
 
 	<build>
